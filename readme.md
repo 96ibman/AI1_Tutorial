@@ -26,7 +26,7 @@ I upload here what I find necessary to support me or the students in the tutoria
 
 # References
 - [ALeA](https://courses.voll-ki.fau.de/course-home/ai-1)
-- <p>Russell, S. &amp; Norvig, P.  (2021). <i>Artificial Intelligence,Global Edition</i>. (4th  ed.). Pearson Education. https://elibrarypearson.de/book/99.1500059781292401171</p>
+- <p>Russell, S. & Norvig, P. (2021). Artificial Intelligence, Global Edition. (4th ed.). Pearson Education. https://elibrary.pearson.de/book/99.150005/9781292401171</p>
 
 # PROLOG
 - [SWISH Online](https://swish.swi-prolog.org/)
