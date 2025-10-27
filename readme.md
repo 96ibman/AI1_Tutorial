@@ -31,3 +31,15 @@ I upload here what I find necessary to support me or the students in the tutoria
 # PROLOG
 - [Download](https://www.swi-prolog.org/download/stable)
 - [SWISH Online](https://swish.swi-prolog.org/)
+
+# Helpful YouTube
+- [Stanford CS221](https://www.youtube.com/playlist?list=PLoROMvodv4rO1NB9TD4iUZ3qghGEGtqNX)
+- [Berkeley AI](https://www.youtube.com/@berkeleyai9553/videos)
+- [Alice Gao](https://www.youtube.com/@alicexigao)
+
+# Kohlhase Recommended
+If you enjoy logic, Prof. Dr. Michael Kohlhase recommends the following reads:
+- *Logicomix: An Epic Search for Truth*
+- *Godel, Escher, Bach: An Eternal Golden Braid*
+- Books by Raymond Smullyan
+- *The Hitchhiker's Guide to the Galaxy* series (5 books)
