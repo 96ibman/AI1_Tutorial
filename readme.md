@@ -29,4 +29,5 @@ I upload here what I find necessary to support me or the students in the tutoria
 - <p>Russell, S. & Norvig, P. (2021). Artificial Intelligence, Global Edition. (4th ed.). Pearson Education. https://elibrary.pearson.de/book/99.150005/9781292401171</p>
 
 # PROLOG
+- [Download](https://www.swi-prolog.org/download/stable)
 - [SWISH Online](https://swish.swi-prolog.org/)
