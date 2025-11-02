@@ -395,22 +395,73 @@ symmetric(tree(_,L,R)):-
     mirror(L,R).
 
 
+% Depth First Traversal of a BT (in-order)
+bt_dfs_trav(nil):-!.
+bt_dfs_trav(tree(N,L,R)):-
+    bt_dfs_trav(L),
+    write(N), write(" "),
+    bt_dfs_trav(R).
 
 
+% Breadth First Traversal of a BT
+% helper enqueue predicate
+% enqueue/3 add element to the queue and returns the new queue
+% enqueue(x, [a,b], Q).
+% Q = [a,b,x].
+enqueue(X,[],[X]):-!.
+enqueue(X,[H|T],[H|T1]):-
+   enqueue(X,T,T1),!. 
 
 
+% bt_bfs_trav/1
+% starting point, push the whole tree in the queue
+bt_bfs_trav(nil):-!.
+bt_bfs_trav(Tree):-
+    bfs_loop([Tree]).
+
+% bfs_loop/1
+% we stop when the queue is empty
+bfs_loop([]):-!.
+
+% we process the head
+% we add its children to the queue
+% we recurse on the new queue
+bfs_loop([tree(N,L,R)|Rest]):-
+    write(N), write(" "),
+    add_children(L,R,Rest,NewQ),
+    bfs_loop(NewQ).
 
 
+% Add children predicate
+% add_children/4
 
+% Case 1: both children are nil
+% Return the Queue as it is
+add_children(nil,nil,Q,Q):-!.
 
+% Case 2: only left child exists
+% Add that to the queue
+% add_children(tree(2,nil,nil), nil, [tree(1,nil,nil)], Q).
+% Q = [tree(1,nil,nil), tree(2,nil,nil)]
+add_children(L,nil,CurrentQ, NewQ):-
+    enqueue(L,CurrentQ, NewQ),!.
 
+% Case 3: only right child exists
+% Add that the queue
+% add_children(nil, tree(3,nil,nil), [tree(2,nil,nil)], Q).
+% Q = [tree(2,nil,nil), tree(3,nil,nil)]
+add_children(nil,R,CurrentQ, NewQ):-
+    enqueue(R,CurrentQ, NewQ),!.
 
-
-
-
-
-
-
+% Case 4: both children exist
+% Add first the left -> update queue
+% Add the right -> final queue
+% add_children(tree(2,nil,nil), tree(3,nil,nil), [tree(1,nil,nil)], Q).
+% Q = [tree(1,nil,nil), tree(2,nil,nil), tree(3,nil,nil)]
+add_children(L,R,CurrentQ,NewQ):-
+    enqueue(L, CurrentQ, LAddedQ),
+    enqueue(R,LAddedQ,NewQ),
+    !.
 
 
 
