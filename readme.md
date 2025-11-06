@@ -11,8 +11,8 @@ I upload here what I find necessary to support me or the students in the tutoria
 
 # Individual Dates
 - 27 Oct (first session, Q&A)
-- 3 Nov
-- 10 Nov
+- [3 Nov](/01/)
+- [10 Nov](/02/)
 - 17 Nov
 - 24 Nov
 - 1 Dec
@@ -25,7 +25,10 @@ I upload here what I find necessary to support me or the students in the tutoria
 - 2 Feb (last session)
 
 # References
-- [ALeA](https://courses.voll-ki.fau.de/course-home/ai-1)
+- [Course Home Page on ALeA](https://courses.voll-ki.fau.de/course-home/ai-1)
+- [Lecture Recordings](https://www.fau.tv/series/artificial-intelligence-i-w25)
+- [Assignments](https://kwarc.info/teaching/AI/assignments/AI1/)
+- [Previous Exams](https://kwarc.info/teaching/AI/exams/) (`WSYYYY`)
 - <p>Russell, S. & Norvig, P. (2021). Artificial Intelligence, Global Edition. (4th ed.). Pearson Education. https://elibrary.pearson.de/book/99.150005/9781292401171</p>
 
 # PROLOG
