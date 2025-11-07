@@ -1,5 +1,6 @@
 # What is this?
 I upload here what I find necessary to support me or the students in the tutorial sessions.
+> **UPDATE (07/11/2025):** I started to write a (partial) summary of lecture content which you can find [here](/mynotes/main.pdf). (*No promises that I will commit to that!*)
 
 # Tutorial Info
 - **Tutor**: Ibrahim Nasser

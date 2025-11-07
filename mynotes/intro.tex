@@ -1,0 +1,122 @@
+\labeledsection{Introduction}{sec:intro}
+\definition{Artificial intelligence (AI)}{
+The capability of computational systems to perform tasks typically associated with human intelligence, such as learning, reasoning, problem-solving, perception, and decision-making
+}{def:ai}
+
+\definition{Symbolic AI}{
+A subfield of \linkterm{Artificial Intelligence (AI)}{def:ai} based on the assumption that many aspects of intelligence can be achieved by the manipulation of symbols, combining them into meaningful structures (expressions) and manipulating them (using processes) to produce new expressions.
+}{symbolicai}
+
+\definition{Statisitical AI}{
+Remedies the two shortcomings of \linkterm{symbolic AI}{symbolicai} approaches: that all concepts represented by symbols are crisply defined, and that all aspects of the world are knowable/representable in principle. Statistical AI adopts sophisticated mathematical models of uncertainty and uses them to create more accurate world models and reason about them.
+}{statistical_ai}
+
+\definition{Subsymbolic AI (a.k.a connectionism/neural AI)}{
+A subfield of \linkterm{AI}{def:ai} that posits that intelligence is inherently tied to brains, where information is represented by a simple sequence pulses that are processed in parallel via simple calculations realized by neurons, and thus concentrates on neural computing.
+}{subsymbolic_ai}
+
+\definition{Embodied AI}{
+Posits that intelligence cannot be achieved by \linkterm{reasoning}{def:reasoning} about the state of the world (\linkterm{symbolically}{symbolicai}, \linkterm{statistically}{statistical_ai}, or \linkterm{sub-symbolically}{subsymbolic_ai}), but must be embodied i.e. situated in the world, equipped with a "body" that can interact with it via sensors and actuators. Here, the main method for realizing intelligent behavior is by learning from the world.
+}{embodied_ai}
+
+\definition{Reasoning}{
+The process of producing valid arguments and predictive world models. There are three forms of reasoning:
+\begin{itemize}
+\item \refterm{deductive reasoning}{deduction} to produce new knowledge from existing knowledge.  
+      \textit{Example:} All humans are mortal. Socrates is a human. Therefore, Socrates is mortal.
+\item \refterm{inductive reasoning}{induction} to produce knowledge from perception.  
+      \textit{Example:} The sun has risen every morning in recorded history. Therefore, the sun will rise tomorrow.
+\item \refterm{abductive reasoning}{abduction} to produce explanations for observations and given knowledge.  
+      \textit{Example:} The grass is wet this morning. If it rained last night, that would explain it. Therefore, it probably rained.
+\end{itemize}
+}{def:reasoning}
+
+\definition{Inference}{
+The act or process of reaching a \textbf{conclusion} about something from known facts or evidence (jointly called \textbf{premises})
+}{def:inference}
+
+\definition{Formal Logic}{
+The science of \linkterm{deductively}{deduction} valid inferences, meaning arguments whose \linkterm{conclusions}{def:inference} necessarily follow from their \linkterm{premises}{def:inference} by virtue of their form (their structure), regardless of the topic.
+}{def:formal_logic}
+
+\definition{Agent}{
+An agent is a \linkterm{structure}{def:math_structure} $A := \tuple{\mathcal{P}, \mathcal{A}, f}$ where:
+\begin{itemize}
+    \item $\mathcal{P}$ is a \linkterm{set}{def:set} of percepts
+    \item $\mathcal{A}$ is a \linkterm{set}{def:set} of actions
+    \item $f$ is a \linkterm{function}{function} $\func{f}{\mathcal{P}^{*}}{\mathcal{A}}$ that maps from percepts to actions.
+\end{itemize}
+In other words, an agent is anything that perceives its environment via sensors and acts on it with actuators.
+}{def:agent}
+
+\definition{Performance Measure}{
+A \linkterm{function}{function} that evaluates a sequence of environments.
+}{performance_measure}
+
+\definition{Rational}{
+An \linkterm{agent}{def:agent} is called \textbf{rational}, if it chooses whichever action maximizes the expected value of the \linkterm{performance measure}{performance_measure} given the percept sequence to date.
+}{def:rational}
+
+\definition{PEAS}{
+To design \linkterm{rational agents}{def:rational}, we must specify the PEAS components: \linkterm{Performance Measure}{performance_measure}, Environment, Actuators, and Sensors.
+}{def:peas}
+
+\definition{Environment Types}{
+For an \linkterm{agent}{def:agent} $a$ we classify the environment $e$ of $a$ by its \textbf{type}, which is one of the following. We call $e$
+\begin{enumerate}
+\item \textit{fully observable}, iff the $a$'s sensors give it access to the complete state of the environment at any point in time; otherwise, we call it \textit{partially observable}.
+\item \textit{deterministic}, iff the next state of the environment is completely determined by the current state and $a$'s actions; otherwise, \textit{stochastic}.
+\item \textit{episodic}, iff $a$'s experience is divided into atomic episodes, where it perceives and then performs a single action, and the next episode does not depend on previous ones. Otherwise, \textit{sequential}.
+\item \textit{dynamic}, iff the environment can change without an action performed by $a$; otherwise, \textit{static}. If the environment does not change but $a$'s performance measure does, we call $e$ \textit{semidynamic}.
+\item \textit{discrete}, iff the \linkterm{sets}{def:set} of $e$'s state and $a$'s actions are couuntable; otherwise, \textit{continuous}.
+\item \textit{single-agent}, iff only $a$ acts on $e$; otherwise \textit{multi-agent}.
+\end{enumerate}
+}{env_types}
+
+\definition{Reflex}{
+An \linkterm{agent}{def:agent} $\tuple{\mathcal{P}, \mathcal{A}, f}$ is called a \textbf{reflex agent}, iff it only takes the last percept into account when choosing an action, i.e. $f(p_1, \cdots, p_k) = f(p_k) \text{ }\forall p_1 \cdots p_k \in \mathcal{P}$
+}{def:reflex}
+
+
+\definition{Model-Based Agent}{
+A model-based agent $\tuple{\mathcal{P}, \mathcal{A}, \mathcal{S}, \mathcal{T}, s_0, S, a}$ is an \linkterm{agent}{def:agent} $\tuple{\mathcal{P}, \mathcal{A}, f}$ whose actions depend on:
+\begin{itemize}
+    \item a \textbf{world model}: a \linkterm{set}{def:set} $\mathcal{S}$ of possible \textit{states}, and a start state $s_0 \in \mathcal{S}$.
+    \item a \textbf{transition model} $\mathcal{T}$ that predicts a new state $\mathcal{T}(s,a)$ from a state $s$ and an action $a$.
+    \item a \textbf{sensor model} $S$ that given a state $s$ and a percept $p$ determines a new state $S(s,p)$.
+    \item an \textbf{action function} $\func{a}{\mathcal{S}}{\mathcal{A}}$ that given a state $s \in \mathcal{S}$ selects the next action $a \in \mathcal{A}$.
+\end{itemize}
+}{model_based_agent}
+
+\commandnote{
+If the agent is in state $s$ then it took action $a$ and now perceives $p$, then the agent state will become $s' = S(p, \mathcal{T}(s,a))$ and accordingly take action $a' = a(s')$.
+}
+
+\definition{Goal Based Agent}{
+A goal based agent $\tuple{\mathcal{P}, \mathcal{A}, \mathcal{S}, \mathcal{T}, s_0, S, a, \mathcal{G}}$ is a \linkterm{model based agent}{model_based_agent} with an explicit set of goals. It consists of:
+\begin{itemize}
+    \item a set of internal states $\mathcal{S}$ and an initial state $s_0 \in \mathcal{S}$,
+    \item a transition model $\mathcal{T} : \mathcal{S} \times \mathcal{A} \to \mathcal{S}$,
+    \item a state update function $S : \mathcal{P} \times \mathcal{S} \to \mathcal{S}$,
+    \item a set of goals $\mathcal{G}$,
+    \item a goal conditioned action function $a : \mathcal{S} \times \mathcal{G} \to \mathcal{A}$ selecting an action given a state and the goals.
+\end{itemize}
+}{goal_based_agent}
+
+\definition{Utility-Based Agent}{
+A utility-based agent uses a world model along with a utility function that models its preferences among the states of that world. It chooses the action that maximizes the expected utility.
+}{utility_based_agent}
+
+\definition{Learning Agent}{
+A learning agent is an \linkterm{agent}{def:agent} that can improve its own behavior through experience. It is composed of four main components:
+\begin{itemize}
+    \item the performance element, which selects actions based on the agent's current percepts and represents its existing knowledge or behavior,
+    \item the learning element, which improves the performance element over time by analyzing feedback and identifying how to make better decisions,
+    \item the critic, which evaluates the agent's performance according to a given performance standard and provides feedback to the learning element,
+    \item the problem generator, which suggests new and informative actions or experiences that help the agent explore and learn more effectively.
+\end{itemize}
+}{learning_agent}
+
+\definition{State Representation}{
+We call a state representation \textbf{atomic}, iff it has no internal structure (black box). However, iff each state is characterized by attributes and their values then the representation is \textbf{factored}. A \textbf{structured} state representation is when include representations of objects, their properties and relationships. 
+}{state_repr}

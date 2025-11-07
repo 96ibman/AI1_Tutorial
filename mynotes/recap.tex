@@ -1,0 +1,447 @@
+\labeledsection{Recap}{sec:recap}
+\subsection{Set Theory}
+\definition{Set}{
+A collection of different things (called \textbf{elements} or \textbf{members} of the set). We can represent \linkterm{sets}{def:set} by listing the \linkterm{elements}{def:set} within curly brackets, e.g. $\set{a,b,c}$ or by describing the \linkterm{elements}{def:set} via a property, e.g. $\set{x \mid x \mod 2 = 0}$ (the \linkterm{set}{def:set} of even numbers). We can state \linkterm{element}{def:set}-hood ($a \in S$) or not ($b \notin S$)
+}{def:set}
+
+\definition{Set Equality}{
+$A \equiv B : \equiv \forall x. x \in A \Leftrightarrow x \in B$
+}{set_equality}
+
+\definition{Subset}{
+$A \subseteq B : \equiv \forall x.x \in A \Rightarrow x \in B$
+}{subset}
+
+\definition{Proper Subset}{
+$A \subset B : \equiv (A \subseteq B) \land (A \not\equiv B)$
+}{proper_subset}
+
+\definition{Super Set}{
+$A \supseteq B :\equiv \forall x.x \in B \Rightarrow x \in A$
+}{superset}
+
+\definition{Proper Superset}{
+$A \supset B : \equiv (A \supseteq B) \land (A \not\equiv B)$
+}{proper_superset}
+
+\definition{Set Union}{
+$A \cup B := \set{x \mid x \in A \lor x \in B}$
+}{set_union}
+
+\definition{Set Intersection}{
+$A \cap B := \set{x \mid x \in A \land x \in B}$
+}{set_intersection}
+
+\definition{Disjoint}{
+Two \linkterm{sets}{def:set} $A,B$ are \textbf{disjoint} iff $A \cap B = \Phi$
+}{disjoint}
+
+\definition{Set Difference}{
+$A \setminus B := \set{x \mid x \in A \land x \notin B}$
+}{set_difference}
+
+\definition{Power Set}{
+$\mathcal{P}(A) := \set{S \mid S \subseteq A}$ (the set of all subsets)
+}{power_set}
+
+\definition{Cartesian Product}{
+$A \times B := \set{(a,b) \mid a \in A \land b \in B}, \quad (a,b) \text{ is a pair}$
+}{cartesian_product}
+
+\definition{Family}{
+A \linkterm{set}{def:set} of \linkterm{sets}{def:set}
+}{family}
+
+\definition{Topology}{
+A \linkterm{family}{family} of open \linkterm{sets}{def:set}
+}{topology}
+
+\definition{Indexing Function}{
+Let $I$ and $X$ be \linkterm{sets}{def:set}. A function $f:I \to X$ is called an indexing function. The set $I$ is called the index set. For each $i \in I$, we define $x_i := f(i)$, here $i$ is called the index (or parameter) of $x_i$.
+}{indexing_function}
+
+\definition{Indexed Family}{
+Given an \linkterm{indexing function}{indexing_function} $f:I \to X$, the \linkterm{set}{def:set} of values $f(I) = \set{f(i):i \in I}$ is called an indexed \linkterm{family}{family}. It is often written as $(x_i)_{i \in I}$, $\langle x_i \rangle_{i \in I} $, or $\{ x_i \}_{i \in I}$.
+}{indexed_family}
+
+\definition{Union over a Family}{
+Let $(X_i)_{i \in I}$ be an \linkterm{indexed family}{indexed_family}, then $\bigcup_{i \in I} X_i := \set{x \mid \exists i \in I.x \in X_i}$
+}{family_union}
+
+\definition{Intersection over a Family}{
+Let $(X_i)_{i \in I}$ be an \linkterm{indexed family}{indexed_family}, then $\bigcap_{i \in I} X_i := \set{x \mid \forall i \in I.x \in X_i}$
+}{family_intersection}
+
+\definition{$n$-fold Cartesian Product}{
+$\prod_{i=1}^{n} X_i := X_1 \times \cdots \times X_n := \set{\langle x_1, \cdots, x_n \rangle \mid \forall i. 1 \leq i \leq n \Rightarrow x_i \in X_i}$ where $\langle x_1, \cdots, x_n \rangle$ is called an $n$-tuple.
+}{cartesian_product_fold}
+
+\definition{$n$-dim Cartesian Space}{
+$X^n := \set{\tuple{x_1, \cdots, x_n} \mid 1 \leq i \leq n \Rightarrow x_i \in X}$ where $\tuple{x_1, \cdots, x_n}$ is called a vector.
+}{cartesian_space}
+
+\definition{Size of a Set}{
+The size $\setsize{A}$ of a \linkterm{set}{def:set} $A$ is the number of \linkterm{elements}{def:set} in $A$.
+}{setsize}
+
+\subsection{Relations}
+
+\definition{Relation}{
+$R \subseteq A \times B$ is a (binary) relation between $A$ and $B$
+}{relation}
+
+\definition{Relation on}{
+a \linkterm{relation}{relation} $R \subseteq A \times B$ where $A = B$ is called a \textit{relation on} $A$
+}{relation_on}
+
+\definition{Total}{
+A \linkterm{relation}{relation} $R \subseteq A \times B$ is called \textit{total} (\textit{left total}) iff $\forall x \in A. \exists y \in B. (x,y) \in R$
+}{total_relation}
+
+\definition{Converse Relation}{
+$R^{-1} \subseteq B \times A := \set{(y,x) \mid (x,y) \in R}$ is the converse \linkterm{relation}{relation} of $R$ 
+}{converse_relation}
+
+\definition{Relation Composition}{
+The composition of $R \subseteq A \times B$ and $S \subseteq B \times C$ is defined as $R \circ S := \set{(a,c) \in A \times C \mid \exists b \in B. (a,b) \in R \land (b,c) \in S} $
+}{relation_composition}
+
+A \linkterm{relation on}{relation_on} $A$: $R \subseteq A \times A$ is called:
+\begin{itemize}
+    \item \refterm{reflexive}{reflexive} on $A$, iff $\forall a \in A. (a,a) \in R$
+    \item \refterm{irreflexive}{irreflexive} on $A$, iff $\forall a \in A. (a,a) \notin R$
+    \item \refterm{symmetric}{symmetric} on $A$, iff $\forall a,b \in A. (a,b) \in R \Rightarrow (b,a) \in R$
+    \item \refterm{asymmetric}{asymmetric} on $A$, iff $\forall a,b \in A. (a,b) \in R \Rightarrow (b,a) \notin R$
+    \item \refterm{antisymmetric}{antisymmetric} on $A$, iff $\forall a,b \in A. (a,b) \in R \land (b,a) \in R \Rightarrow a = b$
+    \item \refterm{transitive}{transitive_relation} on $A$, iff $\forall a,b,c \in A. (a,b) \in R \land (b,c) \in R \Rightarrow (a,c) \in R$
+    \item \refterm{equivalence relation}{equivalence_relation} on $A$, iff $R$ is \linkterm{reflexive}{reflexive} \linkterm{symmetric}{symmetric}, and \linkterm{transitive}{transitive_relation}
+\end{itemize}
+
+\definition{Equality Relation}{
+The equality relation is an \linkterm{equivalence relation}{equivalence_relation} on any \linkterm{set}{def:set}.
+}{equality_relation}
+
+
+\definition{Divides Relation}{
+The \emph{divides} \linkterm{relation on}{relation_on} the integers is defined as
+$\mid \;\subseteq\; \mathbb{Z} \times \mathbb{Z},$ where $\mid \;=\;\{(a,b) \in \mathbb{Z} \times \mathbb{Z} \;\mid\; \exists k \in \mathbb{Z} : b = a \cdot k \}.$ We write $a \mid b$ to denote $(a,b) \in \mid$ (read as \textit{"$a$ divides $b$"}).
+}{divides_relation}
+
+\definition{Congruence Modulo}{
+For a fixed $n \in \mathbb{N}$ with $n \geq 1$, the \emph{congruence modulo $n$} \linkterm{relation on}{relation_on} the integers is defined as  
+$$\equiv_n \;\subseteq\; \mathbb{Z} \times \mathbb{Z}, \qquad 
+\equiv_n \;=\;\{(a,b) \in \mathbb{Z} \times \mathbb{Z} \;\mid\; n \mid (a-b) \}.$$  
+We write $a \equiv b \pmod{n}$ to denote $(a,b) \in \equiv_n$ (read as \textit{"$a$ is congruent to $b$ modulo $n$"}).
+}{congruence_modulo}
+
+\definition{Parital Ordering ($\preceq$)}{
+A \linkterm{relation}{relation_on} $R \subseteq A \times A$ is called a (non-strict) \textbf{partial ordering} on $A$, iff $R$ is \linkterm{reflexive}{reflexive}, \linkterm{antisymmetric}{antisymmetric}, and \linkterm{transitive}{transitive_relation} on $A$.
+}{partial_ordering}
+
+\definition{Strict Partial Ordering ($\prec$)}{
+A \linkterm{relation}{relation_on} $R \subseteq A \times A$ is called a \textbf{strict partial ordering} on $A$, iff $R$ is \linkterm{irreflexive}{irreflexive}, and \linkterm{transitive}{transitive_relation} on $A$.
+}{strict_partial_ordering}
+
+
+\definition{Comparable}{
+In a \linkterm{non-strict partial ordering}{partial_ordering},  two elements $a,b$ are comparable if either $a \preceq b$ or $b \preceq a$. If neither holds, they are incomparable.
+}{comparable}
+
+\definition{Linear Order}{
+A \linkterm{partial ordering}{partial_ordering} is called linear (or total) on $A$, iff all \linkterm{elements}{def:set} in $A$ are \linkterm{comparable}{comparable}, i.e. if $(x,y) \in R$ or $(y,x) \in R$ for all $x,y \in A$. For example, the $\leq$ \linkterm{relation}{relation_on} is a \linkterm{linear order}{linear_order} on $\mathbb{N}$. However, the \linkterm{"divides" ($\mid$) relation}{divides_relation} is a \linkterm{non-strict partial ordering}{partial_ordering} on $\mathbb{N}$ that is not \linkterm{linear}{linear_order} (e.g., neither $2 \mid 3$ nor $3 \mid 2$).
+}{linear_order}
+
+\subsection{Functions}
+\definition{Partial function}{
+A \linkterm{relation}{relation} $R \subseteq X \times Y$ is a \textit{partial function} from $X$ to $Y$ ($f:X \rightharpoonup Y$) iff
+$\forall x \in X, \forall y_1, y_2 \in Y. \big((x,y_1) \in R \wedge (x,y_2) \in R \Rightarrow y_1 = y_2\big)$ (i.e. there is at most one $y \in Y$ with $(x,y) \in f$)
+}{partial_function}
+
+\definition{dom, codom}{
+We call $X$ the domain ($\text{dom}(f)$), and $Y$ the codomain ($\text{codom}(f)$)
+}{domain_codomain}
+
+\definition{Function Application}{
+Instead of writing $(x,y) \in f$ we write $f(x)=y$
+}{function_application}
+
+\definition{Undefined}{
+we call a \linkterm{partial function}{partial_function} $f:X \rightharpoonup Y$ undefined at $x \in X$, iff $\forall y \in Y. (x,y) \notin f$ ($f(x) = \bot$).
+}{undefined}
+
+\definition{Function}{
+A \linkterm{partial function}{partial_function} $f:X \rightharpoonup Y$ is called a \textit{function} (or \textit{total function}) from $X$ to $Y$ iff it is a \linkterm{total relation}{total_relation}. ($\forall x \in X. \exists^1 y \in Y: (x,y) \in f$)
+}{function}
+
+\commandnote{
+A \linkterm{partial function}{partial_function} guarantees uniqueness, but not existence. So each $x$ has at most one $y$ (some might have none). A \linkterm{total function}{function} guarantees both uniqueness and existence (at most and at least $\to$ exactly one)
+}
+
+A \linkterm{function}{function} $f: X \to Y$ is called
+\begin{itemize}
+\item \refterm{injective}{injective} iff $\forall x_1,x_2 \in X.f(x_1) = f(x_2) \Rightarrow x_1 = x_2$
+\item \refterm{surjective}{surjective} iff $\forall y \in Y. \exists x \in X.f(x)=y$
+\item \refterm{bijective}{bijective} iff $f$ is \linkterm{injective}{injective} and \linkterm{surjective}{surjective} 
+\end{itemize}
+
+\definition{Function Composition}{
+If $f:A \to B$ and $g: B \to C$ are \linkterm{functions}{function}, then we call $g \circ f: A\to C ; x\longmapsto g(f(x))$ the composition of $g$ and $f$ (read $g$ after $f$).
+}{function_composition}
+
+\definition{Image and Preimage}{
+Let $f:X \to Y$ be a \linkterm{function}{function}, $X' \subseteq X$ and $Y' \subseteq Y$, then we call
+\begin{itemize}
+\item $f(X'):= \set{y \in Y \mid \exists x \in X'.(x,y) \in f}$ the \textbf{image} of $X'$ under $f$,
+\item $\text{Im}(f) := f(X)$ the \textbf{image} of $f$, and
+\item $f^{-1}(Y') := \set{x \in X \mid \exists y \in Y'.(x,y) \in f}$ the \textbf{preimage} of $Y'$ under $f$.
+\end{itemize} 
+}{image_preimage}
+
+\definition{Cardinality}{
+We say that a \linkterm{set}{def:set} $A$ is \textbf{finite} and has \textbf{cardinality} $\setsize{A} \in \mathbb{N}$, iff there is a \linkterm{bijective function}{bijective} $f:A\to \set{n \in \mathbb{N} \mid n < \setsize{A}}$.
+}{set_cardinality}
+
+\definition{Countably Infinite}{
+We say that a \linkterm{set}{def:set} $A$ is countably infinite, iff there is a \linkterm{bijective function}{bijective} $f: A \to \mathbb{N}$.
+}{countably_infinite}
+
+\definition{Countable}{
+A \linkterm{set}{def:set} $A$ is called countable, iff it is \linkterm{finite}{set_cardinality} or \linkterm{countably infinite}{countably_infinite}.
+}{countable}
+
+\definition{Curried Function Type}{
+Let $X,Y,Z$ be sets. An \textit{uncurried}  \linkterm{function}{function} is written as
+\[
+f : X \times Y \to Z, \quad f(x,y) = E(x,y).
+\]
+The same \linkterm{function}{function} can equivalently be written in \textit{curried} form as
+\[
+f : X \to Y \to Z, \quad f(x)(y) = E(x,y).
+\]
+Thus in the curried notation the \linkterm{function}{function} takes one argument at a time:
+for $x \in X$, the value $f(x)$ is itself a \linkterm{function}{function} $Y \to Z$, and applying it to $y \in Y$ yields $f(x)(y) \in Z$.
+}{curried_function_type}
+
+\definition{Invertible}{
+Let $A$ and $B$ be \linkterm{sets}{def:set} and \func{f}{A}{B} a \linkterm{function}{function}, then $f$ is called invertible, iff there is a \linkterm{function}{function} \func{g}{B}{A}, such that \compose{f, g} = $\operatorname{Id}_B$. $g$ is called the \linkterm{inverse function}{inverse_function} (or just \linkterm{inverse}{inverse_function}) of $f$ and is written as \inverse{f}.
+}{invertible}
+
+\subsection{Mathematical Structures}
+\definition{Formulae}{
+    A mathematical formula can be a \refterm{mathematical statement}{math_statement} (clause) which can be true or false (e.g. $x>5, 3+5=7$), or a \refterm{mathematical object}{math_object} (e.g. $3, n, x^2 + y^2 + z^2, \int_1^0 x^{3/2} dx$)
+}{formulae}
+
+\definition{Mathematical Structure}{
+A mathematical structure combines multiple \linkterm{mathematical objects}{math_object} (the components) into a new \linkterm{object}{math_object}. The components usually have names by which they can be referenced. Given a \linkterm{definition}{definitions} of a mathematical structure $S$, we say that any \linkterm{object}{math_object} that conforms to that is an instance of $S$.
+}{def:math_structure}
+
+\definition{Group}{
+A group is a \linkterm{mathematical structure}{def:math_structure} $\tuple{G, \circ, e, \inverse{.}}$ that consists of:
+\begin{itemize}
+    \item a base \linkterm{set}{def:set} $G$ of \linkterm{objects}{math_object},
+    \item an operation $\circ : \cartprod{G,G} \to G$, such that $\forall a,b \in G. a \circ b \in G$ and $\forall a,b,c \in G. (a \circ b) \circ c = a \circ (b \circ c)$,
+    \item a unit $e \in G$, such that $\forall a \in G. e \circ a = a \circ e = a$, and
+    \item the \linkterm{inverse function}{inverse_function} $.^{-1} : G \to G$, such that $\forall a \in G. a \circ \inverse{a} = \inverse{a} \circ a = e$
+\end{itemize}
+}{group}
+An example of a \linkterm{group}{group} is the \linkterm{set}{def:set} $G = \mathbb{Z}$, with the operation $\func{+}{\cartprod{\mathbb{Z},\mathbb{Z}}}{\mathbb{Z}}$; then $e = 0$ and $\inverse{.}$ is $\lambda x \in \mathbb{Z}. -x$. We write it as $\tuple{\mathbb{Z}, +, 0, -}$.
+
+\textbf{Question: }can we do the same for multiplication where $e = 1$? If we think about it, we would be stuck on finding the $\inverse{.}$ component of the group. What can we always multiply with any integer and get $e=1$ back? Take for example $1$, we can multiply it with $\frac{1}{1}$ (great!). Take $-1$, we can multiply it with $\frac{1}{-1}$ (also great!). But take any other integer, e.g. $2$, we must multiply it with $\frac{1}{2}$ to get $1$ back, however, $\frac{1}{2} \notin \mathbb{Z}$, it is however $\in \mathbb{Q}$! The multiplicative group would only make sense iff $G = \mathbb{Q} \setminus \set{0}$. We write that as $\tuple{\mathbb{Q} \setminus \set{0}, * , 1, a \mapsto \frac{1}{a}}$.
+
+\textbf{But }we need some multiplication \linkterm{structure}{def:math_structure} that works for $\mathbb{Z}$!
+
+\definition{Monoid}{
+A monoid is a \linkterm{mathematical structure}{def:math_structure} $\tuple{M, \circ , e}$ that consists of:
+\begin{itemize}
+    \item A base set $M$ of \linkterm{objects}{math_object},
+    \item An operation $\circ : M \times M \to M$, such that for all $a,b \in M$, we have $a \circ b \in M$ (closure),
+    \item Associativity: for all $a,b,c \in M$, $(a \circ b) \circ c = a \circ (b \circ c)$, and
+    \item A unit element $e \in M$, such that for all $a \in M. e \circ a = a \circ e = a$.
+\end{itemize}
+}{monoid}
+
+Hence, the \linkterm{mathematical structure}{def:math_structure} $\tuple{\mathbb{Z}, * , 1}$ is a \linkterm{monoid}{monoid} (a \linkterm{group}{group} missing an \linkterm{inverse function}{inverse_function}).
+
+
+We saw that $\tuple{\mathbb{Z}, +, 0, -}$ is a \linkterm{group}{group} under addition. And $\tuple{\mathbb{Z}, *, 1}$ is a \linkterm{monoid}{monoid} under multiplication. Now, we want to do everyday arithmetics with integers; we want expressions where we have additions and multiplication (e.g. $a * (b + c)$) which evaluates to $(a * b) + (a * c)$.
+
+For that, we need a \linkterm{mathematical structure}{def:math_structure} where both addition and multiplication live together.
+
+\definition{Ring}{
+A ring is a \linkterm{mathematical structure}{def:math_structure} $\tuple{R, + , 0 , - , * , 1}$ consisting of:
+\begin{itemize}
+    \item A base \linkterm{set}{def:set} $R$.
+    \item An addition operation $+: R \times R \to R$ such that $\tuple{R,+,0,-}$ is a \linkterm{group}{group} (called abelian \linkterm{group}{group}).
+    \item A multiplication operation $*:R \times R \to R$ such that $\tuple{R, * , 1}$ is a \linkterm{monoid}{monoid}.
+    \item Distributivity: for all $a,b,c \in R, a * (b+c) = (a*b) + (a*c), (a+b)*c = (a*c) + (b*c)$
+\end{itemize}
+}{ring}
+
+Hence, mixing components from the \linkterm{group}{group} $\tuple{\mathbb{Z}, +, 0, -}$ and the \linkterm{monoid}{monoid} $\tuple{\mathbb{Z}, * , 1}$ leaves us with a \linkterm{ring}{ring} $\tuple{\mathbb{Z}, +, 0, -, *, 1}$
+
+
+\definition{Magma}{
+A magma is a \linkterm{mathematical structure}{def:math_structure} $\tuple{M, \circ}$ consisting of:
+\begin{itemize}
+    \item A base \linkterm{set}{def:set} $M$, and 
+    \item A binary operation $\circ: M \times M \to M$.
+\end{itemize}
+}{magma}
+\textbf{Example: } $\tuple{\mathbb{Z}, -}$ (integers under subtraction). $\tuple{\mathbb{N}, +}$ (natural numbres under addition)
+
+\definition{Semigroup}{
+A semigroup (\linkterm{magma}{magma} with associativity) is a \linkterm{mathematical structure}{def:math_structure} $\tuple{S, \circ}$ consisting of:
+\begin{itemize}
+    \item A base \linkterm{set}{def:set} $S$, 
+    \item A binary opertation $\circ : S \times S \to S$, and 
+    \item Associativity: for all $a,b,c \in S, (a \circ b) \circ c = a \circ (b \circ c)$
+\end{itemize}
+}{semigroup}
+\textbf{Example: } $\tuple{\mathbb{Z}, +}$ (integers under addition).
+
+\subsection{Formal Languages and Grammars}
+
+\definition{Alphabet}{
+An alphabet is a \linkterm{finite}{set_cardinality} \linkterm{set}{def:set}; we call each element $a \in A$ a \textbf{character}, and an $n$-tuple $s \in A^n$ a \textbf{string} (of \textit{length} $n$ over $A$). We often write a string $\tuple{c_1, \cdots, c_n}$ as "$c_1 \cdots c_n$", for instance \texttt{"abc"} for $\tuple{a,b,c}$
+}{alphabet}
+
+\definition{Empty String}{
+Let $A$ be an \linkterm{alphabet}{alphabet}, then $A^0 = \set{\tuple{}}$, where $\tuple{}$ is the unique $0$-tuple. We consider $\tuple{}$ as the string of length $0$ and call it the \textbf{empty string} and denote it with $\epsilon$.
+}{empty_string}
+
+
+\definition{String Length}{
+Given a string $s$, we denote its length with $\abs{s}$.
+}{string_length}
+
+\definition{String Concatenation}{
+The concatenation $\operatorname{conc}(s,t)$ of two strings $s = \tuple{s_1, \cdots, s_n} \in A^n$ and $t = \tuple{t_1,\cdots, t_m} \in A^m$ is defined as $s+t$ or simply \texttt{st}
+}{concatenation_string}
+
+\definition{Kleene Plus/Star}{
+Let $A$ be an \linkterm{alphabet}{alphabet}, then we define the \linkterm{sets}{def:set}:
+\begin{itemize}
+    \item $A^{+} := \bigcup_{i \in \mathbb{N}^{+}} A^i$ (\textit{nonempty strings}), and
+    \item $A^{*} := A^{+} \cup \set{\epsilon}$ (\textit{strings}).
+\end{itemize}
+}{kleene_operators}
+
+\definition{Formal Language}{
+A \linkterm{set}{def:set} $L \subseteq A^{*}$ is called a \textit{formal language} over $A$. For example, If $A = \set{a,b}$ then:
+\[
+A^{*} = \bigcup_{n = 0}^{\infty} A^n
+\]
+where $A^0 = \epsilon$, $A^1 = \set{a,b}$, $A^2 = \set{a, b, ab, ba}$, and so on ... 
+\begin{align*}
+    A^{*} &= \set{\epsilon, a, b, aa, ab, ba, bb, aaa, aab, aba, abb, \cdots} \\
+    A^{+} &= \set{a, b, aa, ab, ba, bb, aaa, aab, aba, abb, \cdots} \\
+\end{align*}
+A \linkterm{formal language}{formal_language} might be $L = \set{a,b,aab,bbb, \cdots}$ 
+}{formal_language}
+
+
+\definition{Repeating Chars}{
+We use $c^{[n]}$ for the string that consists of the character \texttt{c} repeated $n$ times. \textbf{Examples: }
+\begin{itemize}
+    \item Let $A = \set{a,b}$, $a^{[5]} = $ \texttt{"aaaaa"}.
+    \item The \linkterm{set}{def:set} $M := \set{\text{ba}^{[n]} \mid n \in \mathbb{N}}$ of strings that start with character $b$ followd by an arbitrary numbers of a's is a \linkterm{formal language}{formal_language} over $A = \set{a,b}$
+\end{itemize}
+}{repeating_chars}
+
+
+\commandnote{A \linkterm{formal language}{formal_language} might be infinite and even undecidable even if the \linkterm{alphabet}{alphabet} $A$ is \linkterm{finite}{set_cardinality}. For example, let $A = \set{a,b}$ then the \linkterm{formal language}{formal_language} $L = \set{a,ab,bba}$ is \linkterm{finite}{set_cardinality} but the \linkterm{formal language}{formal_language} $L = \setbuilder{a^{[n]}}{n \in \mathbb{N}}$ is infinite.}
+
+Since we cannot list all strings in a \linkterm{formal language}{formal_language} $L$ because there are infinitely many, we need a \textbf{finite description} that can generate all strings in $L$. We need \textbf{Grammars}.
+
+\definition{Phrase Structure Grammar}{
+A phrase structure grammar (\textit{type 0 grammar, unrestricted grammar, grammar}) is a tuple $\tuple{N,\Sigma, P, S}$ where
+\begin{itemize}
+    \item $N$ is a \linkterm{finite}{set_cardinality} \linkterm{set}{def:set} of \textbf{nonterminal symbols},
+    \item $\Sigma$ is a \linkterm{finite}{set_cardinality} \linkterm{set}{def:set} of \textbf{terminal symbols}. (members of $N \cup \Sigma$ are called symbols).
+    \item $P$ is a \linkterm{finite}{set_cardinality} \linkterm{set}{def:set} of \textbf{production rules}: pairs $p := h \to b$ (also written as $h \Rightarrow b$), where $h \in (\Sigma \cup N)^{*} N (\Sigma \cup N)^{*}$ and $b \in (\Sigma \cup N)^{*}$. The string $h$ is called the \textbf{head} of $p$ and $b$ the \textbf{body}.
+    \item $S \in N$ is a distinguished symbol called the \textbf{start symbol} (also \textbf{sentence symbol}).
+\end{itemize}
+The \linkterm{sets}{def:set} $N$ and $\Sigma$ are assumed to be \linkterm{disjoint}{disjoint}. Any word $w \in \Sigma^{*}$ is called a \textbf{terminal word}.
+}{phrase_structure_grammar}
+\commandnote{\linkterm{Production rules}{phrase_structure_grammar} map strings with at least one \linkterm{nonterminal}{phrase_structure_grammar} to arbitrary other strings}
+
+\textbf{Notation: }If we have $n$ \linkterm{production rule}{phrase_structure_grammar} $h \to b_i$ sharing a head, we often write $h \to b_1 \mid \cdots \mid b_n$ instead.
+
+\textbf{Example: }A simple \linkterm{grammar}{phrase_structure_grammar} for english sentences:
+\begin{align*}
+\text{S} &::= \text{NP} \text{ Vi} \\
+\text{NP} &::= \text{Article} \text{ N} \\
+\text{Article} &::= \text{the} \mid \text{a} \mid \text{an} \\
+\text{N} &::= \text{dog} \mid \text{teacher} \mid \cdots \\
+\text{Vi} &::= \text{sleeps} \mid \text{smells} \mid \cdots
+\end{align*}
+
+\definition{Lexical}{
+A \linkterm{production rule}{phrase_structure_grammar} whose head is a single \linkterm{nonterminal}{phrase_structure_grammar} and whose body consists of a single \linkterm{terminal}{phrase_structure_grammar} is called \textbf{lexical} or a \textbf{lexical insertion rule}.
+}{lexical_rule_grammar}
+
+\definition{Lexicon of a Grammar}{
+The \linkterm{subset}{subset} of \linkterm{lexical rules}{lexical_rule_grammar} of a \linkterm{grammar}{phrase_structure_grammar} $G$ is called the \textbf{lexicon} of $G$
+}{lexicon_grammar}
+
+\definition{Vocabulary}{
+The \linkterm{set}{def:set} of body symbols are called the vocabulary (or the alphabet).
+}{vocabulary_grammar}
+
+\definition{Lexical Categories of a Grammar}{
+The \linkterm{nonterminals}{phrase_structure_grammar} that appear in the heads of \linkterm{lexical}{lexical_rule_grammar} rules are called lexical categories of the \linkterm{grammar}{phrase_structure_grammar}.
+}{lexical_categories_grammar}
+
+\definition{Structural Rules}{
+The non \linkterm{lexicon}{lexicon_grammar} \linkterm{production rules}{phrase_structure_grammar} are called structural.
+}{structural_rules_grammar}
+
+\definition{Phrasal categories}{
+The \linkterm{nonterminals}{phrase_structure_grammar} in the heads of \linkterm{production rules}{phrase_structure_grammar} that expand into other \linkterm{nonterminals}{phrase_structure_grammar} are called phrasal (syntactic) categories.
+}{phrasal_categories}
+
+\definition{$G$-Derivation}{
+Given a \linkterm{phrase structure grammar}{phrase_structure_grammar} $G := \set{N,\Sigma, P, S}$, we say $G$ \textbf{derives} $t \in (\Sigma \cup N)^{*}$ from $s \in (\Sigma \cup N)^{*}$ in one step, iff there is a \linkterm{production rule}{phrase_structure_grammar} $p \in P$ with $p = h \to b$ and there are $u,v \in (\Sigma \cup N)^{*}$, such that $s=uhv$ and $t=ubv$. We write $s \to_{G}^{p} t$ (or $s \to_{G} t$ if $p$ is clear from the context) and use $\to_{G}^{*}$ for the \linkterm{reflexive}{reflexive} \linkterm{transitive}{transitive_relation} closure of $\to_G$. We call $s \to_{G}^{*} t$ a $G$-derivation of $t$ from $s$.
+}{g_derivation_grammar}
+
+\definition{Sentential Form}{
+Given a \linkterm{phrase structure grammar}{phrase_structure_grammar} $G := \set{N,\Sigma, P, S}$, we say that $s \in (\Sigma \cup N)^{*}$ is a \textbf{sentential form} of $G$, iff $S \to_{G}^{*} s$
+}{sentential_form}
+
+\definition{Sentence}{
+A \linkterm{sentential form}{sentential_form} that does not contain \linkterm{nonterminals}{phrase_structure_grammar} is called a sentence of $G$, we also say that $G$ \textbf{accepts} $s$. We say that $G$ \textbf{rejects} $s$, iff it is not a sentence of $G$.
+}{sentence_grammar}
+
+\definition{Language Generation}{
+The language $L(G)$ of $G$ is the \linkterm{set}{def:set} of its \linkterm{sentences}{sentence_grammar}. We say that $L(G)$ is \textbf{generated} by $G$.
+}{language_generation_grammar}
+
+\definition{Equivalent Grammars}{
+We call two \linkterm{grammars}{phrase_structure_grammar} \textbf{equivalent}, iff they have the same \linkterm{languages}{language_generation_grammar}.
+}{equivalent_grammars}
+
+\definition{Universal Grammar}{
+A \linkterm{grammar}{phrase_structure_grammar} $G$ is said to be \textbf{universal} if $L(G) = \Sigma^{*}$
+}{universal_grammar}
+
+\definition{Syntactic Analysis}{
+Syntactic analysis (parsing / syntax analysis) is the process of analyzing a string of symbols, either in a \linkterm{formal}{formal_language} or a \linkterm{natural language}{natural_language} by means of a \linkterm{grammar}{phrase_structure_grammar}.
+}{syntactic_analysis_grammar}
+
+\commandnote{The shape of the \linkterm{grammar}{phrase_structure_grammar} determines the size of its \linkterm{language}{language_generation_grammar}}
+
+\definition{Context-Sensitive}{
+We call a \linkterm{grammar}{phrase_structure_grammar} context-sensitive (or type 1), if the bodies of \linkterm{production rules}{phrase_structure_grammar} have no less symbols than the heads.
+}{contex_sensitive_grammar}
+
+\definition{Context-Free}{
+We call a \linkterm{grammar}{phrase_structure_grammar} context-free (or type 2), iff the heads have exactly one symbol.
+}{contex_free_grammar}
+
+\definition{Regular}{
+We call a \linkterm{grammar}{phrase_structure_grammar} regular (or type 3, or REG), if additionally the bodies are empty or consist of a \linkterm{nonterminal}{phrase_structure_grammar}, optionally followed by a \linkterm{terminal symbol}{phrase_structure_grammar}.
+}{regular_grammar}
+
+\commandnote{
+By extension, a \linkterm{formal language}{formal_language} $L$ is called \textit{context-sensitive / context-free / regular}, iff it is the \linkterm{language}{language_generation_grammar} of a respective \linkterm{grammar}{phrase_structure_grammar}. \linkterm{Context-free grammars}{contex_free_grammar} are sometimes \texttt{CFGs} and context-free languages \texttt{CFLs}.
+}

@@ -1,0 +1,248 @@
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{refs.bib}
+
+% ===================================================================
+% CORE DOCUMENT UTILITIES
+% ===================================================================
+\usepackage[margin=0.5in]{geometry}   % Page geometry
+\usepackage{graphicx}                 % Images
+\usepackage{float}                    % Force float placement [H]
+\usepackage{booktabs}                 % Professional table rules
+\usepackage{array}                    % Advanced table column definitions
+\usepackage{multicol}                 % Multi-column layout
+\usepackage{parskip}                  % No paragraph indent, vertical spacing
+\usepackage{titling}                  % Control title spacing
+\setlength{\droptitle}{-1cm}         % Optional: pull title upward
+
+% ===================================================================
+% COLORS, TEXT, AND LISTS
+% ===================================================================
+\usepackage{xcolor, soul}             % Color + highlighting
+\usepackage[inline]{enumitem}         % Inline and compact lists
+\usepackage{gensymb}                  % Symbols like \degree
+\usepackage{xspace}                   % Smart spacing after macros
+
+% ===================================================================
+% MATHEMATICS, LOGIC, AND SEMANTICS
+% ===================================================================
+\usepackage{amsmath, amssymb, mathtools} % Math foundations
+\usepackage{mathrsfs}                % Script fonts (\mathscr)
+\usepackage{stmaryrd}                % Semantic brackets ⟦ ⟧
+\usepackage{mathpartir}              % Inference rules
+\usepackage{semantic}                % Semantics macros
+
+% --- Paired delimiters ---
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\brak}[1]{[#1]}
+
+% --- Common sets ---
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+
+% --- Math operators ---
+\newcommand{\argmax}[1]{\mathop{\mathrm{arg\,max}}_{#1}\,}
+\newcommand{\argmin}[1]{\mathop{\mathrm{arg\,min}}_{#1}\,}
+
+% --- Set and tuple utilities ---
+\newcommand{\tuple}[1]{\left\langle #1 \right\rangle}
+\newcommand{\restr}[2]{#1\!\upharpoonright_{#2}} % Restriction f|_A
+\newcommand{\sint}[1]{\llbracket #1 \rrbracket}  % Semantic brackets
+\newcommand{\setsize}[1]{\Gamma (#1)}            % Size-related macro
+\newcommand{\inverse}[1]{\ensuremath{{#1}^{-1}}} % Inverse
+\newcommand{\powerset}[1]{\ensuremath{\mathcal{P}(#1)}} % Powerset
+\newcommand{\setbuilder}[2]{\ensuremath{\{\,#1 \mid #2\,\}}} % Set-builder
+
+% --- LaTeX3 function syntax macros ---
+\ExplSyntaxOn
+\NewDocumentCommand{\union}{m}{\ensuremath{\clist_use:nn {#1} { \mathbin{\cup} }}}
+\NewDocumentCommand{\intersection}{m}{\ensuremath{\clist_use:nn {#1} { \mathbin{\cap} }}}
+\NewDocumentCommand{\compose}{m}{\ensuremath{\clist_use:nn {#1} { \mathbin{\circ} }}}
+\NewDocumentCommand{\cartprod}{m}{\ensuremath{\clist_use:nn {#1} { \mathbin{\times} }}}
+\ExplSyntaxOff
+
+% --- Total and Partial Functions ---
+\newcommand{\func}[3]{\ensuremath{#1 : #2 \to #3}}
+\newcommand{\pfunc}[3]{\ensuremath{#1 : #2 \rightharpoonup #3}}
+
+% --- Indexed set operations ---
+\newcommand{\bigunion}[1]{\ensuremath{\bigcup_{i \in I} {#1}_{i}}}
+\newcommand{\bigintersection}[1]{\ensuremath{\bigcap_{i \in I} {#1}_{i}}}
+
+% --- Common math helpers ---
+\newcommand{\identity}[1]{\ensuremath{\operatorname{Id}_{#1}}}
+\newcommand{\bigo}[1]{\mathcal{O}(#1)}
+
+% ===================================================================
+% TIKZ AND DIAGRAMS
+% ===================================================================
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\tikzset{
+  vertex/.style={circle, draw, minimum size=18pt, inner sep=0pt},
+  edge/.style={-},
+  arc/.style={->, >=Stealth}
+}
+
+% ===================================================================
+% CODE, ALGORITHMS, AND BOXES
+% ===================================================================
+\usepackage{tcolorbox}
+\tcbuselibrary{listingsutf8}
+
+\usepackage{algorithm, algorithmicx, algpseudocode} % Algorithm support
+
+% --- Note boxes ---
+\newcommand{\commandnote}[1]{%
+  \begin{tcolorbox}[standard jigsaw, title=Note]
+    #1
+  \end{tcolorbox}
+}
+
+% --- Highlighted inline text ---
+\newcommand{\hltext}[1]{\sethlcolor{gray!10}\hl{#1}}
+
+% --- Code block environment ---
+\newtcblisting{codeblock}{
+  colback=gray!10,
+  colframe=black!40,
+  listing only,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+  listing options={
+    breaklines=true,
+    basicstyle=\ttfamily,
+    literate={\$}{{\textdollar}}1
+  }
+}
+
+% --- Inline code snippet ---
+\newcommand{\inlinecode}[1]{\colorbox{gray!10}{\texttt{#1}}}
+
+% ===================================================================
+% BIBLIOGRAPHY AND HYPERLINKS
+% ===================================================================
+\usepackage{hyperref}                   % Hyperlinks
+\hypersetup{
+  colorlinks,
+  citecolor=teal,
+  linkcolor=blue,
+  urlcolor=magenta
+}
+\usepackage[nameinlink,capitalize]{cleveref} % Smart cross-references
+% ===================================================================
+% CUSTOM STRUCTURES AND LABELS
+% ===================================================================
+% --- Section titles ---
+\newcommand{\labeledsection}[2]{\section{#1}\label{#2}}
+\newcommand{\minititle}[1]{\subsubsection*{#1}}
+
+% --- Anchors and references ---
+\newcommand{\refterm}[2]{\phantomsection \label{#2}{\textbf{#1}}}
+\newcommand{\linkterm}[2]{\hyperref[#2]{#1}}
+
+% ===================================================================
+% DEFINITIONS AND THEOREMS
+% ===================================================================
+% --- Section-scoped definitions ---
+\newcounter{definition}[section]
+\renewcommand{\thedefinition}{\thesection.\arabic{definition}}
+\newcommand{\definition}[3]{%
+  \refstepcounter{definition}%
+  \phantomsection%
+  \par\noindent\textbf{Def~\thedefinition.} \textbf{#1: }#2%
+  \label{#3}\par
+}
+
+% --- Subsection-scoped definitions ---
+\newcounter{subdefinition}[subsection]
+\renewcommand{\thesubdefinition}{\thesubsection.\arabic{subdefinition}}
+\newcommand{\subdefinition}[3]{%
+  \refstepcounter{subdefinition}%
+  \phantomsection%
+  \par\noindent\textbf{Definition~\thesubdefinition.} \textbf{#1: }#2%
+  \label{#3}\par
+}
+
+% --- Shared theorem counter per section ---
+\newcounter{statement}[section]
+\renewcommand{\thestatement}{\thesection.\arabic{statement}}
+
+% --- Linked theorem-type counters ---
+\newcounter{theorem}
+\renewcommand{\thetheorem}{\thestatement}
+\newcounter{lemma}
+\renewcommand{\thelemma}{\thestatement}
+\newcounter{corollary}
+\renewcommand{\thecorollary}{\thestatement}
+
+% --- Statement macros ---
+\newcommand{\Theorem}[2]{%
+  \stepcounter{statement}\refstepcounter{theorem}%
+  \phantomsection%
+  \par\noindent\textbf{Theorem~\thetheorem.} #1%
+  \label{#2}\par
+}
+\newcommand{\Lemma}[2]{%
+  \stepcounter{statement}\refstepcounter{lemma}%
+  \phantomsection%
+  \par\noindent\textbf{Lemma~\thelemma.} #1%
+  \label{#2}\par
+}
+\newcommand{\Corollary}[2]{%
+  \stepcounter{statement}\refstepcounter{corollary}%
+  \phantomsection%
+  \par\noindent\textbf{Corollary~\thecorollary.} #1%
+  \label{#2}\par
+}
+\newcommand{\Proof}[1]{%
+  \par\noindent\textit{Proof.} #1\hfill$\square$\par
+}
+
+% ===================================================================
+% CLEVEREF CONFIGURATION
+% ===================================================================
+\crefname{section}{section}{sections}
+\Crefname{section}{Section}{Sections}
+\crefname{subsection}{section}{sections}
+\Crefname{subsection}{Section}{Sections}
+\crefname{figure}{figure}{figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{table}{table}{tables}
+\Crefname{table}{Table}{Tables}
+\crefname{equation}{equation}{equations}
+\Crefname{equation}{Equation}{Equations}
+\crefname{algorithm}{algorithm}{algorithms}
+\Crefname{algorithm}{Algorithm}{Algorithms}
+\crefname{theorem}{theorem}{theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+\crefname{lemma}{lemma}{lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{corollary}{corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+\crefname{appendix}{appendix}{appendices}
+\Crefname{appendix}{Appendix}{Appendices}
+\Crefname{definition}{Def}{Defs}
+\Crefname{subdefinition}{Def}{Defs}
+
+% --- Reference shorthands ---
+\newcommand{\secref}[1]{\cref{#1}}   \newcommand{\Secref}[1]{\Cref{#1}}
+\newcommand{\figref}[1]{\cref{#1}}   \newcommand{\Figref}[1]{\Cref{#1}}
+\newcommand{\tabref}[1]{\cref{#1}}   \newcommand{\Tabref}[1]{\Cref{#1}}
+\newcommand{\eqrefc}[1]{\cref{#1}}   \newcommand{\Eqref}[1]{\Cref{#1}}
+\newcommand{\defref}[1]{\cref{#1}}   \newcommand{\Defref}[1]{\Cref{#1}}
+\newcommand{\Subdefref}[1]{\Cref{#1}}
+\newcommand{\thmref}[1]{\cref{#1}}   \newcommand{\Thmref}[1]{\Cref{#1}}
+\newcommand{\lemref}[1]{\cref{#1}}   \newcommand{\Lemref}[1]{\Cref{#1}}
+\newcommand{\corref}[1]{\cref{#1}}   \newcommand{\Corref}[1]{\Cref{#1}}
+\newcommand{\appref}[1]{\cref{#1}}   \newcommand{\Appref}[1]{\Cref{#1}}
+\newcommand{\Algref}[1]{\Cref{#1}}
