@@ -463,5 +463,102 @@ add_children(L,R,CurrentQ,NewQ):-
     enqueue(R,LAddedQ,NewQ),
     !.
 
+%-----------------------
+% Encode Predicate
+%-----------------------
+% encode([a,a,a,a,b,c,c,a,a,d,e,e,e,e], X).
+% X = [[4, a], [1, b], [2, c], [2, a], [1, d], [4, e]]
+
+% count([1,1,1,1,1], X).
+% X = [5, 1]
+count([H|T],[L,H]):-
+    my_length([H|T], L). 
+
+% pack([a,a,a,a,b,c,c,a,a,d,e,e,e,e], X).
+% X = [[a,a,a,a],[b],[c,c],[a,a],[d],[e,e,e,e]]
+pack([],[]):-!.
+pack([X],[[X]]):-!.
+pack([X,Y|T],[[X|Xs]|TPacked]):-
+    X==Y,
+    pack([Y|T],[Xs|TPacked]).
+pack([X,Y|T],[[X]|TPacked]):-
+    X\==Y,
+    pack([Y|T],TPacked).
+
+% encode/2
+encode([], []) :- !.
+encode(List, Encoded) :-
+    pack(List, Packed),
+    encode_packed(Packed, Encoded).
+
+% encode_packed/2
+encode_packed([], []):-!.
+encode_packed([Group | RestGroups], [EncodedGroup | RestEncoded]) :-
+    count(Group, EncodedGroup),
+    encode_packed(RestGroups, RestEncoded).
+
+
+%-----------------------
+% Towers of Hanoi
+%-----------------------
+
+% move all pegs from A to B using auxiliary peg C.
+% move(N,A,B,C)
+% example usage
+%?- move(3, left, center, right).
+%Move top disk from left to center
+%Move top disk from left to right
+%Move top disk from center to right
+%Move top disk from left to center
+%Move top disk from right to left
+%Move top disk from right to center
+%Move top disk from left to center
+%true ;
+%false.
+
+move(1, A, B,_):-
+    write("Move top disk from "),
+    write(A), write(" to "), write(B), nl.
+
+move(N,A,B,C):-
+    N>1,
+    N1 is N-1,
+    move(N1, A,C,B),
+    move(1, A,B,_),
+    move(N1, C, B, A).
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
