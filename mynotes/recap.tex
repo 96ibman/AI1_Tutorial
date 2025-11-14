@@ -81,7 +81,7 @@ $X^n := \set{\tuple{x_1, \cdots, x_n} \mid 1 \leq i \leq n \Rightarrow x_i \in X
 }{cartesian_space}
 
 \definition{Size of a Set}{
-The size $\setsize{A}$ of a \linkterm{set}{def:set} $A$ is the number of \linkterm{elements}{def:set} in $A$.
+The size $\setsize{A}$ (or $\abs{A}$) of a \linkterm{set}{def:set} $A$ is the number of \linkterm{elements}{def:set} in $A$.
 }{setsize}
 
 \subsection{Relations}
@@ -444,4 +444,93 @@ We call a \linkterm{grammar}{phrase_structure_grammar} regular (or type 3, or RE
 
 \commandnote{
 By extension, a \linkterm{formal language}{formal_language} $L$ is called \textit{context-sensitive / context-free / regular}, iff it is the \linkterm{language}{language_generation_grammar} of a respective \linkterm{grammar}{phrase_structure_grammar}. \linkterm{Context-free grammars}{contex_free_grammar} are sometimes \texttt{CFGs} and context-free languages \texttt{CFLs}.
+}
+
+\subsection{Graphs and Trees}
+\definition{Undirected Graph}{
+An undirected graph is a pair $\tuple{V,E}$ such that
+\begin{itemize}
+    \item $V$ is a \linkterm{set}{def:set} of \textbf{vertices (nodes)}, and
+    \item $E \subseteq \setbuilder{\set{v, \bar{v}}}{v, \bar{v} \in V \land v \neq \bar{v}}$ is the \linkterm{set}{def:set} of its \textbf{undirected edges}. 
+\end{itemize}
+}{undirected_graph}
+
+\definition{Directed Graph}{
+A directed graph (digraph) is a pair $\tuple{V,E}$ such that
+\begin{itemize}
+    \item $V$ is a \linkterm{set}{def:set} of \textbf{vertices (nodes)}, and
+    \item $E \subseteq \cartprod{V,V}$ is the \linkterm{set}{def:set} of its \textbf{directed edges}.
+\end{itemize}
+}{directed_graph}
+
+\definition{Indegree}{
+Given a \linkterm{directed graph}{directed_graph} $\tuple{V,E}$, the indegree $\operatorname{indeg}(v)$ of a vertex $v \in V$ is defined as $\operatorname{indeg}(v) = \setsize{\setbuilder{w}{\paren{w,v} \in E}}$.
+}{indegree}
+
+\definition{Outdegree}{
+Given a \linkterm{directed graph}{directed_graph} $\tuple{V,E}$, the outdegree $\operatorname{outdeg}(v)$ (branching factor) of a vertex $v \in V$ is defined as $\operatorname{indeg}(v) = \setsize{\setbuilder{w}{\paren{v,w} \in E}}$.
+}{outdegree}
+
+\commandnote{
+\linkterm{directed graphs}{directed_graph} are nothing else than \linkterm{relations}{relation}.
+}
+
+\definition{Initial vs Terminal Node}{
+Let $G = \tuple{V,E}$ be a \linkterm{directed graph}{directed_graph}, then we call a node $v \in V$
+\begin{itemize}
+  \item \textbf{initial} (source of $G$), iff there is no $w \in V$ such that $\paren{w,v} \in E$ (no predecessor)
+  \item \textbf{terminal} (sink of $G$), iff there is no $w \in V$ such that $\paren{v,w} \in E$ (no successor)
+\end{itemize}
+}{initial_terminal_node}
+
+\definition{Graph Isomorphism}{
+Iff we can find a \linkterm{bijection}{bijective} $\psi : V \to \bar{V}$ between two graphs $G = \tuple{V,E}$ and $\bar{G} = \tuple{\bar{V},\bar{E}}$ then we call them isomorphic. 
+The \linkterm{bijection}{bijective} $\psi : V \to \bar{V}$ is defined as $(a,b) \in E \Leftrightarrow (\psi (a), \psi (b)) \in \bar{E}$ for \linkterm{directed graph}{directed_graph}. And for \linkterm{undirected graph}{undirected_graph} it is defined as $\set{a,b} \in E \Leftrightarrow \set{\psi (a), \psi (b)} \in \bar{E}$
+}{graph_isomorphism}
+
+\definition{Equivalent Graphs}{
+Two graphs $G$ and $\bar{G}$ are \textbf{equivalent} iff there is an \linkterm{isomorphism}{graph_isomorphism} $\psi$ between $G$ and $\bar{G}$.
+}{equivalent_graphs}
+
+\definition{Labeled Graph}{
+A labeled graph $G$ is a quadruple $\tuple{V,E,L,l}$ where $\tuple{V,E}$ is a graph and $\pfunc{l}{\union{V,E}}{L}$ is a \linkterm{partial function}{partial_function} into a \linkterm{set}{def:set} $L$ of labels.
+}{labeled_graph}
+
+\definition{Paths in Graphs}{
+Given a graph $G:=\tuple{V,E}$ we call a $n+1$-tuple $p=\tuple{v_0, \cdots, v_n} \in V^{n+1}$ a \textbf{path} in $G$ iff $(v_{i-1}, v_i) \in E$ for all $1 \leq i \leq n$ and $n>0$.
+\begin{itemize}
+\item We say that $v_i$ are nodes on $p$ and that $v_0$ and $v_n$ are \textbf{linked} by $p$.
+\item $v_0$ and $v_n$ are called the \textbf{start} and \textbf{end} of $p$ (write $\operatorname{start}(p)$ and $\operatorname{end}(p)$), the other $v_i$ are called \textbf{inner nodes} of $p$.
+\item $n$ is called the \textbf{length} of $p$ (write $\operatorname{len}(p)$).
+\item We denote the \linkterm{set}{def:set} of paths in $G$ with $\Pi(G)$. 
+\end{itemize}
+}{path_graph}
+
+\definition{Cyclic Graphs}{
+Given a \linkterm{directed graph}{directed_graph} $G = \tuple{V,E}$, a \linkterm{path}{path_graph} $p$ is called \textbf{cyclic} iff $\operatorname{start}(p) = \operatorname{end}(p)$. A cycle $\tuple{v_0, \cdots, v_n}$ is called \textbf{simple}, iff $v_i \neq v_j$ for $1 \leq i$, $j \leq n$ with $i \neq j$ (all inner nodes are distinct).
+}{cyclic_graphs}
+
+\definition{DAG}{
+A \linkterm{directed graph}{directed_graph} with no \linkterm{cycles}{cyclic_graphs} is called \textbf{directed acyclic graph (DAG)}.
+}{dag}
+
+\definition{Node Depth}{
+Let $G = \tuple{V,E}$ be a \linkterm{directed graph}{directed_graph}, then the depth $\operatorname{dp}(v)$ of a vertex $v \in V$ is defined to be $0$, iff $v$ is a source of $G$ and the \linkterm{supremum}{supremum_infimum} $\operatorname{sup}(\setbuilder{\operatorname{len}(p)}{\operatorname{indeg}(\operatorname{start}(p))=0 \land \operatorname{end}(p)=v})$ otherwise, i.e. the length of the longest \linkterm{path}{path_graph} from a source of $G$ to $v$ (can be infinite).
+}{depth_node}
+
+\definition{Graph Depth}{
+Given a \linkterm{directed graph}{directed_graph} $G = \tuple{V,E}$, the \textbf{depth} ($\operatorname{dp}(G)$) of $G$ is defined as the \linkterm{supremum}{supremum_infimum} $\operatorname{sup}(\setbuilder{\operatorname{len}(p)}{p \in \Pi(G)})$, i.e. the maximal path length in $G$.
+}{depth_graph}
+
+\definition{Tree}{
+A tree is a \linkterm{DAG}{dag} $G = \tuple{V,E}$ such that
+\begin{itemize}
+  \item There is exactly one \linkterm{initial node}{initial_terminal_node} $v_r \in V$ (called the \textbf{root})
+  \item All nodes but the root have \linkterm{indegree}{indegree} of $1$.
+\end{itemize}
+We call $v$ the \textbf{parent} of $w$, iff $(v,w) \in E$ ($w$ is a child of $v$). We call a node $v$ a \textbf{leaf} of $G$, iff it is \linkterm{terminal}{initial_terminal_node}, i.e. if it does not have children.
+}{tree}
+
+\commandnote{
+For any node $v \in V$ except the root $v_r$, there is exactly one \linkterm{path}{path_graph} $p \in \Pi(G)$ with $\operatorname{start}(p) = v_r$ and $\operatorname{end}(p)=v$.
 }

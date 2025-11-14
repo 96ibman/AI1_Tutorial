@@ -1,0 +1,306 @@
+\labeledsection{General Problem Solving}{sec:search}
+\definition{Search Problem}{
+A search problem $\Pi := \tuple{\mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{I}, \mathcal{G}}$ consists of a \linkterm{set}{def:set} $\mathcal{S}$ of states, a \linkterm{set}{def:set} $\mathcal{A}$ of actions, and a transition model $\func{\mathcal{T}}{\cartprod{\mathcal{A}, \mathcal{S}}}{\powerset{\mathcal{S}}}$ that assigns to any action $a \in \mathcal{A}$ and state $s \in \mathcal{S}$ a \linkterm{set}{def:set} of successor states. Certain states in $\mathcal{S}$ are designated as goal (terminal) states ($\mathcal{G} \subseteq \mathcal{S}$ with $\mathcal{G} \neq \phi$) and initial states $\mathcal{I} \subseteq \mathcal{S}$. 
+}{search_problem}
+
+\definition{Action Application}{
+We say that an action $a \in \mathcal{A}$ is applicable in state $s \in \mathcal{S}$, iff $\mathcal{T}(a,s) \neq \phi$ and that any $s' \in \mathcal{T}(a,s)$ is a result of applying action $a$ to state $s$. We call $\func{\mathcal{T}_a}{\mathcal{S}}{\powerset{\mathcal{S}}}$ with $\mathcal{T}_a(s) := \mathcal{T}(a,s)$ the result relation for $a$ and $\mathcal{T}_{\mathcal{A}} := \bigcup_{a \in \mathcal{A}} \mathcal{T}_a$ the result relation of $\Pi$.
+}{action_application}
+
+\definition{State Space}{
+The graph $\tuple{\mathcal{S}, \mathcal{T}_{\mathcal{A}}}$ is called the state space induced by \linkterm{$\Pi$}{search_problem}.
+}{state_space}
+
+\definition{Solution}{
+A solution for \linkterm{$\Pi$}{search_problem} consists of a sequence $a_1, \cdots, a_n$ of actions such that for all $1 < i \leq n$:
+\begin{itemize}
+    \item $a_i$ is \linkterm{applicable}{action_application} to state $s_{i-1}$ where $s_o \in \mathcal{I}$, and
+    \item $s_i \in \mathcal{T}_{a_i} (s_{i-1})$, and $s_n \in \mathcal{G}$
+\end{itemize}
+}{search_prob_sol}
+
+\definition{Cost Function}{
+Often we add a cost function $\func{c}{\mathcal{A}}{\R_0^{+}}$ that associates a step cost $c(a)$ to an action $a \in \mathcal{A}$. The cost of a \linkterm{solution}{search_prob_sol} is the sum of the step costs of its actions.
+}{cost_function}
+
+\commandnote{
+\begin{itemize}
+    \item For \linkterm{deterministic}{env_types} environments, we have $ \abs{\mathcal{T}(a,s)} \leq 1$
+    \item For \linkterm{fully observable}{env_types} ones, we have $\mathcal{I} = \set{s_0}$ 
+\end{itemize}
+}
+
+\definition{Successor Function/State}{
+In a \linkterm{search problem}{search_problem}, $\mathcal{T}_a$ induces a \linkterm{partial function}{partial_function} $\pfunc{S_a}{\mathcal{S}}{\mathcal{S}}$ whose natural domain is the \linkterm{set}{def:set} of states where $a$ is \linkterm{applicable}{action_application}: $S_a(s) := s'$ if $\mathcal{T}_a = \set{s'}$ and undefined at $s$ otherwise. We call $S_a$ the \textbf{successor function} for $a$ and $S_a(s)$ the \textbf{successor state} of $s$.
+}{successor_func_state}
+
+\commandnote{
+\begin{itemize}
+    \item A \linkterm{search problem}{search_problem} is called a \textbf{single-state problem} iff it is \linkterm{fully observable}{env_types}, \linkterm{deterministic}{env_types}, \linkterm{static}{env_types}, and \linkterm{discrete}{env_types}.
+    \item A \linkterm{search problem}{search_problem} is called a \textbf{multi-state problem} iff it is \linkterm{partially observable}{env_types}.
+    \item A \linkterm{search problem}{search_problem} is called a \textbf{contingency problem} iff the environment is \linkterm{non deterministic}{env_types} and the \linkterm{state space}{state_space} is unknown.
+\end{itemize}
+}
+
+\definition{Tree Search}{
+Given a \linkterm{search problem}{search_problem} $\Pi := \tuple{\mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{I}, \mathcal{G}}$, the \textbf{tree search algorithm} consists of the simulated exploration of the \linkterm{state space}{state_space} $\tuple{\mathcal{S}, \mathcal{T}_{\mathcal{A}}}$ in a search \linkterm{tree}{tree} formed by successively expanding already explored states.
+}{tree_search}
+
+\definition{Path Cost}{
+We define the path cost of a node $n$ in a \linkterm{search tree}{tree_search} $T$ to be the sum of the \linkterm{step costs}{cost_function} on the \linkterm{path}{path_graph} from $n$ to the root of $T$.
+}{path_cost}
+
+The general structure of \linkterm{Tree Search}{tree_search} algorithms is as follows:
+\begin{verbatim}
+TREE_SEARCH(start, INSERT):
+    fringe ← empty list
+    append start to fringe
+    while fringe is not empty:
+        node ← remove first element of fringe
+        if is_goal(node):
+            return node
+        children ← expand(node)
+        INSERT(fringe, children)
+    return failure
+\end{verbatim}
+
+\definition{Strategy}{
+A strategy is a \linkterm{function}{function} that picks a node from the fringe of a \linkterm{search tree}{search_tee}
+}{search_strategy}
+
+\commandnote{
+Every algorithm has its own \linkterm{strategy}{search_strategy}, hence the implemention of the \texttt{INSERT} differs based on that \linkterm{strategy}{search_strategy}.
+}
+
+\definition{Properties of Strategies}{
+\begin{itemize}
+\item completeness: does it always find a solution if one exists?
+\item optimality: does it always find the optimal solution (least cost)?
+\item time complexity: number of nodes the algorithm explores (expands)
+\item space complexity: maximum number of nodes in memory 
+\end{itemize}
+}{proporties_strategies}
+
+\commandnote{
+Time and space complexity measured in terms of:
+\begin{itemize}
+    \item $b$: maximum branching factor of the \linkterm{search tree}{tree_search}
+    \item $d$: minimal \linkterm{graph depth}{depth_graph} of a \linkterm{solution}{search_prob_sol} in the \linkterm{search tree}{tree_search}
+    \item $m$: maximum \linkterm{graph depth}{depth_graph} of the \linkterm{search tree}{tree_search}
+\end{itemize}
+}
+
+\definition{Breadth-First Search (BFS)}{
+The BFS \linkterm{strategy}{search_strategy} treats the fringe as a FIFO queue, i.e. \linkterm{successors}{successor_func_state} go in at the end (back) of the fringe.
+}{bfs}
+
+\minititle{BFS Properties Analysis}
+\begin{itemize}
+\item Time Complexity:
+
+assume we have a binary \linkterm{search tree}{tree_search} ($b=2$) and we found \linkterm{solution}{search_prob_sol} in \linkterm{depth}{depth_graph} $=3$. In the $0^{\text{th}}$ level we explored $2^0 = 1$ nodes. In the $1^{\text{st}}$ level, $2^1 = 2$ nodes. In the $2^{\text{nd}}$ level,  $2^2 = 4$ nodes. And finally $2^3 = 8$ nodes in the third level. Number of nodes the algorithm explored will be $2^0 + 2^1 + 2^2 + 2^3$.
+\begin{itemize}
+    \item Generally, for arbitrary $b,d$, we have $1+b+b^2 + \cdots + b^d$, which means, worst time complexity is $\mathcal{O}(b^d)$ (exponential in $d$).
+\end{itemize}
+\item The space complexity is also $\mathcal{O}(b^d)$.
+\item \linkterm{BFS}{bfs} is complete if: (i) $b$ is finite, and (ii) the \linkterm{state space}{state_space} is finite or has a solution.
+\item \linkterm{BFS}{bfs} is optimal if we have a uniform constant cost for all actions.
+\end{itemize}
+
+
+\definition{Uniform-Cost Search (UCS)}{
+UCS is the \linkterm{strategy}{search_strategy} where the fringe is ordered by increasing \linkterm{path cost}{path_cost}. (\textit{expands least cost first})
+}{ucs}
+
+\commandnote{UCS it is equivalent to BFS if all costs are equal}
+
+\minititle{UCS Properties Analysis}
+\begin{itemize}
+    \item Time and space complexity $\approx \bigo{b^d}$
+    \item \linkterm{UCS}{ucs} is complete if:
+    \begin{itemize}
+        \item $b$ is finite
+        \item all actions costs are $\geq \epsilon > 0$
+        \item \linkterm{state space}{state_space} is finite or has a solution.
+    \end{itemize}
+\end{itemize}
+
+\definition{Depth-First Search (DFS)}{
+DFS is the \linkterm{strategy}{search_strategy} where the fringe is organized as a LIFO stack, i.e. \linkterm{successors}{successor_func_state} go in at the front of the fringe.
+}{dfs}
+
+\definition{Backtracking}{
+Every node that is pushed to the stack is called a \textbf{backtrack point}. 
+Popping a non-goal node from the stack and continuing the search with the new top element is called \textbf{backtracking}. 
+For this reason, the \linkterm{DFS algorithm}{dfs} is also referred to as a \textbf{backtracking search}.
+}{backtracking}
+
+\minititle{DFS Properties Analysis}
+\begin{itemize}
+    \item Time complexity is $\bigo{b^m}$ (exponential in the maximum depth)
+    \item Space complexity is linear. While \linkterm{BFS}{bfs} keeps track of all nodes at the current level in memoty, \linkterm{DFS}{dfs} needs to only keep the current path (from root to $m$), and also needs to keep the remaining unexplored sibling root node for each node along that path (to backtrack). This means, for each level, we store the siblings, i.e. $b$ nodes. We explore until we hit the max depth $m$ and in each level we store $b$. Hence we have a linear space $\bigo{b \cdot m}$
+    \item \linkterm{DFS}{dfs} is complete if the \linkterm{search tree}{tree_search} is \linkterm{finite}{set_cardinality} and \linkterm{acyclic}{cyclic_graphs}.
+    \item \linkterm{DFS}{dfs} is not optimal.
+\end{itemize}
+
+\definition{Depth-Limited Search (DLS)}{
+DLS is a \linkterm{DFS}{dfs} with a depth limit $l$. We treat all nodes at depth $l$ as if they have no children.
+}{depth_limited_search}
+
+\minititle{DLS Properties Analysis}
+\begin{itemize}
+\item Time complexity $\leadsto \bigo{b^l}$
+\item Space complexity $\leadsto \bigo{b \cdot l}$
+\item Not complete (solution maybe beyond chosen $l$)
+\item Not optimal
+\end{itemize}
+
+\definition{Iterative Deepening Search (IDS)}{
+IDS is a \linkterm{DLS}{depth_limited_search} with an ever-increasing depth limit. We call the difference between successive depth limits the step size.
+}{ids}
+
+\commandnote{
+\begin{itemize}
+    \item \linkterm{IDS}{ids} solves the problem of choosing a good $l$ in \linkterm{DLS}{depth_limited_search}.
+    \item \linkterm{IDS}{ids} tries all values until either a \linkterm{solution}{search_prob_sol} is found (depth is returned to \linkterm{DLS}{depth_limited_search}, we call that the cutoff value) or we return failure.
+    \item \linkterm{IDS}{ids} combines benefits of \linkterm{DFS}{dfs} and \linkterm{BFS}{bfs}.
+\end{itemize}
+}
+
+\minititle{IDS Properties Analysis}
+It is similar to \linkterm{DFS}{dfs} in memory requirements (assuimg \linkterm{finite}{set_cardinality} and \linkterm{acyclic}{cyclic_graphs} \linkterm{search tree}{tree_search}).
+\begin{itemize}
+    \item $\bigo{b \cdot d}$ when there is a \linkterm{solution}{search_prob_sol}
+    \item $\bigo{b \cdot m}$ when there is no \linkterm{solution}{search_prob_sol}
+\end{itemize}
+
+It is similar to \linkterm{BFS}{bfs} in terms of optimality, completeness, and time complexity. Optimal for problems where all actions have the same cost. Complete if $b$ is \linkterm{finite}{set_cardinality} and the \linkterm{state space}{state_space} is finite or has a solution.
+
+With regard to time complexity, consider \linkterm{IDS}{ids} finds a solution at depth $d$, then:
+\begin{itemize}
+    \item nodes at the very bottom ($d$) are visited only once in the final iteration. 
+    \item nodes at $d-1$ are visited twice, once in the search with depth $d-1$ and once in the search with depth $d$.
+    \item nodes at $d-2$ are visited three times
+    \item and so son, until root node ($d=0$) which is visited $d$ times.
+\end{itemize}
+Generally, we have $(d)b^1 + (d-1)b^2 + (d-2)b^3 + \cdots + b^d$. However, the majority of nodes are at the max depth where there are $b^d$ nodes. Those are only visited once and the extra cost of visiting shallower nodes does not significantly increase the overall count. Therefore, time complexity is bounded by $b^d$ ($\bigo{b^d}$) because $b^d$ dominates the total nodes count in a large \linkterm{search space}{tree_search}.
+
+
+\definition{Graph Search}{
+A graph search algorithm is a variant of a \linkterm{tree search algorithm}{tree_search} that prunes nodes whose state has already been considrered (duplicate pruning), essentially using a \linkterm{DAG}{dag} data strucutre.
+}{graph_search}
+
+The general structure of \linkterm{Graph Search}{graph_search} algorithms is as follows:
+
+\begin{verbatim}
+GRAPH_SEARCH(start, INSERT):
+    fringe ← empty list
+    visited ← empty set
+    append start to fringe
+    add state(start) to visited
+    while fringe is not empty:
+        node ← remove first element of fringe
+        if is_goal(node):
+            return node
+        children ← expand(node)
+        for each child in children:
+            if state(child) not in visited:
+                add state(child) to visited
+                INSERT(fringe, child)
+    return failure
+\end{verbatim}
+
+\definition{Search Alrogrithm}{
+We speak of a \textbf{search algorithm} when we do not want to distinguish whether it is a \linkterm{tree}{tree_search} or a \linkterm{graph search algorithm}{graph_search} - \textit{difference considered as an implementation detail}.
+}{search_alg}
+
+\definition{Informed}{
+A \linkterm{search algorithm}{search_alg} is called \textbf{informed}, iff it uses some form of external information to guide the search.
+}{informed}
+
+\definition{Evaluation Function}{
+An evaluation function assigns a desirability value to each node of the \linkterm{search tree}{tree_search}. It is not part of the \linkterm{search problem}{search_problem}, but must be added externally.
+}{eval_func}
+
+\definition{Best-First Search}{
+In best-first search, the fringe is a queue sorted in decreasing order of desirability.
+}{best_first_search}
+
+\definition{Heuristic}{
+A heuristic is an \linkterm{evaluation function}{eval_func} $h$ on states that estimates the \linkterm{cost}{cost_function} form $n$ to the nearest goal state. We speak of \textbf{heuristic search} if the \linkterm{search algorithm}{search_alg} uses a heuristic in some way.
+}{heuristic_search}
+
+\definition{Greedy Search}{
+A \linkterm{best-first search}{best_first_search} \linkterm{strategy}{search_strategy} where the fringe is organized as a queue sorted based on $h$ value. 
+}{greedy_search}
+
+\minititle{Greedy Search Properties}
+\begin{itemize}
+    \item Time and space complexity are both exponential in $m$ (max depth) $\leadsto \bigo{b^m}$
+    \item It is not optimal. But it is complete if the \linkterm{state space}{state_space} is finite.
+\end{itemize}
+
+\definition{Heuristic Function}{
+A heuristic funciton for \linkterm{search problem $\Pi$}{search_problem} is a \linkterm{function}{function} $\func{h}{\mathcal{S}}{\R_0^{+} \cup \{ \infty \}}$ so that $h(s) = 0 \quad \forall s \in \mathcal{G}$.
+}{heuristic_function}
+
+
+\definition{Goal Distance Function}{
+The \linkterm{function}{function} $\func{h^{*}}{\mathcal{S}}{\R_0^{+} \cup \{ \infty \}}$, where $h^{*}(s)$ is the \linkterm{cost}{path_cost} of a cheapest \linkterm{path}{path_graph} from $s$ to a goal state, or $\infty$ if no such path exists. (\textit{the perfect heuristic which we do not know and cannot compute})
+}{goal_distance_function}
+
+\definition{Admissible}{
+For a \linkterm{search problem $\Pi$}{search_problem} with states $\mathcal{S}$ and actions $\mathcal{A}$. We say that a \linkterm{heuristic}{heuristic_search} $h$ for $\Pi$ is \textbf{admissible} if
+\[
+h(s) \leq h^{*}(s) \quad \forall s \in \mathcal{S}
+\]
+}{admissible}
+
+\commandnote{
+\linkterm{Admissible}{admissible} \linkterm{heuristics}{heuristic_search} never overestimates; our guess should be always optimistic or exact, never too high 
+}
+
+\definition{Consistent}{
+For a \linkterm{search problem $\Pi$}{search_problem} with states $\mathcal{S}$ and actions $\mathcal{A}$. We say that a \linkterm{heuristic}{heuristic_search} $h$ for $\Pi$ is \textbf{consistent} if 
+\[
+h(s) - h(s') \leq c(a) \quad \forall s \in \mathcal{S}, a \in \mathcal{A}, s' \in \mathcal{T}(s,a)
+\]
+}{consistent_heuristic}
+
+\commandnote{
+A \linkterm{consistent heuristic}{consistent_heuristic} never drops faster than the real cost you pay when moving through the state space. Formally, for every transition \(s \xrightarrow{a} s'\),
+
+\[
+h(s) \le c(a) + h(s')
+\]
+
+This means the heuristic respects a triangle inequality with respect to the actual \linkterm{step costs}{cost_function}. \linkterm{Consistency}{consistent_heuristic} ensures that the estimated \linkterm{total cost}{path_cost} along a \linkterm{path}{path_graph} never decreases.
+}
+
+\definition{A* Evaluation Function}{
+Given a \linkterm{path cost}{path_cost} function $g$ and a 
+\linkterm{heuristic}{heuristic_search} $h$, the \textbf{A* evaluation function} 
+is
+\[
+f(n) \;=\; g(n) + h(n).
+\]
+It estimates the total cost of a cheapest path from the \linkterm{start state}{search_problem} 
+to a goal via $n$.
+}{astar_eval_function}
+
+\definition{A* Search}{
+A* search is the \linkterm{best-first search}{best_first_search} strategy that
+uses the \linkterm{A* evaluation function}{astar_eval_function} $f = g + h$
+to order the fringe.
+}{astar_search}
+
+\Theorem{\linkterm{A* Search}{astar_search} with \linkterm{admissible}{admissible} \linkterm{heuristic}{heuristic_search} is optimal}{thm:astar_optimal}
+
+\definition{Dominance}{
+Let $h_1$ and $h_2$ be two \linkterm{admissible}{admissible} \linkterm{heuristic}{heuristic_search}, we say that $h_2$ \textbf{dominates} $h_1$ if $h_2(s) \geq h_1(s) \quad \forall s \in \mathcal{S}$.
+}{dominance}
+
+\Theorem{If $h_2$ \linkterm{dominates}{dominance} $h_1$, then $h_2$ is better for \linkterm{search}{search_problem} than $h_1$}{thm:dominates}
+\Proof{
+If $h_2$ \linkterm{dominates}{dominance} $h_1$, then $h_2$ is closer to $h^{*}$ than $h_1$
+}
