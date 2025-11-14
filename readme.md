@@ -14,7 +14,7 @@ I upload here what I find necessary to support me or the students in the tutoria
 - 27 Oct (first session, Q&A)
 - [3 Nov](/01/)
 - [10 Nov](/02/)
-- 17 Nov
+- [17 Nov](/03/)
 - 24 Nov
 - 1 Dec
 - 8 Dec
