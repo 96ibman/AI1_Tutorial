@@ -528,37 +528,168 @@ move(N,A,B,C):-
     move(N1, C, B, A).
 
 
+%-----------------------
+% General Trees (not necessarily binary) with string labels, &
+% Tree Traversal Algorithms
+%-----------------------
 
+% istree(tree("A", [])).
+% istree(tree("A",[ tree("B", []),tree("C", []),tree("D", [])])).
+/*
+ * 
+ * istree(
+ *    tree("A",
+ *         [ tree("B",
+ *                [ tree("E", []),
+ *                  tree("F", []),
+ *                  tree("G", [])
+ *                ]),
+ *           tree("C", []),
+ *           tree("D",
+ *                [ tree("H", []),
+ *                  tree("I", [])
+ *                ])
+ *         ])
+ *  ).
+ *
+ *                A
+ *       /        |        \
+ *      B         C         D
+ *   /  |  \               | \
+ *  E   F   G             H  I
+ * 
+ * 
+ */
+
+/*
+ * istree(tree("A", [tree("B",[tree("D",[tree("E", []), tree("F", [])])]), tree("C", [])])).
+ * 
+ * 
+ *            A
+ *          /   \
+ *        B       C
+ *        |
+ *        D
+ *      /   \
+ *     E     F
+ *
+ */
+
+istree(tree(N, Children)):-
+    string(N),
+    istreelist(Children).
+
+istreelist([]).
+istreelist([H|T]):-
+    istree(H),
+    istreelist(T).
  
 
+% DFS Traversal
+% 
+%dfs/1
+dfs(T):-dfsD(T,0).
+
+%dfsD/2
+dfsD(tree(N, Children), D):-
+    write(D), write(":"), writeln(N),
+    Next is D + 1,
+    dfsAll(Children, Next).
+
+%dfsAll/2
+dfsAll([],_).
+dfsAll([H|T], D):-
+    dfsD(H,D),
+    dfsAll(T, D).
 
 
+% BFS Traversal
+% 
+%bfs/1
+bfs(T):-bfsFringe([(0,T)]).
+
+%bfsFringe/1
+bfsFringe([]).
+bfsFringe([(D, tree(N, Children)) | ToExplore]):-
+    write(D), write(":"), writeln(N),
+    Next is D + 1,
+    pair(Next, Children, NextToExplore),
+    append(ToExplore, NextToExplore, NewFringe),
+    bfsFringe(NewFringe).
+
+%pair/3
+pair(_,[],[]).
+pair(D, [H|T], [(D,H)|T2]):-
+    pair(D,T,T2).
 
 
+% Depth-Limited Search (DLS) Traversal (DFS with depth limit)
+% 
+%dls/2
+dls(T, L) :- 
+    dfsUpTo(T, 0, L).
+
+%dfsUpTo/3
+%
+% cutoff: if depth > limit, stop exploring this branch
+dfsUpTo(_, D, L) :- 
+    D > L, 
+    !.              
+
+% expand node and recurse into children
+dfsUpTo(tree(N,Children), D, L) :- 
+    write(D), write(":"), writeln(N), 
+    Next is D+1, 
+    dfsUpToAll(Children, Next, L).
+
+%dfsUpToAll/3
+% no children → nothing left to do
+dfsUpToAll([], _, _).
+
+% process each child at same depth
+dfsUpToAll([H|T], D, L) :- 
+    dfsUpTo(H, D, L),
+    dfsUpToAll(T, D, L).
 
 
+% Iterative Deepening Search (IDS) Traversal (DLS with an increasing depth)
 
+%ids/1
+ids(T) :- idsUntilDone(T, 0).
 
+%idsUntilDone/2
+idsUntilDone(T, C) :-
+    write('LIMIT = '), writeln(C),
+    dfsUpTo(T, 0, C, Done),
+    handleDone(T, C, Done).
 
+%handleDone/3
+% Done = 1 → finished
+handleDone(_, _, 1).
 
+% Done = 0 → increase limit and continue
+handleDone(T, C, 0) :-
+    C1 is C + 1,
+    idsUntilDone(T, C1).
 
+%dfsUpTo/4
+% D > L → stop exploring, not done
+dfsUpTo(_, D, L, 0) :-
+    D > L,
+    !.
 
+% explore node and children
+dfsUpTo(tree(N,Children), D, L, Done) :-
+    write(D), write(":"), writeln(N),
+    D1 is D + 1,
+    dfsUpToAll(Children, D1, L, Done).
 
+%dfsUpToAll/4
+% no children → fully explored
+dfsUpToAll([], _, _, 1).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
+% explore all children, Done is AND of all
+dfsUpToAll([H|T], D, L, Done) :-
+    dfsUpTo(H, D, L, DoneH),
+    dfsUpToAll(T, D, L, DoneT),
+    Done is DoneH * DoneT.
