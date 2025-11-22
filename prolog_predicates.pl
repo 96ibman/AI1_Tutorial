@@ -693,3 +693,107 @@ dfsUpToAll([H|T], D, L, Done) :-
     dfsUpTo(H, D, L, DoneH),
     dfsUpToAll(T, D, L, DoneT),
     Done is DoneH * DoneT.
+
+
+
+%---------------------------------------
+% MinMax Search for a simple Nim game
+%---------------------------------------
+
+% successor/2
+
+% Game state: number N of remaining matches and current player P=1 or P==1
+% if we have N mathces and current player is P
+% the next possible states are (N-1, -P), (N-2,-P), (N-3, -P)
+successor(state(N,P), NextS):-
+    N>0,
+    N2 is N-1,
+    P2 is -P,
+    NextS = state(N2, P2).
+
+successor(state(N,P), NextS):-
+    N>1,
+    N2 is N-2,
+    P2 is -P,
+    NextS = state(N2, P2).
+
+successor(state(N,P), NextS):-
+    N>2,
+    N2 is N-3,
+    P2 is -P,
+    NextS = state(N2, P2).
+
+
+
+% successors/3
+successors(S, Acc, NextSs):-
+    successor(S, NextS),
+    \+ is_member(NextS, Acc), 
+    successors(S, [NextS|Acc], NextSs),!.
+
+successors(_,Acc, Acc). 
+
+% minvalue/3
+minvalue([], BestSoFar, BestSoFar).
+
+minvalue([State|Rest], BestSoFar, Result) :-
+    value(State, ChildValue),
+    ChildValue < BestSoFar,
+    minvalue(Rest, ChildValue, Result).
+
+minvalue([State|Rest], BestSoFar, Result) :-
+    value(State, ChildValue),
+    ChildValue >= BestSoFar,
+    minvalue(Rest, BestSoFar, Result).
+
+% maxvalue/3
+maxvalue([], BestSoFar, BestSoFar).
+
+maxvalue([State|Rest], BestSoFar, Result) :-
+    value(State, ChildValue),
+    ChildValue >= BestSoFar,
+    maxvalue(Rest, ChildValue, Result).
+
+maxvalue([State|Rest], BestSoFar, Result) :-
+    value(State, ChildValue),
+    ChildValue < BestSoFar,
+    maxvalue(Rest, BestSoFar, Result).
+
+% value/2
+value(State, Value) :-
+    State = state(_, Player),
+    Player = 1,                           
+    successors(State, [], ChildStates),
+    maxvalue(ChildStates, -1, Value).
+
+value(State, Value) :-
+    State = state(_, Player),
+    Player = -1,                          
+    successors(State, [], ChildStates),
+    minvalue(ChildStates, 1, Value).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
