@@ -302,5 +302,139 @@ Let $h_1$ and $h_2$ be two \linkterm{admissible}{admissible} \linkterm{heuristic
 
 \Theorem{If $h_2$ \linkterm{dominates}{dominance} $h_1$, then $h_2$ is better for \linkterm{search}{search_problem} than $h_1$}{thm:dominates}
 \Proof{
-If $h_2$ \linkterm{dominates}{dominance} $h_1$, then $h_2$ is closer to $h^{*}$ than $h_1$
+If $h_2$ \linkterm{dominates}{dominance} $h_1$, then $h_2$ is closer to \linkterm{$h^{*}$}{goal_distance_function} than $h_1$
 }
+
+\definition{Adversarial Search}{
+An adversarial search problem is a \linkterm{search problem}{search_problem} $\tuple{\mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{I}, \mathcal{G}}$, where:
+\begin{itemize}
+    \item $\mathcal{S} = \mathcal{S}^{\text{Max}} \biguplus \mathcal{S}^{\text{Min}} \biguplus  \mathcal{G} $
+    \item $\mathcal{A} = \mathcal{A}^{\text{Max}} \biguplus \mathcal{A}^{\text{Min}}$
+    \item For $a \in \mathcal{A}^{\text{Max}}$, if $s \xrightarrow{\mathit{a}} s'$, then $s \in \mathcal{S}^{\text{Max}}$ and $s' \in (\mathcal{S}^{\text{Min}} \cup  \mathcal{G})$
+    \item For $a \in \mathcal{A}^{\text{Min}}$, if $s \xrightarrow{\mathit{a}} s'$, then $s \in \mathcal{S}^{\text{Min}}$ and $s' \in (\mathcal{S}^{\text{Max}} \cup  \mathcal{G})$
+\end{itemize}
+together with a \textbf{game utility function} $\func{u}{\mathcal{G}}{\R}$
+}{adversarial_search_problem}
+
+\definition{Strategy}{
+Let $\Theta$ be an \linkterm{adversarial search problem}{adversarial_search_problem}, and let $X \in \set{\text{Max}, \text{Min}}$. A \textbf{strategy} for $X$ is a \linkterm{function}{function} $\func{\sigma^X}{\mathcal{S}^X}{\mathcal{A}^X}$ so that $a \in \mathcal{A}^X$ is \linkterm{applicable}{action_application} to $s \in \mathcal{S}^X$ whenever $\sigma^X(s) = a$.
+}{strategy_adversarial}
+
+\definition{Optimal Strategy}{
+A \linkterm{strategy}{strategy_adversarial} is called \textbf{optimal} if it yields the best possible \linkterm{utility}{adversarial_search_problem} for $X$ assuming perfect opponent play.
+}{optimal_strategy}
+
+\commandnote{
+Assumptions for Adversarial Games:
+\begin{itemize}
+    \item Two players acting in strictly alternating turns
+    \item Fully observable and deterministic game states
+    \item Finite state space so the game tree is finite
+    \item Terminal states have a real-valued utility
+    \item The game is zero-sum: Max maximizes the utility, Min minimizes the same utility
+\end{itemize}
+}
+
+
+\definition{Minimax}{
+Let $\Theta$ be an \linkterm{adversarial search problem}{adversarial_search_problem} with \linkterm{utility function}{adversarial_search_problem} $u:\mathcal{G}\to\mathbb{R}$.  
+The \textbf{minimax value} is the \linkterm{function}{function} $\hat u:\mathcal{S}\to\mathbb{R}$ defined by:
+
+\[
+\hat u(s)=
+\begin{cases}
+u(s) & \text{if } s\in\mathcal{G},\\[6pt]
+\max\limits_{s'\in \mathcal{T}(a,s)} \hat u(s') & \text{if } s\in\mathcal{S}^{\mathrm{Max}},\\[8pt]
+\min\limits_{s'\in \mathcal{T}(a,s)} \hat u(s') & \text{if } s\in\mathcal{S}^{\mathrm{Min}},
+\end{cases}
+\]
+where $a$ ranges over all actions \linkterm{applicable}{action_application} to $s$. The \textbf{minimax decision} at a root state $r$ is any action whose \linkterm{successor state}{successor_func_state} achieves $\hat u(r)$.
+}{minimax}
+
+\definition{Minimax Algorithm}{
+The minimax algorithm is given by the following recursive function whose arguments are a node (state) and whether it is Max's turn or Min's.
+}{minimax_alg}
+
+\begin{verbatim}
+function MINIMAX(node, maximizing):
+    if TERMINAL(node):
+        return UTILITY(node)
+
+    if maximizing:
+        best = -infinity
+        for each child in SUCCESSORS(node):
+            val = MINIMAX(child, false)
+            if val > best:
+                best = val
+        return best
+
+    else:
+        best = +infinity
+        for each child in SUCCESSORS(node):
+            val = MINIMAX(child, true)
+            if val < best:
+                best = val
+        return best
+\end{verbatim}
+
+\definition{Evaluation Function}{
+In practice, full-depth \linkterm{minimax}{minimax_alg} is infeasible because the \linkterm{search tree}{tree_search} is too large.  
+We therefore impose a fixed \textit{depth limit / horizon} $d$ and stop the search at all states $\{\,s \in \mathcal{S} \mid \mathrm{dp}(s) = d\,\}$, called \textit{cut-off states}.  
+An evaluation function is a \linkterm{function}{function} $f:\mathcal{S}\to\mathbb{R}$ that assigns a numerical estimate of the true \linkterm{minimax value}{minimax} $\hat u(s)$ to any nonterminal cut-off state $s$. If a cut-off state is terminal, its utility $u(s)$ is used instead of $f(s)$.
+}{eval_func_minimax}
+
+
+\definition{Alpha Value}{
+For each node $n$ in a \linkterm{minimax}{minimax_alg} \linkterm{search tree}{tree_search}, the alpha value $\alpha(n)$ is the highest Max-node utility that search has encountered on its \linkterm{path}{path_graph} from the \linkterm{root}{tree} to $n$.
+}{alpha_value}
+
+\definition{Beta Value}{
+For each node $n$ in a \linkterm{minimax}{minimax_alg} \linkterm{search tree}{tree_search}, the beta value $\beta(n)$ is the highest Min-node utility that search has encountered on its \linkterm{path}{path_graph} from the \linkterm{root}{tree} to $n$.
+}{beta_value}
+
+
+\definition{Alpha-Beta Pruning}{
+Alpha-beta pruning is a variant of \linkterm{minimax}{minimax_alg} that avoids exploring branches that cannot change the \linkterm{minimax value}{minimax}.
+\begin{itemize}
+    \item At a Max-node $n$, if a successor $s$ is found with utility $\hat u(s) \ge \beta(n)$, then no remaining successors of $n$ can affect its value and they are pruned.
+    \item At a Min-node $n$, if a successor $s$ is found with utility $\hat u(s) \le \alpha(n)$, then no remaining successors of $n$ can affect its value and they are pruned.
+\end{itemize}
+The algorithm returns the same \linkterm{minimax value}{minimax} as full search while expanding fewer nodes.
+}{alpha_beta_pruning}
+
+\begin{verbatim}
+function ALPHABETA(node, alpha, beta, maximizing):
+    if TERMINAL(node):
+        return UTILITY(node)
+
+    if maximizing:
+        best = -infinity
+        for each child in SUCCESSORS(node):
+            val = ALPHABETA(child, alpha, beta, false)
+            if val > best:
+                best = val
+            if best > alpha:
+                alpha = best
+            if beta <= alpha:
+                break
+        return best
+
+    else:
+        best = +infinity
+        for each child in SUCCESSORS(node):
+            val = ALPHABETA(child, alpha, beta, true)
+            if val < best:
+                best = val
+            if best < beta:
+                beta = best
+            if beta <= alpha:
+                break
+        return best
+\end{verbatim}
+
+
+
+
+
+
+
