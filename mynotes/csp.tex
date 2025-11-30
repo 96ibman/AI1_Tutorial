@@ -1,0 +1,444 @@
+\labeledsection{Constraint Satisfaction Problems}{sec:csp}
+\definition{Constraint Satisfaction Problem (CSP)}{
+A triple $\gamma := \tuple{V,D,C}$ where 
+\begin{itemize}
+    \item $V$ is a \linkterm{finite}{set_cardinality} \linkterm{set}{def:set} of variables,
+    \item $D$ is an $V$-\linkterm{indexed family}{indexed_family} of domains: $(D_v)_{v \in V}$
+    \item $C$ is the \linkterm{set}{def:set} of constraints. For a \linkterm{subset}{subset} $\set{v_1, \cdots, v_k} \subseteq V$, a constraint $C_{\set{v_1, \cdots, v_k}} \subset D_{v_1} \times \cdots \times D_{v_k}$
+\end{itemize}
+}{csp}
+
+\definition{Variable Assignment}{
+We call a \linkterm{partial function}{partial_function}: 
+\[
+\pfunc{\varphi}{V}{\bigcup_{v \in V}D_v}
+\]
+a \textbf{variable assignment} if $\varphi(v) \in D_v \quad \forall v \in \text{dom}(\varphi)$
+}{var_ass_csp}
+
+\definition{Satisfying Assignment}{
+a \linkterm{variable assignment}{var_ass_csp} $\varphi$ \textbf{satisfies} a constraint $C_{\set{v_1, \cdots, v_k}}$ iff $(\varphi(v_1), \cdots, \varphi(v_k)) \in C_{\set{v_1, \cdots, v_k}}$.
+}{satisfying_csp}
+
+\definition{Consistent Assignment}{
+a \linkterm{variable assignment}{var_ass_csp} $\varphi$ is called \textbf{consistent} iff it \linkterm{satisfies}{satisfying_csp} all constraints in $C$.
+}{consistent_csp}
+
+\definition{Legal Assignment}{
+A value $d \in D_v$ is called \textbf{legal} for a variable $v \in V$ iff $v \mapsto d$ is a \linkterm{consistent assignemnt}{consistent_csp}; otherwise, \textbf{illegal}.
+}{legal_csp}
+
+\definition{Conflicted}{
+A variable with an \linkterm{illegal value}{legal_csp} under \linkterm{assignment}{var_ass_csp} $\varphi$ is called \textbf{conflicted}.
+}{conflicted_variable_csp}
+
+\definition{CSP Solution}{
+A \linkterm{variable assignment}{var_ass_csp} that is \linkterm{total}{total_relation} (i.e. \linkterm{function}{function}) and \linkterm{consistent}{consistent_csp} is a \textbf{solution} for the \linkterm{CSP}{csp}.
+}{csp_solution}
+
+\definition{Satisfiable}{
+A \linkterm{CSP}{csp} $\gamma$ is called \textbf{satisfiable} iff it has a \linkterm{solution}{csp_solution} (a \linkterm{total}{total_relation} \linkterm{variable assignemnt}{var_ass_csp} $\varphi$ that \linkterm{satisfies}{satisfying_csp} all constraints).
+}{satisfiable_csp}
+
+\definition{Discrete}{
+We call a \linkterm{CSP}{csp} \textbf{discrete} iff all of the variables have \linkterm{countable}{countable} \linkterm{domains}{domain_codomain}; otherwise, \textbf{continuous}.
+}{discrete_csp}
+
+\definition{Boolean CSP}{
+A \linkterm{discrete}{discrete_csp} \linkterm{CSP}{csp} is called \textbf{boolean} iff $\abs{D_v} = 2 \quad \forall v \in V$.
+}{boolean_csp}
+
+\commandnote{
+\linkterm{Discrete CSPs}{discrete_csp} with \linkterm{domain}{domain_codomain} \linkterm{size}{setsize} $d$ and $n$ variables has a \linkterm{search space}{state_space} of size $d^n$, so a naive solve (brute-force) is worst case $\bigo{d^n}$. In general, deciding solvability of a \linkterm{finite}{set_cardinality}-\linkterm{domain}{domain_codomain} \linkterm{CSP}{csp} is NP-complete.
+}
+
+\definition{Constraint Order (Arity)}{
+Let $\gamma = \tuple{V,D,C}$ be a \linkterm{CSP}{csp}.
+For a constraint
+\[
+C_{\{v_1,\ldots,v_k\}} \subseteq D_{v_1} \times \cdots \times D_{v_k},
+\]
+its \textbf{order} (or \textit{arity}) is
+\[
+\operatorname{ord}\!\left(C_{\{v_1,\ldots,v_k\}}\right) := k.
+\]
+The order of $\gamma$ is
+\[
+\max_{C_{\{v_1,\ldots,v_k\}} \in C} k.
+\]
+A constraint of order $1$ is \textit{unary}, order $2$ is \textit{binary}, and any constraint with order $>2$ is \textit{higher order}.
+}{constraint_order}
+
+\definition{Binary}{
+A \textbf{binary CSP} is a \linkterm{CSP}{csp} where each constraint is \linkterm{unary}{constraint_order} or \linkterm{binary}{constraint_order}.
+}{binary_csp}
+
+\definition{Constraint Graph}{
+A \linkterm{binary CSP}{binary_csp} forms a \linkterm{graph}{undirected_graph} called the \textbf{constraint graph} whose nodes are variables, and whose edges represent the constraints.
+}{constraint_graph}
+
+\definition{Constraint Network}{
+A constraint network is a \linkterm{CSP}{csp} $\gamma := \tuple{V,D,C}$ of \linkterm{order}{constraint_order} $2$, hence, we write a \linkterm{unary constraint}{constraint_order} as $C_v$ (representing $C_{\set{v}}$) and a \linkterm{binary constraint}{constraint_order} as $C_{uv}$ (representing $C_{\set{u,v}}$). Note that $C_{uv} = C_{vu}$.
+}{constraint_network}
+
+\commandnote{
+The \linkterm{constraint graph}{constraint_graph} where all constraints are \linkterm{binary}{constraint_order} is the \linkterm{undirected graph}{undirected_graph}:
+\[
+\tuple{V,\set{(u,v) \in V^2 \mid C_{uv} \neq D_u \times D_v}}
+\]
+}
+
+\minititle{CSP as Search}
+We can induce a \linkterm{search problem}{search_problem} $\Pi_{\gamma} := \tuple{\mathcal{S}_{\gamma}, \mathcal{A}_{\gamma}, \mathcal{T}_{\gamma}, \mathcal{I}_{\gamma}, \mathcal{G}_{\gamma}}$ from the \linkterm{constraint network}{constraint_network} $\gamma := \tuple{V,D,C}$. 
+
+We define the \linkterm{set}{def:set} of states $\mathcal{S}_{\gamma}$ as the \linkterm{set}{def:set} of all \linkterm{partial}{partial_function} \linkterm{assignments}{var_ass_csp}:
+\[
+\mathcal{S}_{\gamma} := \set{\pfunc{\varphi}{V}{\bigcup_{v \in V}D_v} \mid \varphi(v) \in D_v \quad \forall v \in \text{dom}(\varphi)}
+\]
+
+We define goal states $\mathcal{G}_{\gamma}$ as the \linkterm{set}{def:set} of \linkterm{total}{total_relation} and \linkterm{consistent}{consistent_csp} \linkterm{assignments}{var_ass_csp}
+
+\[
+\mathcal{G}_{\gamma} := \set{\func{\varphi}{V}{\bigcup_{v \in V}D_v} \mid \left(\varphi(v) \in D_v \quad \land \quad (\varphi(u), \varphi(v)) \in C_{uv}\right) \quad \forall u,v \in V}
+\]
+
+The initial state is when we have no \linkterm{assignments}{var_ass_csp}: 
+\[
+\mathcal{I}_{\gamma} := \set{\pfunc{\varphi}{V}{\bigcup_{v \in V}D_v} \mid \text{dom}(\varphi) = \emptyset}
+\]
+
+Actions represent \linkterm{assignments}{var_ass_csp} as pairs:
+\[
+\mathcal{A}_{\gamma} := \set{(v, d) \mid v \in V \land d \in D_v}
+\]
+
+Transition model, given a current state $s$ and an action $a=(v,d)$ gives us the successor state $s'$.
+\[
+\func{\mathcal{T}_{\gamma}}{\cartprod{\mathcal{A}_{\gamma}, \mathcal{S}_{\gamma}}}{\powerset{\mathcal{\mathcal{S}_{\gamma}}}}
+\]
+
+Concretely: $\mathcal{T}_{\gamma}((v,d), s) := \{\, s' \,\}$ where $s'$ is the successor state (we are updating the \linkterm{variable assignment}{var_ass_csp}) which will evaluate as follows:
+\[
+s'(w) :=
+\begin{cases}
+    d, & \text{if } w = v \\
+    s(w), & \text{if } w \in \operatorname{dom}(s) \text{ and } w \neq v
+\end{cases}
+\quad\text{and}\quad
+\operatorname{dom}(s') := \operatorname{dom}(s) \cup \{v\}.
+\]
+
+\newpage
+\definition{Backtracking Search}{
+Backtracking search is the basic uninformed algorithm for solving \linkterm{CSPs}{csp}. It is \linkterm{DFS}{dfs} with two improvements, namely:
+\begin{enumerate}
+\item One variable at a time
+\begin{itemize}
+    \item \linkterm{variable assignments}{var_ass_csp} are commutative, fixing the order saves us time!
+    \item i.e. starting from \texttt{state(WA=red)} $\to$ \texttt{state(WA=red, NT=green)} is the same as starting from \texttt{state(NT=green)} $\to$ \texttt{state(NT=green, WA=red)} \footnote{I am referring to the known Australia map example mentioned in the lecture notes}
+    \item We only need to consider \linkterm{assignments}{var_ass_csp} to a single variable at each step
+\end{itemize}
+\item Check constraints as you go
+\begin{itemize}
+    \item Consider only values which do not conflict previous \linkterm{assignments}{var_ass_csp}
+    \item That is not a goal test! We can think about it as incremental goal test.
+\end{itemize}
+\end{enumerate}
+The pseudocode for backtracking search is shown in \Algref{alg:backtracking}
+}{backtracking_search_csp}
+
+\begin{algorithm}[H]
+\caption{Backtracking Search}
+\label{alg:backtracking}
+\begin{algorithmic}[1]
+
+\Function{BACKTRACKING-SEARCH}{csp}
+    \State \Return \Call{RECURSIVE-BACKTRACKING}{\{\}, csp}
+\EndFunction
+
+\Function{RECURSIVE-BACKTRACKING}{assignment, csp}
+    \If{assignment is complete}
+        \State \Return assignment
+    \EndIf
+
+    \State var ← \Call{SELECT-UNASSIGNED-VARIABLE}{Variables[csp], assignment, csp}
+
+    \For{each value in \Call{ORDER-DOMAIN-VALUES}{var, assignment, csp}}
+        \If{value is consistent with assignment given Constraints[csp]}
+            \State add \{var = value\} to assignment
+            \State result ← \Call{RECURSIVE-BACKTRACKING}{assignment, csp}
+
+            \If{result $\neq$ failure}
+                \State \Return result
+            \EndIf
+
+            \State remove \{var = value\} from assignment
+        \EndIf
+    \EndFor
+
+    \State \Return failure
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+\commandnote{
+Note that the exact behaviors of the function: \texttt{SELECT-UNASSIGNED-VARIABLE} and \texttt{ORDER-DOMAIN-VALUES} are not specified yet
+}
+
+\definition{Forward Checking}{
+Forward checking is a filtering (inference) technique that improves the general uninformed \linkterm{backtracking seach}{backtracking_search_csp}. It propagates information about illegal values. Whenever a variable $v \in V$ is assigned by $d \in D_v$ ($\varphi(v)=d$), we delete all values that are \linkterm{inconsistent}{consistent_csp} with $\varphi(v)$ from every $D_u$ for all variables $u$ connected with $v$ by a constraint.
+}{forward_checking}
+
+\commandnote{
+The idea is to keep track of \linkterm{domains}{domain_codomain} for unassigned variables and cross off bad options. In \linkterm{forward checking}{forward_checking} we cross off values that violate a constraint when added to the existing assignment (look ahead).
+}
+
+\linkterm{forward checking}{forward_checking} propagates information from assigned to unassigned variables, but doesn't provide early detection for all failures. For example, (remember Australia map):
+\begin{itemize}
+    \item Assume we chose to assign \texttt{WA=Red}
+    \item Because \texttt{NT, SA} are neighbors, we remove \texttt{Red} from their domains
+    \item Assume we pick next \texttt{Q=Green}
+    \item Because \texttt{NT, SA, NSW} are neighbors, we remove \texttt{Green} from their domains
+    \item At this point, forward checking thinks we are in good shape, but we are already doomed! \textit{why?} Because \texttt{NT, SA} are neighbors and they both are left with only \texttt{Blue} in their domains! 
+    \item Assuming, next we choose \texttt{V=Green}, we cross off \texttt{Green} from \texttt{NSW, SA}, now \texttt{SA} is left with no colors, only then, we know we failed, so we backtrack.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/FC.png}
+\end{figure}
+
+\definition{Arc Consistency}{
+Let $\gamma := \tuple{V,D,C}$ be a \linkterm{constraint network}{constraint_network}, a variable $u \in V$ is \textbf{arc consistent} relative to another variable $v \in V$ if either $C_{uv} \notin C$, or for every value $d \in D_u$ there exist a value $d' \in D_v$ such that $(d, d') \in C_{uv}$. The \linkterm{constraint network}{constraint_network} $\gamma$ is \textbf{arc consistent} if every variable $u \in V$ is \textbf{arc consistent} relative to every other variable $v \in V$.
+}{arc_consistency}
+
+\commandnote{
+Note that when we are checking some arc $x \to y$ and find it inconsistent, we remove values from $D_x$ to make it consistent. When doing so, we need to check every other arc $z \to x$ (where the \textit{tail} of the arc we checked is the \textit{head} of other arcs) even if it was checked before (because now we have fewer options, it is not necessarily consistent anymore!)
+}
+
+Example:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/ac1.png}
+\end{figure}
+\begin{itemize}
+    \item Checking \texttt{NT -> WA} $\leadsto$ removing \texttt{Red} from the domain of \texttt{NT} 
+    \item Checking \texttt{SA -> WA} $\leadsto$ removing \texttt{Red} from the domain of \texttt{SA} 
+    \item All arcs are consistent now
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/ac2.png}
+\end{figure}
+Assume we pick next \texttt{Q=Green}, and therefore remove \texttt{Green} from \texttt{NT, NSW, SA}:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/ac3.png}
+\end{figure}
+\begin{itemize}
+    \item Looking at \texttt{V -> NSW} $\leadsto$ consistent
+    \item Looking at \texttt{SA -> NSW} $\leadsto$ consistent
+    \item Looking at \texttt{NSW -> SA} $\leadsto$ not consistent! If we choose \texttt{NSW = Blue}, nothing I can choose in \texttt{SA} that would not violate the constraint! 
+    \item We make \texttt{NSW -> SA} consistent by removing \texttt{Blue} from the domain of \texttt{NSW}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/ac4.png}
+\end{figure}
+
+\begin{itemize}
+    \item Now, we check again the arc where \texttt{NSW} was the head.
+    \item Looking at \texttt{V -> NSW} $\leadsto$ not consistent
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/ac5.png}
+\end{figure}
+
+\begin{itemize}
+    \item Looking at \texttt{SA -> NSW} $\leadsto$ consistent
+    \item Continue checking arcs. Assume looking at \texttt{SA -> NT} $\leadsto$ not consistent
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/ac6.png}
+\end{figure}
+
+\begin{itemize}
+    \item Now \texttt{SA} domain is empty, we know we failed, so we backtrack!
+    \item Notice that we detect failure earlier than forward checking!
+\end{itemize}
+
+The pseudocode for the arc consistency algorithm (called \texttt{AC-3}) is shown in \Algref{alg:ac3}
+
+\begin{algorithm}[H]
+\caption{AC-3}
+\label{alg:ac3}
+\begin{algorithmic}[1]
+
+\Function{AC-3}{csp}
+    \State inputs: csp, a binary CSP with variables $\{X_1, X_2, \dots, X_n\}$
+    \State local variables: \textit{queue}, a queue of arcs, initially all the arcs in \textit{csp}
+
+    \While{queue is not empty}
+        \State $(X_i, X_j) \gets$ \Call{Remove-First}{queue}
+        \If{\Call{Remove-Inconsistent-Values}{($X_i, X_j$)}}
+            \For{each $X_k$ in Neighbors[$X_i$]}
+                \State add $(X_k, X_i)$ to queue
+            \EndFor
+        \EndIf
+    \EndWhile
+
+    \State \Return csp
+\EndFunction
+
+
+\Function{Remove-Inconsistent-Values}{($X_i, X_j$)}
+    \State removed $\gets$ false
+
+    \For{each $x$ in Domain[$X_i$]}
+        \If{no value $y$ in Domain[$X_j$] allows $(x, y)$ to satisfy the constraint $X_i \leftrightarrow X_j$}
+            \State delete $x$ from Domain[$X_i$]
+            \State removed $\gets$ true
+        \EndIf
+    \EndFor
+
+    \State \Return removed
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{itemize}
+\item In the worst case, we have a fully connected \linkterm{constraint network}{constraint_network} of $n$ variables, hence we will have a total of $n (n-1)$ arcs.
+\item For one arc $x \to y$, if the number of values each variable can take is $d$, to make this arc consistent, we have one variable that has $d$ possibilities (\textit{the tail}) and the \textit{head} too (another $d$ possibilities), and we want to make sure for everything in the \textit{tail} there is some value in the \textit{head} that we can assign. That requires $d \cdot d$ checks in the worst case $=d^2$. 
+\item Moreover, it is not enough to check each arc once. We \texttt{enqueue} an already \texttt{dequeued} arc whenever we eliminate a value from the domain of the arc's \textit{head}. In the worst case, we might eliminate all the values of a variable, i.e. we put an arc back $d$ times.
+\item Therefore, the total run time for \texttt{AC-3} is $\bigo{(n (n-1)) \cdot d^2 \cdot d} = \bigo{n^2 d^3}$
+\end{itemize}
+
+\commandnote{
+Notice that the run time $\approx$ polynomial and yet detecting all possible future problems is NP-Hard because of backtracking. Arc consistency does not guarantee finding a solution. After enforcing arc consistency, we might have:
+\begin{itemize}
+    \item one solution left 
+    \item multiple solutions left
+    \item no solutions left (and not know it!)
+\end{itemize}
+Moreover, the algorithm still runs inside \linkterm{backtracking search}{backtracking_search_csp}.
+
+\begin{figure}[H]
+    \includegraphics[width=0.1\linewidth]{images/ac7.png}
+\end{figure}
+}
+
+
+\definition{Minimum Remaining Values}{
+The \textbf{MRV} \linkterm{heuristic}{heuristic_search} for 
+\linkterm{backtracking search}{backtracking_search_csp} (\textit{a.k.a Most Constrained Variable First}) 
+selects the unassigned variable with the fewest 
+\linkterm{legal values}{legal_csp} given the current partial 
+\linkterm{assignment}{var_ass_csp} $\varphi$. Formally, it chooses 
+the variable $v$ that minimizes $
+\bigl|\{\,d \in D_v \mid \varphi \cup \{v \mapsto d\} 
+\text{ is consistent}\,\}\bigr|.$
+}{mrv_csp}
+
+\commandnote{
+\linkterm{MRV}{mrv_csp} $\mapsto$ we want to fail early! Hence, \linkterm{MRV}{mrv_csp} ordering is also called fail-fast ordering.
+}
+
+\definition{Least Constraining Value}{
+Given a variable $v$, the LCV \linkterm{heuristic}{heuristic_search} chooses the least constraining value for $v$, i.e. the one that rules out the fewest values in the remaining variables. For the current \linkterm{partial}{partial_function} \linkterm{assignment}{var_ass_csp} $\varphi$ and a chosen variable $v$, we pick a value $d \in D_v$ that minimizes $\abs{d' \in D_u \mid u \notin \text{dom}(\varphi), C_{uv} \in C, \text{ and } (d', d) \notin C_{uv}}$
+}{lcv_csp}
+
+\definition{Independent Subproblems}{
+Assume we have independent connected components of a 
+\linkterm{constraint graph}{constraint_graph}. We treat each component as a separate CSP 
+since it has no constraints outside its variables.
+
+Remember, a naive solver (brute-force) solves a 
+\linkterm{discrete CSPs}{discrete_csp} with \linkterm{domain}{domain_codomain} 
+\linkterm{size}{setsize} $d$ and $n$ variables in $\bigo{d^n}$ (exponential in $n$). 
+If that same problem has independent subproblems each with $c$ variables, then we have 
+$\frac{n}{c}$ subproblems where each one in the worst case is $\bigo{d^c}$. 
+So the total time will be $\bigo{\frac{n}{c} d^c}$, that is, linear in $n$ 
+and exponential in $c$. That is very fast for small $c$.
+}{independent_subproblems_csp}
+
+\definition{Decomposition}{
+The process of decomposing a \linkterm{constraint network}{constraint_network} into \linkterm{components}{independent_subproblems_csp}.
+}{decomposition_csp}
+
+\definition{Tree-Structured CSP}{
+We call a \linkterm{CSP}{csp} \textbf{tree-structured} iff its \linkterm{constraint graph}{constraint_graph} is \linkterm{acyclic}{cyclic_graphs}.
+}{tree_strucutred_csp}
+
+\Theorem{A \linkterm{Tree-Structured CSP}{tree_strucutred_csp} can be solved in $\bigo{nd^2}$}{thm:tree_structured}
+
+To solve a \linkterm{Tree-Structured CSP}{tree_strucutred_csp}, we choose a variable as \linkterm{root}{tree} and order the variables from \linkterm{root}{tree} to \linkterm{leaves}{tree} such that every node's parent precedes it in the ordering:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/tree_structured_csp.png}
+\end{figure}
+\begin{itemize}
+    \item Backward pass: For $i = n$ and down to $2$, apply $\texttt{Remove-Inconsistent-Values}((\texttt{Parent}(X_i),X_i))$
+    \item Forward pass: For $i = 1$ and up to $n$, \linkterm{assign}{var_ass_csp} $X_i$ \linkterm{consistently}{consistent_csp} with $\texttt{Parent}(X_i)$
+\end{itemize}
+
+For example, consider the following domains:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/tree_structured_ex1.png}
+\end{figure}
+
+\minititle{Backward Pass:}
+\begin{itemize}
+\item Start with $F$, checking $D \to F \leadsto$ not consistent:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/tree_structured_ex2.png}
+\end{figure}
+\item Next is $E$, checking $D \to E \leadsto$ consistent.
+\item Next is $D$, checking $B \to D \leadsto$ consistent.
+\item Next is $C$, checking $B \to C \leadsto$ not consistent:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/tree_structured_ex3.png}
+\end{figure}
+\item Next is $B$, checking $A \to B \leadsto$ not consistent:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/tree_structured_ex4.png}
+\end{figure}
+\end{itemize}
+
+\minititle{Forward Pass:}
+$\varphi(A) = \texttt{Red}$, $\varphi(B) = \texttt{Blue}$, $\varphi(C) = \texttt{Green}$, $\varphi(D) = \texttt{Green}$, $\varphi(E) = \texttt{Blue}$, $\varphi(F) = \texttt{Blue}$
+
+\commandnote{
+After the backward pass on a \linkterm{tree-structured CSP}{tree_strucutred_csp}, every root-to-leaf arc becomes \linkterm{consistent}{arc_consistency}, and no arc ever needs to be enqueued again. The key reason is the direction in which consistency is enforced. Starting from the leaves and moving upward, each arc $x \to y$ is processed only after all of $x$’s children have been handled. When enforcing consistency on $x \to y$, we only remove values from the domain of the tail $x$. Since all arcs of the form $v \to x$ were already processed earlier, there will be no later step that removes values from the head $y$ of any previously processed arc. In contrast to general AC algorithms, where pruning the head forces re-checking incoming arcs, the tree structure guarantees that once an arc's head has been finalized, it is never modified again. This is why no arc needs to be re-enqueued: domain reductions always flow upward toward the root, never back down.
+}
+
+\commandnote{
+If root-to-leaf arcs are \linkterm{consistent}{arc_consistency}, the forward pass will not backtrack and will go straight to the solution!
+}
+
+\definition{Conditioning}{
+Instantiate a variable, prune its neighbors' \linkterm{domains}{domain_codomain}
+}{conditioning_csp}
+
+\definition{Cutset conditioning}{
+Instantiate in all ways a set of variables such that the remaining \linkterm{constraint graph}{constraint_graph} is a \linkterm{tree}{tree}.
+}{cutset_conditioning}
+
+\commandnote{
+A cutset of size $c$ gives runtime $\bigo{d^c (n-c) d^2}$:
+\begin{itemize}
+    \item Because we are left with a tree of size $n-c$, we have $\bigo{(n-c)d^2}$
+    \item Because we have to look at all possible \linkterm{assignments}{var_ass_csp} of the cutset, we have $\bigo{d^c}$
+\end{itemize}
+and that is very fast for small $c$!
+}
