@@ -1,0 +1,13 @@
+# 6<sup>th</sup> Tutorial Session
+- Date: 08 Dec 2025
+- You can find the provided assignment sheet in `sheet06.pdf`
+- You can find the provided master solution in `solution06.pdf`
+- Helpful YT 
+    - [Propositional Logic - Stanford (2019)](https://www.youtube.com/watch?v=xL0kNw5TudI&list=PLoROMvodv4rO1NB9TD4iUZ3qghGEGtqNX&index=17)
+    - Propositional Logic - Stanford (2021):
+        - [Overview](https://www.youtube.com/watch?v=oM5LUGPO7Zk&list=PLh7QmcIRQB-uiOS4GMlBbq0jkvtqhqtq0&index=1)
+        - [Syntax](https://www.youtube.com/watch?v=LBjNaewGJzk&list=PLh7QmcIRQB-uiOS4GMlBbq0jkvtqhqtq0&index=2)
+        - [Semantics](https://www.youtube.com/watch?v=N37yIn1jX98&list=PLh7QmcIRQB-uiOS4GMlBbq0jkvtqhqtq0&index=3)
+        - [Inference Rules](https://www.youtube.com/watch?v=RIk67yGMVv4&list=PLh7QmcIRQB-uiOS4GMlBbq0jkvtqhqtq0&index=4)
+        - [Modus Ponens](https://www.youtube.com/watch?v=6bj4z2mt1KE&list=PLh7QmcIRQB-uiOS4GMlBbq0jkvtqhqtq0&index=5)
+        - [Propositional Resolutions](https://www.youtube.com/watch?v=egLAF4dFdBo&list=PLh7QmcIRQB-uiOS4GMlBbq0jkvtqhqtq0&index=6)

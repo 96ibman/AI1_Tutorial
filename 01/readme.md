@@ -1,4 +1,4 @@
-# First Tutorial Session
+# 1<sup>st</sup> Tutorial Session
 - Date: 03 Nov 2025
 - You can find the provided assignment sheet in `sheet01.pdf`
 - You can find the provided master solution in `solution01.pdf`

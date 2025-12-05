@@ -1,4 +1,4 @@
-# Third Tutorial Session
+# 3<sup>rd</sup> Tutorial Session
 - Date: 17 Nov 2025
 - You can find the provided assignment sheet in `sheet03.pdf`
 - You can find the provided master solution in `solution03.pdf`

@@ -1,4 +1,4 @@
-# Fifth Tutorial Session
+# 5<sup>th</sup> Tutorial Session
 - Date: 01 Dec 2025
 - You can find the provided assignment sheet in `sheet05.pdf`
 - You can find the provided master solution in `solution05.pdf`
