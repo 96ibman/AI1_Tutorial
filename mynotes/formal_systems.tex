@@ -1,0 +1,112 @@
+\labeledsection{Formal Systems}{sec:formal_systems}
+\definition{Logical System}{
+A \textbf{logical system} (or simply a \textbf{logic}) is a triple $\mathcal{S}:=\tuple{\mathcal{L},\mathcal{M},\vDash}$, where
+\begin{itemize}
+    \item $\mathcal{L}$ is a \linkterm{set}{def:set} of \linkterm{propositions}{proposition}
+    \item $\mathcal{M}$ is a \linkterm{set}{def:set} of \textbf{models}, 
+    \item $\vDash$ is a \linkterm{relation}{relation} $\vDash \subseteq \mathcal{M} \times \mathcal{L}$ called the \textbf{satisfaction relation}. We read $\mathcal{M} \vDash A$ as $\mathcal{M}$ \textbf{satisfies} $A$ and correspondingly $\mathcal{M} \nvDash A$ as $\mathcal{M}$ \textbf{falsifies} $A$
+\end{itemize}
+}{logical_system}
+
+
+Let $\tuple{\mathcal{L},\mathcal{M},\vDash}$ be a \linkterm{logical system}{logical_system}, $M \in \mathcal{M}$ a model and $A \in \mathcal{L}$ a proposition. Then we say that $A$ is
+\begin{itemize}
+\item \refterm{satisfied}{satisfied_ls} by $M$ iff $M \vDash A$
+\item \refterm{satisfiable}{satisfiable_ls} iff $A$ is \linkterm{satisfied}{satisfied_ls} by some model
+\item \refterm{unsatisfiable}{unsatisfiable_ls} iff $A$ is not \linkterm{satisfiable}{satisfiable_ls}
+\item \refterm{falsified}{falsified_ls} by $M$ iff $M \nvDash A$
+\item \refterm{valid}{valid_ls} or \textbf{unfalsifiable} (write $\vDash A$) iff $A$ is \linkterm{satisfied}{satisfied_ls} by \textbf{every} model $M \in \mathcal{M}$
+\item \refterm{invalid}{invalid_ls} or \textbf{falsifiable} (write $\nvDash A$) iff $A$ is not \linkterm{valid}{valid_ls}
+\end{itemize}
+
+\definition{Derivation Relation ($\vdash$)}{
+Let $\mathcal{L}$ be a \linkterm{formal language}{formal_language}.  
+For any \linkterm{set}{def:set} of propositions $\mathcal{H} \subseteq \mathcal{L}$ (\textit{called the context or hypotheses}) and any proposition $A \in \mathcal{L}$, we write $\mathcal{H} \vdash A$ to say that $A$ is derivable from $\mathcal{H}$.  
+We call a \linkterm{relation}{relation} $\vdash \subseteq \powerset{\mathcal{L}} \times \mathcal{L}$ a \textbf{derivation relation} for $\mathcal{L}$, iff
+\begin{itemize}
+    \item $\mathcal{H} \vdash A$, if $A \in \mathcal{H}$ (proof reflexive),
+    \item $\mathcal{H} \vdash A$ and $(\mathcal{H}' \cup \set{A}) \vdash B$ imply $(\mathcal{H} \cup \mathcal{H}') \vdash B$ (proof transitive),
+    \item $\mathcal{H} \vdash A$ and $\mathcal{H} \subseteq \mathcal{H}'$ imply $\mathcal{H}' \vdash A$ (monotonic admits weakening).
+\end{itemize}
+}{derivation_relation_logic}
+
+
+\definition{Inference Rules}{
+Let $\mathcal{L}$ be a \linkterm{formal language}{formal_language}, then an \textbf{inference rule} over $\mathcal{L}$ is decidable $n+1$-ary \linkterm{relation}{relation} on $\mathcal{L}$. Inference rules are traditionally written as:
+\[
+\infer[\mathcal{N}]{C}{A_{1} \quad \dots \quad A_{n}}
+\]
+
+where $A_1, \cdots, A_n$ and $C$ are schemata for words in $\mathcal{L}$ and $\mathcal{N}$ is a name. The $A_i$ are called \textbf{assumptions} of $\mathcal{N}$, and $C$ is called its \textbf{conclusion}.
+
+
+Any $n+1$-tuple $\infer[]{c}{a_{1} \quad \dots \quad a_{n}}$ in $\mathcal{N}$ is called an \textbf{application} of $\mathcal{N}$ and we say that we apply $\mathcal{N}$ to a \linkterm{set}{def:set} $M$ of words with $a_1, \cdots, a_n \in M$ to obtain $c$.
+}{inference_rules_logic}
+
+\definition{Axiom}{
+An \linkterm{inference rule}{inference_rules_logic} without \linkterm{assumptions}{inference_rules_logic} is called an \textbf{axiom}
+}{axiom_logic}
+
+\definition{Calculus}{
+A \textbf{calculus} (or \textbf{inference system}) is a \linkterm{formal language}{formal_language} $\mathcal{L}$ equipped with a \linkterm{set}{def:set} $\mathcal{C}$ of \linkterm{inference rules}{inference_rules_logic} over $\mathcal{L}$.
+}{calculus_logic}
+
+\definition{$\mathcal{C}$-derivation}{
+Let $S := \tuple{\mathcal{L},\mathcal{M},\vDash}$ be a \linkterm{logical system}{logical_system}, and $\mathcal{C}$ a \linkterm{calculus}{calculus_logic} for $\mathcal{L}$, then a $\mathcal{C}$-derivation of a proposition $P \in \mathcal{L}$ from a \linkterm{set}{def:set} $\mathcal{H} \subseteq \mathcal{L}$ of hypotheses (write $\mathcal{H} \vdash_{\mathcal{C}}P$) is a sequence $A_1, \cdots, A_m$ of propositions where:
+\begin{itemize}
+\item $A_m = P$,
+\item for all $1 \leq i \leq m$, either $A_i \in \mathcal{H}$, or,
+\item there is an \linkterm{inference rule}{inference_rules_logic} $\infer[\mathcal{N}]{A_i}{A_{l_1} \quad \dots \quad A_{l_k}}$ in $\mathcal{C}$ with $l_j < i$ for all $j \leq k$
+\end{itemize}
+
+We can also see a \linkterm{$\mathcal{C}$-derivation}{c_derivation} as a \textbf{derivation tree}, where $A_{l_j}$ are the children of the node $A_i$
+}{c_derivation}
+
+\definition{Derivation System}{
+We call $\tuple{\mathcal{L}, \mathcal{M}, \vDash, \vdash}$ a \textbf{derivation system}, iff $\tuple{\mathcal{L},\mathcal{M},\vDash}$ is a \linkterm{logical system}{logical_system}, and $\vdash$ a \linkterm{derivation relation}{derivation_relation_logic} for $\mathcal{L}$.
+}{derivation_system}
+
+\textbf{Assertion }Let $\tuple{\mathcal{L},\mathcal{M},\vDash}$ be a \linkterm{logical system}{logical_system}, and $\mathcal{C}$ a \linkterm{calculus}{calculus_logic}, then \linkterm{$\vdash_{\mathcal{C}}$}{c_derivation} is a \linkterm{derivation relation}{derivation_relation_logic} and thus $\tuple{\mathcal{L}, \mathcal{M}, \vDash, \vdash_{\mathcal{C}}}$ is a \linkterm{derivation system}{derivation_system}
+
+\definition{Formal System}{
+Let $\mathcal{S} := \langle \mathcal{L}, \mathcal{M}, \vDash \rangle$ be a 
+\linkterm{logical system}{logical_system}, and let $\mathcal{C}$ be a 
+\linkterm{calculus}{calculus_logic} over the language $\mathcal{L}$.  
+Then the pair $\langle \mathcal{S}, \mathcal{C} \rangle$ is called a 
+\textbf{formal system}.
+}{formal_system}
+
+\commandnote{
+Let $\mathcal{C}$ be a \linkterm{calculus}{calculus_logic}, then a \linkterm{$\mathcal{C}$-derivation}{c_derivation} $\emptyset \vdash_{\mathcal{C}} A$ is called a \linkterm{proof}{proofs} of $A$ and if one exists (write $\vdash_{\mathcal{C}} A$) then $A$ is called a $\mathcal{C}$-\linkterm{theorem}{theorem}.
+}
+
+\definition{Admissible}{
+An \linkterm{inference rule}{inference_rules_logic} $\mathcal{J}$ is called \textbf{admissible} in a \linkterm{calculus}{calculus_logic} $\mathcal{C}$, if the extension of $\mathcal{C}$ by $\mathcal{J}$ does not yield new \linkterm{theorems}{theorem}
+}{admissible_inference_rule}
+
+
+\definition{Derived Rules}{
+An \linkterm{inference rule}{inference_rules_logic} $\infer[\mathcal{N}]{C}{A_{1} \quad \dots \quad A_{n}}$ is called \textbf{derived / derivable} in a \linkterm{calculus}{calculus_logic} $\mathcal{C}$, if there is a \linkterm{$\mathcal{C}$-derivation}{c_derivation} $A_1, \cdots, A_n \vdash_{\mathcal{C}} C$.
+}{derived_inference_rule}
+
+\commandnote{
+\linkterm{Derivable}{derived_inference_rule} \linkterm{inference rules}{inference_rules_logic} are \linkterm{admissible}{admissible_inference_rule}, but not the other way around.
+}
+
+\Theorem{It is not true that every \linkterm{admissible}{admissible_inference_rule} \linkterm{inference rule}{inference_rules_logic} is \linkterm{derivable}{derived_inference_rule}}{thm:admissible_derivable}
+\Proof{
+\begin{enumerate}
+\item Construct an empty \linkterm{calculus}{calculus_logic} $\mathcal{C}_{\emptyset}$
+\item Since we have no \linkterm{axioms}{axiom_logic} and no \linkterm{inference rules}{inference_rules_logic}, then the \linkterm{set}{def:set} of \linkterm{theorems}{theorem} is also empty $\text{Th}(\mathcal{C}_{\emptyset}) = \emptyset$
+\item Let $\mathcal{J}$ be an arbitrary \linkterm{inference rule}{inference_rules_logic}
+\[
+\infer[\mathcal{J}]{B}{A_{1} \quad \dots \quad A_{n}}
+\]
+\item Now we extend our empty calculus by this rule $\mathcal{C}_{\emptyset} \cup \mathcal{J}$
+\item Since we have no \linkterm{axioms}{axiom_logic}, the rule $\mathcal{J}$ has no \textit{input} to operate on, therefore, the \linkterm{set}{def:set} of \linkterm{theorems}{theorem} stays empty $\text{Th}(\mathcal{C}_{\emptyset} \cup \mathcal{J}) = \emptyset$
+\item Thus, $\mathcal{J}$ is \linkterm{admissible}{admissible_inference_rule}.
+\item Since $\mathcal{C}_{\emptyset}$ has no \linkterm{rule}{inference_rules_logic} and no \linkterm{axioms}{axiom_logic}, it is impossible to construt steps from $A_1, \cdots, A_n$ to $B$
+\item Hence, $\mathcal{J}$ is not \linkterm{derivable}{derived_inference_rule}
+\item Since $\mathcal{J}$ is \linkterm{admissible}{admissible_inference_rule} but not \linkterm{derived}{derived_inference_rule}, the statement \textit{"every admissible inference rule is derivable"} is False, hence, it is not true that every admissible inference rule is derivable.
+\end{enumerate} 
+}

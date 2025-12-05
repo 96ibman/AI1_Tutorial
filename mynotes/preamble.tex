@@ -29,6 +29,7 @@ sorting=ynt
 % ===================================================================
 % MATHEMATICS, LOGIC, AND SEMANTICS
 % ===================================================================
+\usepackage{proof}
 \usepackage{amsmath, amssymb, mathtools} % Math foundations
 \usepackage{mathrsfs}                % Script fonts (\mathscr)
 \usepackage{stmaryrd}                % Semantic brackets ⟦ ⟧
@@ -249,3 +250,17 @@ sorting=ynt
 \newcommand{\corref}[1]{\cref{#1}}   \newcommand{\Corref}[1]{\Cref{#1}}
 \newcommand{\appref}[1]{\cref{#1}}   \newcommand{\Appref}[1]{\Cref{#1}}
 \newcommand{\Algref}[1]{\Cref{#1}}
+
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\Iof}[1]{\mathcal{I}(#1)}
+\newcommand{\Ivof}[1]{\mathcal{I}_{\varphi}(#1)}
+
+\newcommand{\D}{\mathcal{D}}
+
+\newcommand{\sat}{\vDash}
+\newcommand{\unsat}{\nvDash}
+
+\newcommand{\satphi}{\vDash^{\varphi}}
+\newcommand{\unsatphi}{\nvDash^{\varphi}}
+
+\newcommand{\M}{\mathcal{M}}

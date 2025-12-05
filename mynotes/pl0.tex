@@ -1,0 +1,264 @@
+\labeledsection{Propositional Logic}{sec:pl0}
+\definition{Propositional Logic}{
+Propositional Logic ($\text{PL}^0$) is a \linkterm{logical system}{logical_system} $\tuple{\mathcal{L},\mathcal{M},\vDash}$ Where
+\begin{itemize}
+    \item the \linkterm{formal language}{formal_language} $\mathcal{L}$ is defined as the well-formed formulae of propositional logic: $\text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})$,
+    \item the \linkterm{set}{def:set} $\mathcal{M}$ of models is given by the \linkterm{set}{def:set} $\mathcal{K}_0$ of \linkterm{total functions}{function} $\func{\varphi}{\mathcal{V}_0}{\mathcal{D}_0}$ (i.e., propositional variable \linkterm{assignments}{var_ass_csp}), 
+    \item and $\varphi \vDash A$ iff $\mathcal{I}_{\varphi}(A) = T$ (a \linkterm{proposition}{proposition} is satisfiable by model $\varphi$ if the interpretation of it -under that $\varphi$- is true)
+\end{itemize}
+Hence, propositional logic is a \linkterm{logical system}{logical_system} $\tuple{\text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0}),\mathcal{K}_0,\vDash}$
+}{def:pl0_as_ls}
+
+\definition{Formulae of \linkterm{$\text{PL}^0$}{def:pl0_as_ls}}{
+The \linkterm{formulae}{formulae} of \linkterm{$\text{PL}^0$}{def:pl0_as_ls} are made up from 
+\begin{itemize}
+    \item propositional variables $\mathcal{V}_{\text{PL}^0}$ (or just $\mathcal{V}_0$) : $\mathcal{V}_0 := \set{P,Q,R, \cdots}$ (\linkterm{countably infinite}{countably_infinite})
+    \item propositional signature $\Sigma_{\text{PL}^0}$ (or just $\Sigma_0$): $\Sigma_0 := \set{\top,\bot,\neg, \lor, \land, \Rightarrow, \Leftrightarrow, \cdots}$ (called \textit{connectives})
+\end{itemize}
+We define the \linkterm{set}{def:set} $\text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})$ of \textbf{well-formed propositional formulae (wffs)} as:
+\begin{itemize}
+    \item propositional variables
+    \item logical constants $\top$ and $\bot$
+    \item negations $\neg A$
+    \item conjunctions $A \land B$
+    \item disjunctions $A \lor B$
+    \item implications $A \Rightarrow B$, and 
+    \item equivalence (biimplications) $A \Leftrightarrow B$
+\end{itemize}
+where $A,B \in \text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})$ themselves.
+}{wff0_def}
+
+\definition{Grammar for \linkterm{$\text{PL}^0$}{def:pl0_as_ls}}{
+The \linkterm{set}{def:set} of \linkterm{propositional formulae}{wff0_def} $\set{A \mid A \in \text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})}$ is given by the following \linkterm{grammar}{phrase_structure_grammar}:
+\begin{align*}
+X \quad &{::=} \quad  P \mid Q \mid R \mid \cdots \quad (\textit{propositional variables}) \\
+A \quad &{::=} \quad X \mid \top \mid \bot \mid \neg A \mid A \land A \mid A \lor A \mid A \Rightarrow A \mid A \Leftrightarrow A
+\end{align*}
+}{wff0_grammar}
+
+\definition{Canonical Model}{
+We call a \linkterm{logical system}{logical_system} $\tuple{\mathcal{L},\mathcal{M},\vDash}$ a \textbf{single-model} with \textbf{canonical model} $M$ iff $\mathcal{M} = \set{M}$
+}{canonical_model}
+
+\definition{\linkterm{$\text{PL}^0$}{def:pl0_as_ls} Models}{
+A model $\mathcal{M} := \tuple{\mathcal{D}_0, \mathcal{I}}$ for \linkterm{$\text{PL}^0$}{def:pl0_as_ls} consists of 
+\begin{itemize}
+    \item the universe $\mathcal{D}_0 := \set{T,F}$ (truth values)
+    \item the interpretation $\mathcal{I}$ that \linkterm{assigns}{var_ass_csp} truth values to essential connectives
+    \begin{enumerate}
+        \item $\func{\mathcal{I}(\neg)}{\mathcal{D}_0}{\mathcal{D}_0}$; $T \mapsto F, F \mapsto T$
+        \item $\func{\mathcal{I}(\land)}{\cartprod{\mathcal{D}_0,\mathcal{D}_0}}{\mathcal{D}_0}$; $\tuple{\alpha, \beta} \mapsto T$, iff $\alpha = \beta = T$
+        \item $\mathcal{I}(\top) = T$
+        \item $\mathcal{I}(\bot) = F$
+    \end{enumerate}
+\end{itemize}
+}{model_pl0}
+
+\commandnote{
+\linkterm{$\text{PL}^0$}{def:pl0_as_ls} is a single-model \linkterm{logical system}{logical_system} with \linkterm{canonical model}{canonical_model} $\tuple{\mathcal{D}_0, \mathcal{I}}$
+}
+
+\definition{Variable Assignment}{
+\linkterm{$\text{PL}^0$}{def:pl0_as_ls} uses a \linkterm{total}{function} \linkterm{variable assignment}{var_ass_csp} $\func{\varphi}{\mathcal{V}_0}{\mathcal{D}_0}$ that assigns truth values to propositional variables.
+}{var_ass_pl0}
+
+\definition{Value Function}{
+\linkterm{$\text{PL}^0$}{def:pl0_as_ls} uses a value \linkterm{function}{function} $\func{\mathcal{I}_{\varphi}}{\text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})}{\mathcal{D}_0}$ that assigns truth values to \linkterm{$\text{PL}^0$}{def:pl0_as_ls} \linkterm{formulae}{wff0_def}. It is defined as follows:
+\begin{itemize}
+\item  $\mathcal{I}_{\varphi}(P) = \varphi(P)$
+\item $\mathcal{I}_{\varphi}(\neg A) = \mathcal{I}(\neg)(\mathcal{I}_{\varphi}(A))$
+\item $\mathcal{I}_{\varphi}(A \land B) = \mathcal{I}(\land)(\mathcal{I}_{\varphi}(A),\mathcal{I}_{\varphi}(B))$
+\end{itemize}
+}{value_function_pl0}
+
+\commandnote{
+\textbf{Value Function Example:} Compute $\mathcal{I}_\varphi(P \lor Q)$ under the assignment $\varphi := \set{P \mapsto F, Q \mapsto T}$
+\begin{align*}
+    \mathcal{I}_\varphi(P \lor Q) &= \mathcal{I}_\varphi(\neg(\neg P \land \neg Q)) \\
+    \mathcal{I}_\varphi(\neg P) &= \mathcal{I}(\neg)(\mathcal{I}_\varphi(P)) \\
+    \mathcal{I}_\varphi(\neg Q) &= \mathcal{I}(\neg)(\mathcal{I}_\varphi(Q)) \\
+    \mathcal{I}_\varphi(\neg P \land \neg Q) &= \mathcal{I}(\land)(\mathcal{I}_\varphi(\neg P),\mathcal{I}_\varphi(\neg Q))\\
+    \mathcal{I}_\varphi(P \lor Q) &= \mathcal{I}(\neg)(\mathcal{I}_\varphi(\neg P \land \neg Q))\\
+    &= \mathcal{I}(\neg)(\mathcal{I}(\land)(\mathcal{I}_\varphi(\neg P),\mathcal{I}_\varphi(\neg Q)))\\
+    &= \mathcal{I}(\neg)(\mathcal{I}(\land)
+    (\mathcal{I}(\neg)(\mathcal{I}_\varphi(P)),
+    \mathcal{I}(\neg)(\mathcal{I}_\varphi(Q))))
+\end{align*}
+We know that
+\begin{itemize}
+    \item $\mathcal{I}_{\varphi}(P) = \varphi(P) = F$, and
+    \item $\mathcal{I}_{\varphi}(Q) = \varphi(Q) = T$
+\end{itemize}
+Hence:
+\begin{align*}
+&= \mathcal{I}(\neg)(\mathcal{I}(\land)(\mathcal{I}(\neg)(F),\mathcal{I}(\neg)(T))) \\ 
+&= \mathcal{I}(\neg)(\mathcal{I}(\land)(T,F)) \\
+&= \mathcal{I}(\neg)(F) \\
+&= T  
+\end{align*}
+}
+
+\definition{Variable Occurrence}{
+A \linkterm{function}{function} that maps a \linkterm{$\text{PL}^0$ formula}{wff0_def} to the \linkterm{set}{def:set} of variable occurred in that formula. It is defined as:
+\begin{itemize}
+    \item $\text{Var}(P) = \set{P}$
+    \item $\text{Var}(\top) = \emptyset$
+    \item $\text{Var}(\bot) = \emptyset$
+    \item $\text{Var}(\neg A) = \text{Var}(A)$
+    \item $\text{Var}(A \circ B) = \text{Var}(A) \cup \text{Var}(B)$ where $\circ \in \set{\land, \lor, \Rightarrow, \Leftrightarrow}$
+\end{itemize}
+}{var_occ_pl0}
+
+\definition{Ground Formula}{
+A \linkterm{$\text{PL}^0$}{def:pl0_as_ls} formula $A$ is called \textbf{ground} iff \linkterm{Var}{var_occ_pl0}$(A) = \emptyset$
+}{ground_pl0}
+
+\commandnote{
+\textbf{Alternative Notation: }write $\sint{A}_{\varphi}$ for $\mathcal{I}_{\varphi}(A)$ (and $\sint{A}$ if $A$ is \linkterm{ground}{ground_pl0})
+}
+
+\definition{Equivalent}{
+Two \linkterm{formulae}{wff0_def} $A$ and $B$ are called \textbf{equivalent}, iff $\mathcal{I}_{\varphi}(A) = \mathcal{I}_{\varphi}(B)$ for all \linkterm{variable assignments}{var_ass_pl0} $\varphi$
+}{equivalent_formulae}
+
+\definition{\linkterm{$\text{PL}^0$}{def:pl0_as_ls} Identities}{
+\Tabref{tab:identities_pl0} shows the identities in \linkterm{$\text{PL}^0$}{def:pl0_as_ls}
+}{identities_pl0}
+
+\begin{table}[h]
+\centering
+\caption{\linkterm{$\text{PL}^0$}{def:pl0_as_ls} Identities}
+\label{tab:identities_pl0}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Name} & \textbf{for $\land$} & \textbf{for $\lor$} \\
+\hline
+Idempotence      & $\varphi \land \varphi = \varphi$        & $\varphi \lor \varphi = \varphi$ \\
+Identity         & $\varphi \land \top = \varphi$            & $\varphi \lor \bot = \varphi$ \\
+Absorption 1     & $\varphi \land \bot = \bot$                & $\varphi \lor \top = \top$ \\
+Commutativity    & $\varphi \land \psi = \psi \land \varphi$ & $\varphi \lor \psi = \psi \lor \varphi$ \\
+Associativity    & $\varphi \land (\psi \land \theta) = (\varphi \land \psi)\land \theta$  
+                 & $\varphi \lor (\psi \lor \theta) = (\varphi \lor \psi)\lor \theta$ \\
+Distributivity   & $\varphi \land (\psi \lor \theta)= (\varphi \land \psi)\lor (\varphi \land \theta)$ 
+                 & $\varphi \lor (\psi \land \theta)= (\varphi \lor \psi)\land (\varphi \lor \theta)$ \\
+Absorption 2     & $\varphi \land (\varphi \lor \theta)= \varphi$ 
+                 & $\varphi \lor (\varphi \land \theta)= \varphi$ \\
+De Morgan rule   & $\neg(\varphi \land \psi)= \neg\varphi \lor \neg\psi$ 
+                 & $\neg(\varphi \lor \psi)= \neg\varphi \land \neg\psi$ \\
+double negation  & \multicolumn{2}{c|}{$\neg\neg\varphi = \varphi$} \\
+\hline
+Definitions      & $\varphi \Rightarrow \psi \;=\; \neg\varphi \lor \psi$ 
+                 & $\varphi \Leftrightarrow \psi \;=\; (\varphi \Rightarrow \psi)\land(\psi \Rightarrow \varphi)$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Let $\M := \tuple{\D_0, \I}$ be our \linkterm{model}{model_pl0}, then we say that a \linkterm{formula}{wff0_def} $A$ is 
+\begin{itemize}
+\item \refterm{true under}{true_under_pl0} $\varphi$ in $\M$, iff $\Ivof{A} = T$, (write $\M \satphi A$) 
+\item \refterm{falsifies}{falsifies_pl0} $\varphi$ in $\M$, iff $\Ivof{A} = F$, (write $\M \unsatphi A$)
+\item \refterm{satisfiable in}{sat_in_pl0} $\M$, iff $\Ivof{A} = T$ for some \linkterm{assignment}{var_ass_pl0} $\varphi$
+\item \refterm{valid in}{valid_in_pl0} $M$, iff $\M \satphi A$ for all \linkterm{variable assignments}{var_ass_pl0} $\varphi$
+\item \refterm{falsifiable in}{falsifiable_in_pl0} $\M$, iff $\Ivof{A} = F$ for some \linkterm{assignment}{var_ass_pl0} $\varphi$, and
+\item \refterm{unsatisfiable in}{unsat_in_pl0} $\M$, iff $\Ivof{A} = F$ for all \linkterm{variable assignments}{var_ass_pl0} $\varphi$. 
+\end{itemize}
+
+\commandnote{
+Since \linkterm{$\text{PL}^0$}{def:pl0_as_ls} is a \linkterm{single-model}{canonical_model} \linkterm{logical system}{logical_system}, we can omit the explicit reference to the \linkterm{canonical model}{canonical_model} and write $\varphi \sat A$ to mean "$A$ is true under $\varphi$", recovering the notation from $\M \satphi A$.
+}
+
+\definition{Entailment}{
+We say that $A$ \textbf{entails} $B$ (write $A \sat B$), iff $\Ivof{B} = T$ for all $\varphi$ with $\Ivof{A} = T$ (i.e. all \linkterm{variable assignments}{var_ass_pl0}) that makes $A$ true also make $B$ true
+}{entailment_pl0}
+
+\Theorem{
+$A \sat B \Rightarrow A \land C \sat B \land C$
+}{thm:entailment}
+\Proof{
+\begin{enumerate}
+\item Assume that $A \sat B$ ($\mathcal{H}_1$), we want to show that for all $\varphi$ that makes $A \land C$ true also make $B \land C$ true 
+\item Assume there is some $\varphi$ that makes $A \land C$ true $\leadsto$ $\Ivof{A \land C} = T$ ($\mathcal{H}_2$)
+\item This means that $\Ivof{A} = \Ivof{C} = T$
+\item Given $\mathcal{H}_1$ we now know that our $\varphi$ also make $B$ true $\leadsto \Ivof{B}=T$
+\item From 3 and 4 and by the definition of conjunction: $\Ivof{B \land C}=T$
+\end{enumerate}
+}
+
+\definition{Soundness}{
+Let $\mathcal{S}:=\tuple{\mathcal{L},\mathcal{M},\vDash}$ be a \linkterm{logical system}{logical_system} and $\mathcal{H} \subseteq \mathcal{L}$ a \linkterm{set}{def:set} of hypotheses, then we call a \linkterm{calculus}{calculus_logic} $\mathcal{C}$ over $\mathcal{L}$ \textbf{sound} (correct), iff $\mathcal{H} \sat A$ whenever $\mathcal{H} \vdash_{\mathcal{C}} A$
+}{sound}
+
+\definition{Completeness}{
+Let $\mathcal{S}:=\tuple{\mathcal{L},\mathcal{M},\vDash}$ be a \linkterm{logical system}{logical_system} and $\mathcal{H} \subseteq \mathcal{L}$ a \linkterm{set}{def:set} of hypotheses, then we call a \linkterm{calculus}{calculus_logic} $\mathcal{C}$ over $\mathcal{L}$ \textbf{complete}, iff $\mathcal{H} \vdash_{\mathcal{C}} A$ whenever $\mathcal{H} \sat A$ 
+}{complete}
+
+\definition{Hilbert Calculus}{
+The Hilbert calculus $\mathcal{H}^0$ is a \linkterm{calculus}{calculus_logic} that consists of the following \linkterm{inference rules}{inference_rules_logic}:
+
+\[
+    \infer[K]{P \Rightarrow (Q \Rightarrow P)}{}
+    \qquad
+    \infer[S]{(P \Rightarrow (Q \Rightarrow R)) \Rightarrow ((P \Rightarrow Q) \Rightarrow (P \Rightarrow R))}{}
+\]
+
+\[
+    \infer[\text{MP}]
+    {B}
+    {A \Rightarrow B \quad A}
+    \qquad
+    \infer[\text{Subst}]
+    {[B/X](A)}
+    {A}
+\]
+}{hilbert_calculus}
+
+\commandnote{
+Subst \linkterm{inference rule}{inference_rules_logic} is \linkterm{admissible}{admissible_inference_rule} but not \linkterm{derivable}{derived_inference_rule}
+}
+
+\definition{Hilbert Formal System}{
+Using \linkterm{propositional logic}{def:pl0_as_ls} and the \linkterm{Hilbert Calculus}{hilbert_calculus}, we can build a simple \linkterm{formal system}{formal_system}:
+\[
+\langle \underbrace{\langle \mathcal{L}, \mathcal{M}, \vDash \rangle}_{\text{\linkterm{propositional logic}{def:pl0_as_ls}}}, \underbrace{\mathcal{H}^0}_{\text{\linkterm{Hilbert Calculus}{hilbert_calculus}}} \rangle
+\]
+}{hilbert_formal_system}
+
+\textbf{Example: }$C \Rightarrow C$ is a $\mathcal{H}^0$ and here is its \linkterm{proof}{proofs}:
+
+\Proof{
+We show that $\emptyset \vdash_{\mathcal{H}^0} C \Rightarrow C$
+\begin{enumerate}
+\item \linkterm{axiom}{axiom_logic} $S$ gives us:
+\[
+(P \Rightarrow (Q \Rightarrow R)) \Rightarrow ((P \Rightarrow Q) \Rightarrow (P \Rightarrow R))
+\] 
+\item We apply Subst with $[C/P], [C \Rightarrow C / Q], [C / R]$, we get:
+\[
+(C \Rightarrow ((C \Rightarrow C) \Rightarrow C)) \Rightarrow ((C \Rightarrow (C \Rightarrow C)) \Rightarrow (C \Rightarrow C))
+\] 
+\item \linkterm{axiom}{axiom_logic} $K$ gives us:
+\[
+P \Rightarrow (Q \Rightarrow P)
+\]
+\item We apply Subst with $[C / P], [C \Rightarrow C / Q]$, we get:
+\[
+C \Rightarrow ((C \Rightarrow C) \Rightarrow C)
+\]
+\item We use MP on 4 and 2, we get:
+\[
+(C \Rightarrow (C \Rightarrow C)) \Rightarrow (C \Rightarrow C)
+\]
+\item \linkterm{axiom}{axiom_logic} $K$ gives us:
+\[
+P \Rightarrow (Q \Rightarrow P)
+\]
+\item We apply Subst with $[C / P], [C / Q]$, we get:
+\[
+C \Rightarrow (C \Rightarrow C)
+\]
+\item We apply MP on 7 and 5, we get:
+\[
+C \Rightarrow C
+\]
+\end{enumerate}
+}
