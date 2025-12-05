@@ -773,27 +773,115 @@ value(State, Value) :-
     minvalue(ChildStates, 1, Value).
 
 
+%---------------------------------------
+% Propositional Logic
+%---------------------------------------
+
+% isForm(L,F) predicate checks if F is a fomrula
+% Given a list of variables L
+% Test Cases:
+% isForm(["a","b"],neg(var("a"))). -> True (¬a)
+% isForm(["a","b"],neg(var("c"))). -> False (¬c)
+% isForm(["a","b"],conj(var("a"),impl(var("b")))). -> False (a ∧ (b ⇒ ))
+% isForm(["a","b"],conj(var("a"),impl(var("b"), var("b"))))  -> True (a ∧ (b ⇒ b))
+% isForm(["p", "q", "r"], impl(var("p"), disj(var("q"), var("r")))). -> True (p ⇒ (q ∨ r))
+
+
+isForm(L,var(X)):-string(X), is_member(X,L).
+isForm(L,neg(X)):-isForm(L,X).
+isForm(L, disj(X,Y)):-isForm(L,X), isForm(L,Y).
+isForm(L, conj(X,Y)):-isForm(L,X), isForm(L,Y).
+isForm(L, impl(X,Y)):-isForm(L,X), isForm(L,Y).
+
+% simplify(X,Y) predicate is true if Y is a simplified 
+% version of X (replacing all disjunctions and implications)
+% we want the formula to ahve only negations and conjunctions
+% Example:
+% a ∨ b = ¬(¬a ∧ ¬b)
+% simplify(disj(var("a"),var("b")), X).
+% X = neg(conj(neg(var("a")),neg(var("b")))).
+% a ⇒ b = ¬a ∨ b = ¬(a ∧ ¬b)
+% simplify(impl(var("a"),var("b")), X).
+% X = neg(conj(var("a"),neg(var("b")))).
+
+% Base Case: a variable is already simplified
+simplify(var(X),var(X)).
+
+% A negation of something is simplified if that something is simplified
+simplify(neg(X), neg(Y)):-simplify(X,Y).
+
+% A conjunction of two things is simplifid if the two things are
+simplify(conj(X,Y),conj(X1,Y1)):-simplify(X,X1), simplify(Y,Y1).
+
+% Disjunction
+% a ∨ b = ¬(¬a ∧ ¬b)
+simplify(disj(X,Y),neg(conj(neg(X1),neg(Y1)))):-
+    simplify(X,X1),
+    simplify(Y,Y1).
+
+% Implication
+% a ⇒ b = ¬a ∨ b = ¬(a ∧ ¬b)
+simplify(impl(X,Y), neg(conj(X1, neg(Y1)))):-
+    simplify(X,X1),
+    simplify(Y,Y1).
 
 
 
+% eval(L,F,V) is true if V is the truth value (0/1) for formula F 
+% given list of assignments L, e.g. [assign("a", 1), assign("b",0)]
+% Examples:
+% a ∧ b given that a is true and b is false -> false
+% eval([assign("a",1),assign("b",0)], conj(var("a"), var("b")), V).
+% V = 0.
+% a ∧ b given that a is true and b is true -> true
+% eval([assign("a",1),assign("b",1)], conj(var("a"), var("b")), V).
+% V = 1.
+% More test cases:
+% eval([assign("a", 1)], var("a"), V).
+% V = 1.
+% eval([assign("b", 0)], var("b"), V).
+% V = 0.
+% eval([assign("a", 0)], neg(var("a")), V).
+% V = 1.
+% eval([assign("a", 1)], neg(var("a")), V).
+% V = 0.
+% eval([assign("a", 0), assign("b", 0)], disj(var("a"), var("b")), V).
+% V = 0.
+% eval([assign("a", 0), assign("b", 1)], disj(var("a"), var("b")), V).
+% V = 1.
+% eval([assign("p", 1), assign("q", 0)], impl(var("p"), var("q")), V).
+% V = 0.
+% eval([assign("p", 0), assign("q", 1)], impl(var("p"), var("q")), V).
+% V = 1.
+% eval([assign("p", 0), assign("q", 0)], impl(var("p"), var("q")), V).
+% Expected: V = 1.
+% ¬a ∧ (b ∨ c) [a->F, b->F, c->T]
+% eval([assign("a", 0), assign("b", 0), assign("c", 1)], conj(neg(var("a")), disj(var("b"), var("c"))), V).
+% V = 1.
 
+eval(L, var(X), Y):-
+    is_member(assign(X,Y),L).
 
+eval(L, neg(X), Z):-
+    eval(L,X,V),
+    Z is 1-V.
 
+eval(L,conj(X,Y),V):-
+    eval(L,X,X1),
+    eval(L,Y,Y1),
+    V is X1 * Y1.
 
+eval(L,disj(X,Y),V):-
+    eval(L,X,X1),
+    eval(L,Y,Y1),
+    Plus is X1 + Y1,
+    Mult is X1 * Y1,
+    V is Plus - Mult.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+eval(L,impl(X,Y),V):-
+    eval(L,X,X1),
+    eval(L,Y,Y1),
+    NotX is 1 - X1,
+    Plus is NotX + Y1,
+    Mult is NotX * Y1,
+    V is Plus - Mult.
