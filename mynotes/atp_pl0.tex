@@ -1,0 +1,337 @@
+\labeledsection{Machine-Oriented Calculi for Propositional Logic}{sec:atp_pl0}
+\commandnote{From \Thmref{thm:unsat}, we observe that \linkterm{entailment}{entailment_pl0} can be tested via \linkterm{satisfiablity}{satisfiable_ls}}
+
+\definition{Theorem Proving}{
+Given a \linkterm{formal system}{formal_system} $\tuple{\mathcal{S}, \mathcal{C}}$, where $\mathcal{C}$ is a \linkterm{calculus}{calculus_logic} and $\mathcal{S} := \langle \mathcal{L}, \mathcal{M}, \vDash \rangle$ is a \linkterm{logical system}{logical_system}, the task of \textbf{theorem proving} is the task of determining whether $\mathcal{H} \vdash_{\mathcal{C}} C$ for a \textbf{conjecture} $C \in \mathcal{L}$ and hypotheses $\mathcal{H} \subseteq \mathcal{L}$
+}{theorem_proving}
+
+\definition{Automated Theorem Proving}{
+\textbf{ATP} is the automation of \linkterm{theorem proving}{theorem_proving}.
+}{def:atp}
+
+\definition{Test Calculus}{
+For a given \linkterm{conjecture}{theorem_proving} $A$ and \linkterm{hypotheses}{theorem_proving} $\mathcal{H}$, a \textbf{test calculus} $\mathcal{T}$ tries to derive a \linkterm{refutation}{c_refutation} $\mathcal{H}, \neg A \vdash_{\mathcal{T}} \bot$ instead of $\mathcal{H} \vdash A$, where $\neg A$ is \linkterm{unsatisfiable}{unsatisfiable_ls} iff $A$ is \linkterm{valid}{valid_ls} and $\bot$ an \linkterm{unsatisfiable}{unsatisfiable_ls} \linkterm{proposition}{proposition}.
+}{test_calculus}
+
+
+\definition{Atomic Formulae}{
+A \linkterm{formula}{formulae} is called \textbf{atmoic} (or an \textbf{atom}) if it does not contain logical constants, otherwise, \textbf{complex}
+}{atomic_formula}
+
+\definition{Labeled Formula}{
+Let $\mathcal{S} := \langle \mathcal{L}, \mathcal{M}, \vDash \rangle$ be a \linkterm{logical system}{logical_system}, $A \in \mathcal{L}$ a formula, $L$ a \textbf{label set}, and $\alpha \in L$ a \textbf{label}, then we call a \linkterm{pair}{cartesian_product} $\tuple{A, \alpha}$ a \textbf{labeled formula} and write it as $A^{\alpha}$. For a \linkterm{set}{def:set} $\Phi$ of \linkterm{propositions}{proposition} we use $\Phi^{\alpha} := \set{A^{\alpha} \mid A \in \Phi}$
+}{labeled_formula}
+
+\commandnote{
+If the \linkterm{label set}{labeled_formula} is $\mathcal{D}_0 := \set{T,F}$, we call a \linkterm{labeled formula}{labeled_formula} $A^T$ \textbf{positive} and $A^F$ \textbf{negative}
+}
+
+\commandnote{
+Let $\mathcal{S} := \langle \mathcal{L}, \mathcal{M}, \vDash \rangle$ be a \linkterm{logical system}{logical_system}, and $A^{\alpha}$ a \linkterm{labeled formula}{labeled_formula}. Then we say that $M \in \mathcal{M}$ \textbf{satisfies} $A^{\alpha}$ (write $M \vDash A^{\alpha}$), iff $\alpha = T$ and $M \vDash A$ or $\alpha = F$ and $M \nvDash A$
+}
+
+\definition{Literal}{
+Let $\mathcal{S} := \langle \mathcal{L}, \mathcal{M}, \vDash \rangle$ be a \linkterm{logical system}{logical_system}, $A \in \mathcal{L}$ is an \linkterm{atomic formula}{atomic_formula}, and $\alpha \in \set{T,F}$, then we call the \linkterm{labeled formula}{labeled_formula} $A^{\alpha}$ a \textbf{literal}.
+}{literal}
+
+\definition{Opposite Literal}{
+For a \linkterm{literal}{literal} $A^{\alpha}$, we call the \linkterm{literal}{literal} $A^{\beta}$ with $\alpha \neq \beta$ the \textbf{opposite literal}.
+}{opposite_literal}
+
+\definition{CNF}{
+A \linkterm{formula}{wff0_def} is in \textbf{conjunctive normal form (CNF)} if it is $\top$ or a conjunction of disjunctions of \linkterm{literals}{literal}, i.e. if it is of the form:
+\[
+\bigwedge_{i=1}^{n} \bigvee_{j=1}^{m_i} l_{ij} := 
+\underbrace{
+    \overbrace{( l_{1,1} \lor \dots \lor l_{1,m_1} )}^{\text{Clause } i=1 \text{ has } m_1 \text{ literals}}
+    \land
+    \overbrace{( l_{2,1} \lor \dots \lor l_{2,m_2} )}^{\text{Clause } i=2 \text{ has } m_2 \text{ literals}}
+    \land \dots \land
+    \overbrace{( l_{n,1} \lor \dots \lor l_{n,m_n} )}^{\text{Clause } i=n \text{ has } m_n \text{ literals}}
+}_{\text{There are } n \text{ total clauses}}
+\]
+}{cnf}
+
+\definition{DNF}{
+A \linkterm{formula}{wff0_def} is in \textbf{disjunctive normal form (DNF)} if it is $\bot$ or a disjunction of conjunctions of \linkterm{literals}{literal}, i.e. if it is of the form:
+\[
+\bigvee_{i=1}^{n} \bigwedge_{j=1}^{m_i} l_{ij} := 
+\underbrace{
+    \overbrace{( l_{1,1} \land \dots \land l_{1,m_1} )}^{\text{Term } i=1 \text{ has } m_1 \text{ literals}}
+    \lor
+    \overbrace{( l_{2,1} \land \dots \land l_{2,m_2} )}^{\text{Term } i=2 \text{ has } m_2 \text{ literals}}
+    \lor \dots \lor
+    \overbrace{( l_{n,1} \land \dots \land l_{n,m_n} )}^{\text{Term } i=n \text{ has } m_n \text{ literals}}
+}_{\text{There are } n \text{ total terms}}
+\]
+}{dnf}
+
+
+\commandnote{
+$\top$ is in CNF because it represents the \textbf{empty conjunction}. (The semantic identity for conjunction is $T$, so we use the constant $\top$ where $\mathcal{I}(\top)=T$).
+$\bot$ is in DNF because it represents the \textbf{empty disjunction}. (The semantic identity for disjunction is $F$, so we use the constant $\bot$ where $\mathcal{I}(\bot)=F$).
+}
+
+\definition{Tableau Calculus}{
+A \textbf{tableau calculus} is a \linkterm{test calculus}{test_calculus} that analyzes a \linkterm{labeled formula}{labeled_formula} in a \linkterm{tree}{tree} to determine \linkterm{satisfiability}{satisfiable_ls}, its branches correspond to \linkterm{valuations}{value_function_pl0} (\linkterm{models}{model_pl0})
+}{tableau_calculus}
+
+\definition{Saturated Tableau}{
+We call a tableau \textbf{saturated} iff no application of a \linkterm{rule}{inference_rules_logic} adds new material to any branch.
+}{saturated_tableau}
+
+\definition{Closed and Open Branches}{
+A tableau branch is \textbf{closed} if it ends with $\bot$. Otherwise, the branch is \textbf{open}.
+}{closed_branch}
+
+\commandnote{
+We sometimes decorate \textbf{open} branches with a $\Box$ symbol to visually indicate they are finished and non-contradictory.
+}
+
+\definition{Closed Tableau}{
+A tableau is \textbf{closed} iff every one of its branches is \linkterm{closed}{closed_branch}. Otherwise, the tableau is \textbf{open}.
+}{closed_tableau}
+
+\commandnote{
+It is crucial to distinguish between the \textbf{outcome} of a proof and the \textbf{completion} of the process:
+\begin{itemize}
+    \item \textbf{Closed vs. Open:} This refers to the \textit{logical status}. A tableau is \textbf{closed} if a contradiction is found on \textbf{every} branch. It is \textbf{open} if at least one branch remains consistent.
+    \item \textbf{Saturated vs. Unsaturated:} This refers to the \textit{construction status}. A tableau is \textbf{saturated} if no more rules can be applied to any branch.
+\end{itemize}
+\textbf{Note:} A \textbf{closed} tableau is rarely \textbf{saturated}. Once a specific branch closes, we stop applying rules to \textbf{that branch} for efficiency, even if formulas on that branch could still be expanded.
+}
+
+\commandnote{
+\linkterm{Open branches}{closed_branch} in a \linkterm{saturated tableaux}{saturated_tableau} yield \linkterm{satisfiying}{satisfiable_ls} \linkterm{assignments}{var_ass_pl0}
+}
+
+\definition{$\mathcal{T}_0$}{
+The Propositional Tableau Calculus $\mathcal{T}_0$ has the \linkterm{inference rules}{inference_rules_logic} shown in \figref{fig:t0_calculus}
+}{t0_calculus}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\mathcal{T}_0 \land]{
+                        \begin{array}{c}
+                            A^T \\
+                            B^T
+                        \end{array}
+                    }{(A \land B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\mathcal{T}_0 \lor]{A^F \mid B^F}{(A \land B)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \begin{multicols}{2}
+            % Negation True Rule
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\mathcal{T}_0 \neg^T]{A^F}{(\neg A)^T}
+                \]
+            \end{minipage}
+
+            % Negation False Rule
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\mathcal{T}_0 \neg^F]{A^T}{(\neg A)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        % Contradiction Rule
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{T}_0 \bot]{\bot}{
+                    \begin{array}{ll}
+                        A^\alpha & \\
+                        \vdots & \\
+                        A^\beta & (\alpha \neq \beta)
+                    \end{array}
+                }
+            \]
+        \end{minipage}
+
+        \par\vspace{0.5em}
+        \noindent
+        \begin{tikzpicture}
+            \draw[dashed] (0,0) -- (\linewidth,0);
+        \end{tikzpicture}
+        \par\vspace{0.5em}
+
+        \begin{multicols}{3}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[]{A^F \mid B^T}{(A \Rightarrow B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[]{
+                        \begin{array}{c}
+                            A^T \\
+                            B^F
+                        \end{array}
+                    }{(A \Rightarrow B)^F}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace{-0.4cm}
+                \[
+                    \infer[]{B^T}{
+                        \begin{array}{c}
+                            A^T \\
+                            (A \Rightarrow B)^T
+                        \end{array}
+                    }
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[]{A^T \mid B^T}{(A \lor B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[]{
+                        \begin{array}{c}
+                            A^F \\
+                            B^F
+                        \end{array}
+                    }{(A \lor B)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[]{
+                        \begin{array}{c} A^T \\ B^T \end{array}
+                        \mid
+                        \begin{array}{c} A^F \\ B^F \end{array}
+                    }{(A \iff B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[]{
+                        \begin{array}{c} A^T \\ B^F \end{array}
+                        \mid
+                        \begin{array}{c} A^F \\ B^T \end{array}
+                    }{(A \iff B)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+    \end{tcolorbox}
+    \caption{Propositional Tableau Calculus $\mathcal{T}_0$}
+    \label{fig:t0_calculus}
+\end{figure}
+
+
+\definition{\linkterm{$\mathcal{T}_0$}{t0_calculus}-Theorem}{
+$A$ is a \linkterm{$\mathcal{T}_0$}{t0_calculus}-theorem ($\vdash_{\linkterm{\mathcal{T}_0}{t0_calculus}} A$), iff there is a \linkterm{closed tableau}{closed_tableau} with $A^F$ at the \linkterm{root}{tree}.
+}{t0_theorem}
+
+\definition{}{
+A \linkterm{labeled formula}{labeled_formula} $A^{\alpha}$ is \textbf{valid under} $\varphi$, iff $\mathcal{I}_{\varphi}(A) = \alpha$
+}{valid_under_labeled}
+
+\definition{Satisfiable Tableau}{
+A tableau $\mathcal{T}$ is \textbf{satisfiable}, iff there is a satisfiable branch $\mathcal{B}$ in $\mathcal{T}$, i.e. if the \linkterm{set}{def:set} of \linkterm{formulae}{wff0_def} on $\mathcal{B}$ is \linkterm{satisfiable}{satisfiable_ls}.
+}{satisfiable_tableau}
+
+\Theorem{
+\linkterm{$\mathcal{T}_0$}{t0_calculus} is \linkterm{sound}{sound}, i.e. $\Phi \subseteq \text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})$ is \linkterm{valid}{valid_ls} if there is a \linkterm{closed tableau}{closed_tableau} $\mathcal{T}$ for $\Phi^F$.    
+}{thm:soundT0}
+
+\Theorem{
+\linkterm{$\mathcal{T}_0$}{t0_calculus} is \linkterm{complete}{complete}, i.e. if $\Phi \subseteq \text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})$ is \linkterm{valid}{valid_ls}, then there is a \linkterm{closed tableau}{closed_tableau} $\mathcal{T}$ for $\Phi^F$.    
+}{thm:completeT0}
+
+\Lemma{
+\linkterm{$\mathcal{T}_0$}{t0_calculus} terminates, i.e. every \linkterm{$\mathcal{T}_0$ tableau}{t0_calculus} becomes \linkterm{saturated}{saturated_tableau} after \linkterm{finitely}{set_cardinality} many \linkterm{rule applications}{inference_rules_logic}.
+}{lemma_t0_terminates}
+
+\Corollary{
+\linkterm{$\mathcal{T}_0$}{t0_calculus} induces a decision procedure for \linkterm{validity}{valid_ls} in \linkterm{$\text{PL}^0$}{def:pl0_as_ls}.    
+}{cor:decision_T0}
+\Proof{
+\begin{itemize}
+    \item By \Lemref{lemma_t0_terminates}, it is decidable whether $\vdash_{\linkterm{\mathcal{T}_0}{t0_calculus}} A$
+    \item By \Thmref{thm:soundT0} and \Thmref{thm:completeT0}, $\vdash_{\linkterm{\mathcal{T}_0}{t0_calculus}} A$ iff $A$ is \linkterm{valid}{valid_ls}
+\end{itemize}    
+}
+
+\textbf{Example: } \Figref{t0proofexample} shows a \linkterm{$\mathcal{T}_0$}{t0_calculus} proof of the formula $(A \lor B) \land (A \Rightarrow C) \land (B \Rightarrow C) \Rightarrow C$
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \centering
+        \begin{tikzpicture}[node distance=1ex]
+            \node (F) {$((A \lor B) \land (A \Rightarrow C) \land (B \Rightarrow C) \Rightarrow C)^F$};
+            \node (F1) [below=of F] {$((A \lor B) \land (A \Rightarrow C) \land (B \Rightarrow C))^T$};
+            \node (F2) [below=of F1] {$C^F$};
+            \node (AvB) [below=of F2] {$(A \lor B)^T$};
+            \node (AtoC) [below=of AvB] {$(A \Rightarrow C)^T$};
+            \node (BtoC) [below=of AtoC] {$(B \Rightarrow C)^T$};
+            
+            % First Branch
+            \node (B) [below left=of BtoC] {$B^F$};
+            \node (C) [below right=of BtoC] {$C^T$};
+            \node (bot1) [below=of C] {$\bot$};
+            
+            % Second Branch (from B)
+            \node (AF) [below left=of B] {$A^F$};
+            \node (CT) [below right=of B] {$C^T$};
+            \node (bot2) [below=of CT] {$\bot$};
+            
+            % Third Branch (from AF)
+            \node (AT) [below left=of AF] {$A^T$};
+            \node (bot3) [below=of AT] {$\bot$};
+            \node (BT) [below right=of AF] {$B^T$};
+            \node (bot4) [below=of BT] {$\bot$};
+        
+            % Edges
+            \path (BtoC) edge[-] (B);
+            \path (BtoC) edge[-] (C);
+        
+            \path (B) edge[-] (AF);
+            \path (B) edge[-] (CT);
+        
+            \path (AF) edge[-] (AT);
+            \path (AF) edge[-] (BT);
+        \end{tikzpicture}
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{T}_0$}{t0_calculus} Proof Example}
+    \label{t0proofexample}
+\end{figure}

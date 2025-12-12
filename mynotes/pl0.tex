@@ -262,3 +262,585 @@ C \Rightarrow C
 \]
 \end{enumerate}
 }
+
+\definition{$\mathcal{ND}_0$}{
+The \textbf{propositional natural deduction calculus} $\mathcal{ND}_0$ has \linkterm{inference rules}{inference_rules_logic} for the introduction and elimination of connectives. $\mathcal{ND}_0$ \linkterm{rules}{inference_rules_logic} are shown in \figref{fig:nd0_rules}
+}{nd_0}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        
+        \begin{multicols}{3}
+            % conj. intro
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land I]{A \land B}{A & B}
+                \]
+            \end{minipage}
+        
+            % conj. elimL
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land E_l]{A}{A \land B}
+                \]
+            \end{minipage}
+        
+            % conj. elimR
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land E_r]{B}{A \land B}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \begin{multicols}{2}
+            % impl. intro
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\Rightarrow I^1]{A \Rightarrow B}{\infer*{B}{[A]^1}}
+                \]
+            \end{minipage}
+        
+            % impl. elim.
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace*{1cm}
+                \[
+                    \infer[\Rightarrow E]{B}{A \Rightarrow B \quad A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \noindent
+        \begin{minipage}{\linewidth}
+            % TND
+            $$
+                \infer[\mathcal{TND}]{A \lor \neg A}{\quad}
+            $$
+        \end{minipage}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace{0.3cm}
+                \[
+                    \infer[\Leftrightarrow I]{A \Leftrightarrow A}{}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\Leftrightarrow E]{[B/p]C}{A \Leftrightarrow B \qquad C[A]_p}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \par\vspace{0.5em}
+        \noindent
+        \begin{tikzpicture}
+            \draw[dashed] (0,0) -- (\linewidth,0);
+        \end{tikzpicture}
+        \par\vspace{0.5em}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\lor I_l]{A \lor B}{A}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\lor I_r]{A \lor B}{B}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\lor E^1]{C}{
+                    A \lor B \quad
+                    \infer*{C}{[A]^1} \quad
+                    \infer*{C}{[B]^1}
+                }
+            \]
+        \end{minipage}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\neg I^1]{\neg A}{
+                        \infer*{C}{[A]^1} \quad \infer*{\neg C}{[A]^1}
+                    }
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace*{1cm}
+                \[
+                    \infer[\neg E]{A}{\neg \neg A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\bot I]{\bot}{\neg A \quad A}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\bot E]{A}{\bot}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+    \end{tcolorbox}
+    \caption{Propositional Natural Deduction Rules}
+    \label{fig:nd0_rules}
+\end{figure}
+
+\commandnote{
+\linkterm{Rules}{inference_rules_logic} below the dashed line "- - -" are all \linkterm{derived rules}{derived_inference_rule} from the original \linkterm{set}{def:set} above that line
+}
+
+\definition{$\mathcal{ND}_0$ Derivation Tree}{
+Given a \linkterm{set}{def:set} $\mathcal{H} \subseteq \text{wff}_0(\Sigma_{\text{PL}^0}, \mathcal{V}_{\text{PL}^0})$ of assumptions and a conclusion $C$, we write $\mathcal{H} \vdash_{\mathcal{ND}_0} C$, iff there is an \linkterm{$\mathcal{ND}_0$ derivation}{c_derivation} \linkterm{tree}{tree} whose \linkterm{leaves}{tree} are in $\mathcal{H}$
+}{nd0_derivation_tree}
+
+\definition{Hypothetical Reasoning}{
+Notice that the rule ($\Rightarrow I$) proves $A \Rightarrow B$ by exhibiting an \linkterm{$\mathcal{ND}_0$ derivation}{nd0_derivation_tree} $D$ (\textit{depicted by the three vertical dots}) of $B$ from a \textbf{local hypothesis} $A$. ($\Rightarrow I$) then \textbf{discharges} the local hypothesis (\textit{get rid of $A$, which can only be used in $D$}) and \linkterm{concludes}{inference_rules_logic} $A \Rightarrow B$. This mode of reasoning is called \textbf{hypothetical reasoning} (\linkterm{proof by local hypothesis}{proof_by_local_hypothesis}).
+}{hypothetical_reasoning}
+
+\commandnote{
+The $\mathcal{TND}$ \linkterm{axiom}{axiom_logic} in the \linkterm{$\mathcal{ND}_0$ calculus}{nd_0} is called \textit{the law/principle of excluded middle/third} (in latin \textit{tertium non datur}) is only acceptable in \textbf{classical logic}, intuitionistic/constructive logic/mathematics does not affirm that law. (That applies for the derived rule ($\neg E$) too)
+}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \begin{multicols}{3}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\text{Ax}]{\Gamma, A \vdash A}{}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\text{weaken}]{\Gamma, A \vdash B}{\Gamma \vdash B}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\mathcal{TND}]{\Gamma \vdash A \lor \neg A}{}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \vspace{1em}
+        \begin{multicols}{3}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land I]{\Gamma \vdash A \land B}{\Gamma \vdash A \qquad \Gamma \vdash B}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land E_l]{\Gamma \vdash A}{\Gamma \vdash A \land B}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land E_r]{\Gamma \vdash B}{\Gamma \vdash A \land B}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \vspace{1em}
+        \begin{multicols}{3}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\lor I_l]{\Gamma \vdash A \lor B}{\Gamma \vdash A}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\lor E]{\Gamma \vdash C}{\Gamma \vdash A \lor B \qquad \Gamma, A \vdash C \qquad \Gamma, B \vdash C}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\lor I_r]{\Gamma \vdash A \lor B}{\Gamma \vdash B}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \vspace{1em}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\Rightarrow I]{\Gamma \vdash A \Rightarrow B}{\Gamma, A \vdash B}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\Rightarrow E]{\Gamma \vdash B}{\Gamma \vdash A \Rightarrow B \qquad \Gamma \vdash A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \vspace{1em}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\neg I]{\Gamma \vdash \neg A}{\Gamma , A \vdash \bot}
+                \]
+            \end{minipage}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\neg E]{\Gamma \vdash A}{\Gamma \vdash \neg \neg A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \vspace{1em}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\bot I]{\Gamma \vdash \bot}{\Gamma \vdash \neg A \qquad \Gamma \vdash A}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\bot E]{\Gamma \vdash A}{\Gamma \vdash \bot}
+                \]
+            \end{minipage}
+        \end{multicols}
+    \end{tcolorbox}
+    \caption{Propositional Sequent Style Natural Deduction Calculus}
+    \label{fig:nd0_rules_seq}
+\end{figure}
+
+\commandnote{
+The sequent style of \linkterm{$\mathcal{ND}_0$ calculus}{nd_0} is shown in \figref{fig:nd0_rules_seq} 
+}
+
+\textbf{Example: } \Figref{fig:gentzen_proof,fig:linear_proof,fig:sequent_proof,fig:fitch_proof} show different $\mathcal{ND}_0$ \linkterm{proof styles}{proofs} for the following \linkterm{propositional formula}{wff0_def}:
+\[
+    (A \lor B) \land (A \Rightarrow C) \land (B \Rightarrow C) \Rightarrow C
+\]
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        
+        Let $\Gamma = (A \lor B) \land ((A \Rightarrow C) \land (B \Rightarrow C))$.
+        \vspace{1em}
+        
+        $$
+        \infer[\Rightarrow I]
+        {\vdash \Gamma \Rightarrow C}
+        {
+            \infer[\lor E]
+            {\Gamma \vdash C}
+            {
+                % Branch 1: Get A or B
+                \infer[\land E_l]
+                {\Gamma \vdash A \lor B}
+                {
+                    \infer[\text{Ax}]{\Gamma \vdash \Gamma}{}
+                }
+                &
+                % Branch 2: Prove C assuming A
+                \infer[\Rightarrow E]
+                {\Gamma, A \vdash C}
+                {
+                    \infer[\land E_l]
+                    {\Gamma, A \vdash A \Rightarrow C}
+                    {
+                        \infer[\land E_r]
+                        {\Gamma, A \vdash (A \Rightarrow C) \land (B \Rightarrow C)}
+                        {
+                            \infer[\text{weaken}]
+                            {\Gamma, A \vdash \Gamma}
+                            {
+                                \infer[\text{Ax}]{\Gamma \vdash \Gamma}{}
+                            }
+                        }
+                    }
+                    &
+                    \infer[\text{Ax}]{\Gamma, A \vdash A}{}
+                }
+                &
+                % Branch 3: Prove C assuming B
+                \infer[\Rightarrow E]
+                {\Gamma, B \vdash C}
+                {
+                    \infer[\land E_r]
+                    {\Gamma, B \vdash B \Rightarrow C}
+                    {
+                        \infer[\land E_r]
+                        {\Gamma, B \vdash (A \Rightarrow C) \land (B \Rightarrow C)}
+                        {
+                            \infer[\text{weaken}]
+                            {\Gamma, B \vdash \Gamma}
+                            {
+                                \infer[\text{Ax}]{\Gamma \vdash \Gamma}{}
+                            }
+                        }
+                    }
+                    &
+                    \infer[\text{Ax}]{\Gamma, B \vdash B}{}
+                }
+            }
+        }
+        $$
+        
+    \end{tcolorbox}
+    \caption{Gentzen Sequent Style Proof}
+    \label{fig:sequent_proof}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        
+        Let $\Gamma = (A \lor B) \land ((A \Rightarrow C) \land (B \Rightarrow C))$.
+        \vspace{1em}
+        
+        $$
+        \infer[\Rightarrow I^1]
+        { \Gamma \Rightarrow C }
+        {
+            \infer[\lor E^2]
+            { C }
+            {
+                % Branch 1: Isolate (A or B)
+                \infer[\land E_l]
+                { A \lor B }
+                { [\Gamma]^1 }
+                &
+                % Branch 2: Case A
+                \infer[\Rightarrow E]
+                { C }
+                {
+                    \infer[\land E_l]
+                    { A \Rightarrow C }
+                    {
+                        \infer[\land E_r]
+                        { (A \Rightarrow C) \land (B \Rightarrow C) }
+                        { [\Gamma]^1 }
+                    }
+                    &
+                    [A]^2
+                }
+                &
+                % Branch 3: Case B
+                \infer[\Rightarrow E]
+                { C }
+                {
+                    \infer[\land E_r]
+                    { B \Rightarrow C }
+                    {
+                        \infer[\land E_r]
+                        { (A \Rightarrow C) \land (B \Rightarrow C) }
+                        { [\Gamma]^1 }
+                    }
+                    &
+                    [B]^2
+                }
+            }
+        }
+        $$
+        
+    \end{tcolorbox}
+    \caption{Gentzen-Prawitz Style Proof}
+    \label{fig:gentzen_proof}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \renewcommand{\arraystretch}{1.3} 
+        \begin{tabular}{r l l}
+            \textbf{Step} & \textbf{Formula} & \textbf{Rule Applied} \\
+            \hline
+            (1) & $(A \lor B) \land (A \Rightarrow C) \land (B \Rightarrow C)$ & Assumption \\
+            (2) & $A \lor B$ & $\land E_l$ (on 1) \\
+            (3) & $(A \Rightarrow C) \land (B \Rightarrow C)$ & $\land E_r$ (on 1) \\
+            (4) & $A \Rightarrow C$ & $\land E_l$ (on 3) \\
+            (5) & $B \Rightarrow C$ & $\land E_r$ (on 3) \\
+            \hline
+            (6) & \quad $A$ & Assumption (Case 1) \\
+            (7) & \quad $C$ & $\Rightarrow E$ (on 4 and 6) \\
+            \hline
+            (8) & \quad $B$ & Assumption (Case 2) \\
+            (9) & \quad $C$ & $\Rightarrow E$ (on 5 and 8) \\
+            \hline
+            (10) & $\quad C$ & $\lor E$ (on 2, 7 and 9) \\
+                 & & \textit{Discharges assumptions 6 \& 8} \\
+            (11) & $((A \lor B) \land (A \Rightarrow C) \land (B \Rightarrow C)) \Rightarrow C$ & $\Rightarrow I$ (on 1 and 10) \\
+                 & & \textit{Discharges assumption 1} \\
+        \end{tabular}
+    \end{tcolorbox}
+    \caption{Linearized (Tabular) Style Proof}
+    \label{fig:linear_proof}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{
+        \begin{sdeduce}
+            \hypl[1] (A \lor B) \land ((A \Rightarrow C) \land (B \Rightarrow C)) & Assumption \\
+            \sub[1] A \lor B & $\land \text{E}_l$ (on 1) \\
+            \sub[1] (A \Rightarrow C) \land (B \Rightarrow C) & $\land \text{E}_r$ (on 1) \\
+            \sub[1] A \Rightarrow C & $\land \text{E}_l$ (on 3) \\
+            \sub[1] B \Rightarrow C & $\land \text{E}_r$ (on 3) \\
+            \hypl[2] A & Assumption \\
+            \sub[2] C & $\Rightarrow \text{E}$ (on 4, 6) \\
+            \hypl[2] B & Assumption \\
+            \sub[2] C & $\Rightarrow \text{E}$ (on 5, 8) \\
+            \sub[1] C & $\lor \text{E}$ (on 2, 7, 9) \\
+            ((A \lor B) \land ((A \Rightarrow C) \land (B \Rightarrow C))) \Rightarrow C & $\Rightarrow \text{I}$ (on 1--10) \\
+        \end{sdeduce}
+    }
+    \caption{Fitch Style Proof}
+    \label{fig:fitch_proof}
+\end{figure}
+
+\definition{First-Order Signature}{
+A First-Order (Logic) Signature (FOL Signature) is a tuple $\Sigma := \tuple{\Sigma^f, \Sigma^p}$ where:
+\begin{itemize}
+\item $\Sigma^f := \bigcup_{k \in \N} \Sigma_k^f$ of \textbf{function constants} (or \textbf{terms}), where members of $\Sigma_k^f$ denote the $k$-ary \linkterm{functions}{function} on \textbf{individuals}
+\item $\Sigma^p := \bigcup_{k \in \N} \Sigma_k^p$ of \textbf{predicate constants}, where member of $\Sigma_k^p$ denote $k$-ary \linkterm{relations}{relation} among individuals
+\item $\Sigma_k^f$ and $\Sigma_k^p$ are \linkterm{pairwise disjoint}{pairwise_disjoint}, \linkterm{countable}{countable} \linkterm{sets}{def:set} of symbols for each $k \in \N$.
+\item A $0$-ary \textbf{function constant} refers to a single \textbf{individual}, therefore, we call it an \textbf{individual constant}
+\end{itemize}
+}{fol_sig}
+
+\definition{Predicate Logic Without Quantifiers $\text{PL}^\text{nq}$}{
+Given a \linkterm{FOL Signature}{fol_sig} $\Sigma$, the \textbf{formulae} of $\text{PL}^\text{nq}$ are given by the following \linkterm{grammar}{phrase_structure_grammar}:
+\begin{align*}
+f^k \quad &{\in} \quad \Sigma_k^f \\
+p^k \quad &{\in} \quad \Sigma_p^f \\
+t \quad &{:=} \quad f^0 \mid f^k(t_1, \cdots, t_k) \\
+A \quad &{:=} \quad p^k(t_1, \cdots, t_k) \mid \neg A \mid A \land A
+\end{align*}
+}{plnq}
+
+\definition{Well-Formed Terms}{
+We denote the \linkterm{set}{def:set} of all well-formed \linkterm{terms}{fol_sig} over a \linkterm{FOL Signature}{fol_sig} $\Sigma$ with $\text{wff}_{\iota}(\Sigma)$, and the \linkterm{closed}{ground_pl0} ones with $\text{cwff}_{\iota}(\Sigma)$
+}{wff_terms}
+
+\definition{Well-Formed Formulae}{
+We denote the \linkterm{set}{def:set} of all well-formed \linkterm{formulae}{fol_sig} over a \linkterm{FOL Signature}{fol_sig} $\Sigma$ with $\text{wff}_o(\Sigma)$, and the \linkterm{closed}{ground_pl0} ones with $\text{cwff}_o(\Sigma)$
+}{wff_formulae_fol} 
+
+\commandnote{
+The Greek letter $\iota$ (read \textit{iota}) stands for \linkterm{individuals}{fol_sig} (objects), however, $o$ (read \textit{omicron}) refers to \linkterm{propositions}{proposition} that can be true of false
+}
+
+\definition{$\text{PL}^\text{nq}$ Universe}{
+\linkterm{$\text{PL}^\text{nq}$}{plnq} uses the universe $\mathcal{D}_{\text{PL}^\text{nq}} := \mathcal{D}_0 \cup \mathcal{D}_{\iota}$ where $\mathcal{D}_0 = \set{T,F}$ is the \linkterm{set}{def:set} of truth values and $\mathcal{D}_{\iota} \neq \emptyset$ is a non-empty \linkterm{set}{def:set} of \linkterm{individuals}{fol_sig}
+}{domain_plnq}
+
+\definition{Interpretation in \linkterm{$\text{PL}^\text{nq}$}{plnq}}{
+The interpretation function in \linkterm{$\text{PL}^\text{nq}$}{plnq} \linkterm{assigns}{var_ass_pl0} values to \linkterm{constants}{fol_sig}:
+\begin{enumerate}
+    \item We use the \linkterm{interpretation}{model_pl0} from \linkterm{$\text{PL}^0$}{def:pl0_as_ls}
+        \begin{itemize}
+        \item $\func{\mathcal{I}(\neg)}{\mathcal{D}_0}{\mathcal{D}_0}$; $T \mapsto F, F \mapsto T$
+        \item $\func{\mathcal{I}(\land)}{\cartprod{\mathcal{D}_0,\mathcal{D}_0}}{\mathcal{D}_0}$; $\tuple{\alpha, \beta} \mapsto T$, iff $\alpha = \beta = T$
+        \item $\mathcal{I}(\top) = T$
+        \item $\mathcal{I}(\bot) = F$
+        \end{itemize}
+    \item We interpret \linkterm{individual constants}{fol_sig} as \linkterm{individuals}{fol_sig}:
+    $
+    \func{\mathcal{I}}{\Sigma_0^f}{\mathcal{D}_{\iota}}
+    $
+    \item We interpret \linkterm{function constants}{fol_sig} as \linkterm{functions}{function}:
+    $
+    \mathcal{I}: \Sigma_{k \neq 0}^f \to \mathcal{D}_{\iota}^{k \neq 0} \to \mathcal{D}_{\iota}
+    $
+    \item We interpret \linkterm{predicate constants}{fol_sig} as \linkterm{relations}{relation}:
+    $
+    \func{\mathcal{I}}{\Sigma_k^p}{\powerset{\mathcal{D}_{\iota}^{k}}}
+    $
+\end{enumerate}
+}{interpretation_plnq}
+
+\commandnote{
+This definition naturally includes propositions as a special case. 
+By defining $\func{\mathcal{I}}{\Sigma_k^p}{\powerset{\mathcal{D}_{\iota}^{k}}}$, we see that for $k=0$:
+\[
+\mathcal{D}_{\iota}^0 = \{\tuple{}\} \implies \powerset{\mathcal{D}_{\iota}^0} = \set{\emptyset, \set{\tuple{}}} \cong \set{F, T}
+\]
+Thus, a 0-ary predicate constant is interpreted as a truth value (a proposition), just like in propositional logic.
+}
+
+\definition{Value Function}{
+The value function \linkterm{assigns}{var_ass_pl0} values to \linkterm{formulae}{wff0_def}:
+\begin{enumerate}
+\item $\mathcal{I}(f(A_1, \cdots, A_k)) := \mathcal{I}(f)(\mathcal{I}(A_1), \cdots, \mathcal{I}(A_k))$
+\item $\mathcal{I}(p(A_1, \cdots, A_k)) := T, \text{ iff } \tuple{\mathcal{I}(A_1), \cdots, \mathcal{I}(A_k)} \in \mathcal{I}(p)$ 
+\item and Just as in \linkterm{$\text{PL}^0$}{def:pl0_as_ls}:
+\begin{itemize}
+    \item $\mathcal{I}(\neg A) := \mathcal{I}(\neg) (\mathcal{I}(A))$
+    \item $\mathcal{I} (A \land B) := \mathcal{I}(\land) (\mathcal{I}(A), \mathcal{I}(B))$
+\end{itemize}
+\end{enumerate}
+}{value_function_plnq}
+
+\Theorem{
+    \linkterm{$\text{PL}^\text{nq}$}{plnq} is \textbf{isomorphic} to \linkterm{$\text{PL}^0$}{def:pl0_as_ls}
+}{thm:plnq_pl0}
+
+\Theorem{
+\textbf{Unsatisfiability Theorem}. $\mathcal{H} \vDash A \Leftrightarrow \mathcal{H} \cup \set{\neg A}$ is \linkterm{unsatisfiable}{unsatisfiable_ls}.
+}{thm:unsat}
+
+\Proof{
+\begin{enumerate}
+\item Assume $H \vDash A$
+\begin{itemize}
+    \item For any $\varphi$ with $\varphi \vDash H$ we have $\varphi \vDash A$ and thus $\varphi \nvDash (\neg A)$
+\end{itemize}
+\item Assume $\mathcal{H} \cup \set{\neg A}$ is \linkterm{unsatisfiable}{unsatisfiable_ls}
+\begin{itemize}
+    \item For any $\varphi$ with $\varphi \vDash \mathcal{H}$ we have $\varphi \nvDash (\neg A)$ and thus $\varphi \vDash A$
+\end{itemize} 
+\end{enumerate}    
+}
+
+
+
+
+
