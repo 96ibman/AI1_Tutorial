@@ -1,0 +1,1318 @@
+{
+  "Union Command": {
+    "prefix": "\\union",
+    "body": ["\\\\union{$0}"],
+    "description": "Insert \\union{}"
+  },
+  "Intersection Command": {
+    "prefix": "\\intersection",
+    "body": ["\\\\intersection{$0}"],
+    "description": "Insert \\intersection{}"
+  },
+  "Composition Command": {
+    "prefix": "\\compose",
+    "body": ["\\\\compose{$0}"],
+    "description": "Insert \\compose{}"
+  },
+  "Cartesian Product Command": {
+    "prefix": "\\cartprod",
+    "body": ["\\\\cartprod{$0}"],
+    "description": "Insert \\cartprod{}"
+  },
+  "natural_language":{
+  "prefix": "naturallanguage",
+  "body": "\\linkterm{natural language}{natural_language}"
+  },
+  "domain_of_discourse":{
+  "prefix": "domainofdiscourse",
+  "body": "\\linkterm{domain of discourse}{domain_of_discourse}"
+  },
+  "terminology":{
+  "prefix": "terminology",
+  "body": "\\linkterm{terminology}{terminology}"
+  },
+  "technical_language":{
+  "prefix": "technicallanguage",
+  "body": "\\linkterm{technical language}{technical_language}"
+  },
+  "stylized_language":{
+  "prefix": "stylizedlanguage",
+  "body": "\\linkterm{stylized language}{stylized_language}"
+  },
+  "mathematical_vernacular":{
+  "prefix": "mathematicalvernacular",
+  "body": "\\linkterm{mathematical vernacular}{mathematical_vernacular}"
+  },
+  "formulae":{
+  "prefix": "formulae",
+  "body": "\\linkterm{formulae}{formulae}"
+  },
+  "formula":{
+  "prefix": "formula",
+  "body": "\\linkterm{formula}{formulae}"
+  },
+  "sequence":{
+  "prefix": "sequence",
+  "body": "\\linkterm{sequence}{sequence}"
+  },
+  "ellipses":{
+  "prefix": "ellipses",
+  "body": "\\linkterm{ellipses}{ellipses}"
+  },
+  "definitions":{
+  "prefix": "definitions",
+  "body": "\\linkterm{definition}{definitions}"
+  },
+  "assertions":{
+  "prefix": "assertions",
+  "body": "\\linkterm{assertion}{assertions}"
+  },
+  "examples":{
+  "prefix": "examples",
+  "body": "\\linkterm{example}{examples}"
+  },
+  "proof":{
+  "prefix": "proof",
+  "body": "\\linkterm{proof}{proofs}"
+  },
+  "proposition":{
+  "prefix": "proposition",
+  "body": "\\linkterm{proposition}{proposition}"
+  },
+  "lemma":{
+  "prefix": "lemma",
+  "body": "\\linkterm{lemma}{lemma}"
+  },
+  "theorem":{
+  "prefix": "theorem",
+  "body": "\\linkterm{theorem}{theorem}"
+  },
+  "corollary":{
+  "prefix": "corollary",
+  "body": "\\linkterm{corollary}{corollary}"
+  },
+ "declaration":{
+  "prefix": "declaration",
+  "body": "\\linkterm{declaration}{declaration}"
+  },
+  "scope":{
+  "prefix": "scope",
+  "body": "\\linkterm{scope}{scope}"
+  },
+  "definiens":{
+  "prefix": "definiens",
+  "body": "\\linkterm{definiens}{definiens}"
+  },
+  "defineiendum":{
+  "prefix": "defineiendum",
+  "body": "\\linkterm{defineiendum}{defineiendum}"
+  },
+  "simpledefinition":{
+  "prefix": "simpledefinition",
+  "body": "\\linkterm{simple definition}{simpledefinition}"
+  },
+  "patterndefinition":{
+  "prefix": "patterndefinition",
+  "body": "\\linkterm{pattern definition}{patterndefinition}"
+  },
+  "implicitdefinition":{
+  "prefix": "implicitdefinition",
+  "body": "\\linkterm{implicit definition}{implicitdefinition}"
+  },
+  "example_def":{
+  "prefix": "example_def",
+  "body": "\\linkterm{example}{def:example}"
+  },
+  "coutnerexample_def":{
+  "prefix": "counterexample_def",
+  "body": "\\linkterm{counter example}{def:counterexample}"
+  },
+  "proof_by_contradiction":{
+  "prefix": "proofbycontradiction",
+  "body": "\\linkterm{proof by contradiction}{proof_by_contradiction}"
+  },
+  "proof_by_local_hypothesis":{
+  "prefix": "proof_by_local_hypothesis",
+  "body": "\\linkterm{proof by local hypothesis}{proof_by_local_hypothesis}"
+  },
+  "set_definition":{
+  "prefix": "set",
+  "body": "\\linkterm{set}{def:set}"
+  },
+  "set_element":{
+  "prefix": "element",
+  "body": "\\linkterm{element}{def:set}"
+  },
+  "set_member":{
+  "prefix": "member",
+  "body": "\\linkterm{member}{def:set}"
+  },
+  "subset":{
+  "prefix": "subset",
+  "body": "\\linkterm{subset}{subset}"
+  },
+  "proper_subset":{
+  "prefix": "propersubset",
+  "body": "\\linkterm{proper subset}{proper_subset}"
+  },
+  "superset":{
+  "prefix": "superset",
+  "body": "\\linkterm{superset}{superset}"
+  },
+  "proper_superset":{
+  "prefix": "proper_superset",
+  "body": "\\linkterm{proper superset}{proper_superset}"
+  },
+  "union":{
+  "prefix": "union",
+  "body": "\\linkterm{union}{set_union}"
+  },
+  "intersection":{
+  "prefix": "intersection",
+  "body": "\\linkterm{intersection}{set_intersection}"
+  },
+  "disjoint":{
+  "prefix": "disjoint",
+  "body": "\\linkterm{disjoint}{disjoint}"
+  },
+  "set_difference":{
+  "prefix": "setdifference",
+  "body": "\\linkterm{set difference}{set_difference}"
+  },
+  "power_set":{
+  "prefix": "power_set",
+  "body": "\\linkterm{power set}{power_set}"
+  },
+  "cartesian_product":{
+  "prefix": "cartesian_product",
+  "body": "\\linkterm{cartesian product}{cartesian_product}"
+  },
+  "pair":{
+  "prefix": "pair",
+  "body": "\\linkterm{pair}{cartesian_product}"
+  },
+  "family":{
+  "prefix": "family",
+  "body": "\\linkterm{family}{family}"
+  },
+  "topology":{
+  "prefix": "topology",
+  "body": "\\linkterm{topology}{topology}"
+  },
+  "indexing_function":{
+  "prefix": "indexing_function",
+  "body": "\\linkterm{indexing function}{indexing_function}"
+  },
+  "index_set":{
+  "prefix": "index_set",
+  "body": "\\linkterm{index set}{indexing_function}"
+  },
+  "index":{
+  "prefix": "index",
+  "body": "\\linkterm{index}{indexing_function}"
+  },
+  "indexed_family":{
+  "prefix": "indexed_family",
+  "body": "\\linkterm{indexed family}{indexed_family}"
+  },
+  "cartesian_space":{
+  "prefix": "cartesian_space",
+  "body": "\\linkterm{cartesian space}{cartesian_space}"
+  },
+  "setsize":{
+  "prefix": "setsize",
+  "body": "\\linkterm{size}{setsize}"
+  },
+  "pairwise_disjoint":{
+  "prefix": "pairwise_disjoint",
+  "body": "\\linkterm{pairwise disjoint}{pairwise_disjoint}"
+  },
+  "relation":{
+  "prefix": "relation",
+  "body": "\\linkterm{relation}{relation}"
+  },
+  "relation_on":{
+  "prefix": "relation_on",
+  "body": "\\linkterm{relation on}{relation_on}"
+  },
+  "total_relation":{
+  "prefix": "total_relation",
+  "body": "\\linkterm{total}{total_relation}"
+  },
+  "converse_relation":{
+  "prefix": "converse_relation",
+  "body": "\\linkterm{converse}{converse_relation}"
+  },
+  "relation_composition":{
+  "prefix": "relation_composition",
+  "body": "\\linkterm{composition}{relation_composition}"
+  },
+  "reflexive":{
+  "prefix": "reflexive",
+  "body": "\\linkterm{reflexive}{reflexive}"
+  },
+  "irreflexive":{
+  "prefix": "irreflexive",
+  "body": "\\linkterm{irreflexive}{irreflexive}"
+  },
+  "symmetric":{
+  "prefix": "symmetric",
+  "body": "\\linkterm{symmetric}{symmetric}"
+  },
+  "asymmetric":{
+  "prefix": "asymmetric",
+  "body": "\\linkterm{asymmetric}{asymmetric}"
+  },
+  "antisymmetric":{
+  "prefix": "antisymmetric",
+  "body": "\\linkterm{antisymmetric}{antisymmetric}"
+  },
+  "transitive_relation":{
+  "prefix": "transitive_relation",
+  "body": "\\linkterm{transitive}{transitive_relation}"
+  },
+  "equivalence_relation":{
+  "prefix": "equivalence_relation",
+  "body": "\\linkterm{equivalence relation}{equivalence_relation}"
+  },
+  "equality_relation":{
+  "prefix": "equality_relation",
+  "body": "\\linkterm{equality relation}{equality_relation}"
+  },
+  "partial_ordering":{
+  "prefix": "partial_ordering",
+  "body": "\\linkterm{non-strict partial ordering}{partial_ordering}"
+  },
+  "strict_partial_ordering":{
+  "prefix": "strict_partial_ordering",
+  "body": "\\linkterm{strict partial ordering}{strict_partial_ordering}"
+  },
+  "linear_order":{
+  "prefix": "linear_order",
+  "body": "\\linkterm{linear order}{linear_order}"
+  },
+  "comparable":{
+  "prefix": "comparable",
+  "body": "\\linkterm{comparable}{comparable}"
+  },
+  "divides_relation":{
+  "prefix": "divides_relation",
+  "body": "\\linkterm{divides}{divides_relation}"
+  },
+  "congruence_modulo":{
+  "prefix": "congruence_modulo",
+  "body": "\\linkterm{congruence modulo}{congruence_modulo}"
+  },
+  "partial_function":{
+  "prefix": "partial_function",
+  "body": "\\linkterm{partial function}{partial_function}"
+  },
+  "domain":{
+  "prefix": "domain",
+  "body": "\\linkterm{domain}{domain_codomain}"
+  },
+  "codomain":{
+  "prefix": "codomain",
+  "body": "\\linkterm{codomain}{domain_codomain}"
+  },
+  "undefined":{
+  "prefix": "undefined",
+  "body": "\\linkterm{undefined}{undefined}"
+  },
+  "function":{
+  "prefix": "function",
+  "body": "\\linkterm{function}{function}"
+  },
+  "lambda_notation":{
+  "prefix": "lambda_notation",
+  "body": "\\linkterm{lambda notation}{lambda_notation}"
+  },
+  "injective":{
+  "prefix": "injective",
+  "body": "\\linkterm{injective}{injective}"
+  },
+  "surjective":{
+  "prefix": "surjective",
+  "body": "\\linkterm{surjective}{surjective}"
+  },
+  "bijective":{
+  "prefix": "bijective",
+  "body": "\\linkterm{bijective}{bijective}"
+  },
+  "inverse_function":{
+  "prefix": "inverse_function",
+  "body": "\\linkterm{inverse function}{inverse_function}"
+  },
+  "isomorphic_sets":{
+  "prefix": "isomorphic_sets",
+  "body": "\\linkterm{isomorphic}{isomorphic_sets}"
+  },
+  "set_cardinality":{
+  "prefix": "set_cardinality",
+  "body": "\\linkterm{cardinality}{set_cardinality}"
+  },
+  "finite":{
+  "prefix": "finite",
+  "body": "\\linkterm{finite}{set_cardinality}"
+  },
+  "countably_infinite":{
+  "prefix": "countably_infinite",
+  "body": "\\linkterm{countably infinite}{countably_infinite}"
+  },
+  "countable":{
+  "prefix": "countable",
+  "body": "\\linkterm{countable}{countable}"
+  },
+  "function_composition":{
+  "prefix": "function_composition",
+  "body": "\\linkterm{composition function}{function_composition}"
+  },
+  "image":{
+  "prefix": "image",
+  "body": "\\linkterm{image}{image_preimage}"
+  },
+  "preimage":{
+  "prefix": "preimage",
+  "body": "\\linkterm{preimage}{image_preimage}"
+  },
+  "curried":{
+  "prefix": "curried",
+  "body": "\\linkterm{curried}{curried_function_type}"
+  },
+  "uncurried":{
+  "prefix": "uncurried",
+  "body": "\\linkterm{uncurried}{curried_function_type}"
+  },
+  "well_defined_function":{
+  "prefix": "well_defined_function",
+  "body": "\\linkterm{well-defined}{well_defined_function}"
+  },
+  "invertible":{
+  "prefix": "invertible",
+  "body": "\\linkterm{invertible}{invertible}"
+  },
+  "mathematical_structure":{
+  "prefix": "mathematical_structure",
+  "body": "\\linkterm{mathematical structure}{def:math_structure}"
+  },
+  "group":{
+  "prefix": "group",
+  "body": "\\linkterm{group}{group}"
+  },
+  "monoid":{
+  "prefix": "monoid",
+  "body": "\\linkterm{monoid}{monoid}"
+  },
+  "ring":{
+  "prefix": "ring",
+  "body": "\\linkterm{ring}{ring}"
+  },
+  "alphabet":{
+  "prefix": "alphabet",
+  "body": "\\linkterm{alphabet}{alphabet}"
+  },
+  "empty_string":{
+  "prefix": "empty_string",
+  "body": "\\linkterm{empty string}{empty_string} $\\epsilon$"
+  },
+  "length_string":{
+  "prefix": "length_string",
+  "body": "\\linkterm{length}{string_length}"
+  },
+  "concatenation_string":{
+  "prefix": "concatenation_string",
+  "body": "\\linkterm{concatenation}{concatenation_string}"
+  },
+  "formal_language":{
+  "prefix": "formal_language",
+  "body": "\\linkterm{formal language}{formal_language}"
+  },
+  "grammar":{
+  "prefix": "grammar",
+  "body": "\\linkterm{grammar}{phrase_structure_grammar}"
+  },
+  "nonterminal_symbols":{
+  "prefix": "nonterminal_symbols",
+  "body": "\\linkterm{nonterminal symbol}{phrase_structure_grammar}"
+  },
+  "terminal_symbols":{
+  "prefix": "terminal_symbols",
+  "body": "\\linkterm{terminal symbol}{phrase_structure_grammar}"
+  },
+  "production_rule":{
+  "prefix": "production_rule",
+  "body": "\\linkterm{production rule}{phrase_structure_grammar}"
+  },
+  "start_symbol":{
+  "prefix": "start_symbol",
+  "body": "\\linkterm{start symbol}{phrase_structure_grammar}"
+  },
+  "terminal_word":{
+  "prefix": "terminal_word",
+  "body": "\\linkterm{terminal word}{phrase_structure_grammar}"
+  },
+  "lexical_rule_grammar":{
+  "prefix": "lexical_rule_grammar",
+  "body": "\\linkterm{lexical}{lexical_rule_grammar}"
+  },
+  "lexicon_grammar":{
+  "prefix": "lexicon_grammar",
+  "body": "\\linkterm{lexicon}{lexicon_grammar}"
+  },
+  "lexical_categories_grammar":{
+  "prefix": "lexical_categories_grammar",
+  "body": "\\linkterm{lexical category}{lexical_categories_grammar}"
+  },
+  "structural_rules_grammar":{
+  "prefix": "structural_rules_grammar",
+  "body": "\\linkterm{structural rule}{structural_rules_grammar}"
+  },
+  "phrasal_categories":{
+  "prefix": "phrasal_categories",
+  "body": "\\linkterm{phrasal category}{phrasal_categories}"
+  },
+  "sentential_form":{
+  "prefix": "sentential_form",
+  "body": "\\linkterm{sentential form}{sentential_form}"
+  },
+  "sentence_grammar":{
+  "prefix": "sentence_grammar",
+  "body": "\\linkterm{sentence}{sentence_grammar}"
+  },
+  "equivalent_grammars":{
+  "prefix": "equivalent_grammars",
+  "body": "\\linkterm{equivalent}{equivalent_grammars}"
+  },
+  "universal_grammar":{
+  "prefix": "universal_grammar",
+  "body": "\\linkterm{universal}{universal_grammar}"
+  },
+  "syntactic_analysis_grammar":{
+  "prefix": "syntactic_analysis_grammar",
+  "body": "\\linkterm{syntactic analysis}{syntactic_analysis_grammar}"
+  },
+  "contex_sensitive_grammar":{
+  "prefix": "contex_sensitive_grammar",
+  "body": "\\linkterm{contex sensitive grammar}{contex_sensitive_grammar}"
+  },
+  "contex_free_grammar":{
+  "prefix": "contex_free_grammar",
+  "body": "\\linkterm{CFG}{contex_free_grammar}"
+  },
+  "regular_grammar":{
+  "prefix": "regular_grammar",
+  "body": "\\linkterm{regular grammar}{regular_grammar}"
+  },
+  "directed_graph":{
+  "prefix": "directed_graph",
+  "body": "\\linkterm{directed graph}{directed_graph}"
+  },
+  "undirected_graph":{
+  "prefix": "undirected_graph",
+  "body": "\\linkterm{undirected graph}{undirected_graph}"
+  },
+  "indegree_graph":{
+  "prefix": "indegree_graph",
+  "body": "\\linkterm{indegree}{indegree}"
+  },
+  "outdegree_graph":{
+  "prefix": "outdegree_graph",
+  "body": "\\linkterm{outdegree}{outdegree}"
+  },
+  "initial_node":{
+  "prefix": "initial_node",
+  "body": "\\linkterm{initial node}{initial_terminal_node}"
+  },
+  "terminal_node":{
+  "prefix": "terminal_node",
+  "body": "\\linkterm{terminal node}{initial_terminal_node}"
+  },
+  "isomorphism_graph":{
+  "prefix": "isomorphism_graph",
+  "body": "\\linkterm{isomorphic}{graph_isomorphism}"
+  },
+  "equivalent_graphs":{
+  "prefix": "equivalent_graphs",
+  "body": "\\linkterm{equivalent}{equivalent_graphs}"
+  },
+  "labeled_graph":{
+  "prefix": "labeled_graph",
+  "body": "\\linkterm{labeled graph}{labeled_graph}"
+  },
+  "path_graph":{
+  "prefix": "path_graph",
+  "body": "\\linkterm{path}{path_graph}"
+  },
+  "cyclic_graphs":{
+  "prefix": "cyclic_graphs",
+  "body": "\\linkterm{cyclic}{cyclic_graphs}"
+  },
+  "dag":{
+  "prefix": "DAG",
+  "body": "\\linkterm{DAG}{dag}"
+  },
+  "depth_node":{
+  "prefix": "depth_node",
+  "body": "\\linkterm{depth}{depth_node}"
+  },
+  "depth_graph":{
+  "prefix": "depth_graph",
+  "body": "\\linkterm{depth}{depth_graph}"
+  },
+  "tree":{
+  "prefix": "tree",
+  "body": "\\linkterm{tree}{tree}"
+  },
+  "agent":{
+  "prefix": "agent",
+  "body": "\\linkterm{agent}{def:agent}"
+  },
+  "performance_measure":{
+  "prefix": "performance_measure",
+  "body": "\\linkterm{performance measure}{performance_measure}"
+  },
+  "rational":{
+  "prefix": "rational",
+  "body": "\\linkterm{rational}{def:rational}"
+  },
+  "fully observable":{
+  "prefix": "fully_observable_env",
+  "body": "\\linkterm{fully observable}{env_types}"
+  },
+  "partially observable":{
+  "prefix": "partially_observable_env",
+  "body": "\\linkterm{partially observable}{env_types}"
+  },
+  "deterministic":{
+  "prefix": "deterministic_env",
+  "body": "\\linkterm{deterministic}{env_types}"
+  },
+  "stochastic":{
+  "prefix": "stochastic_env",
+  "body": "\\linkterm{stochastic}{env_types}"
+  },
+  "episodic":{
+  "prefix": "episodic_env",
+  "body": "\\linkterm{episodic}{env_types}"
+  },
+  "sequential":{
+  "prefix": "sequential_env",
+  "body": "\\linkterm{sequential}{env_types}"
+  },
+  "dynamic":{
+  "prefix": "dynamic_env",
+  "body": "\\linkterm{dynamic}{env_types}"
+  },
+  "static":{
+  "prefix": "static_env",
+  "body": "\\linkterm{static}{env_types}"
+  },
+  "semidynamic":{
+  "prefix": "semidynamic_env",
+  "body": "\\linkterm{semidynamic}{env_types}"
+  },
+  "discrete":{
+  "prefix": "discrete_env",
+  "body": "\\linkterm{discrete}{env_types}"
+  },
+  "continuous":{
+  "prefix": "continuous_env",
+  "body": "\\linkterm{continuous}{env_types}"
+  },
+  "reflex agent":{
+  "prefix": "reflex_agent",
+  "body": "\\linkterm{reflex agent}{def:reflex}"
+  },
+  "model_based_agent":{
+  "prefix": "model_based_agent",
+  "body": "\\linkterm{model-based agent}{model_based_agent}"
+  },
+  "goal_based_agent":{
+  "prefix": "goal_based_agent",
+  "body": "\\linkterm{goal-based agent}{goal_based_agent}"
+  },
+  "utility_based_agent":{
+  "prefix": "utility_based_agent",
+  "body": "\\linkterm{utility-based agent}{utility_based_agent}"
+  },
+  "learning_agent":{
+  "prefix": "learning_agent",
+  "body": "\\linkterm{learning agent}{learning_agent}"
+  },
+  "atomic":{
+  "prefix": "atomic_state",
+  "body": "\\linkterm{atomic}{state_repr}"
+  },
+  "factored":{
+  "prefix": "factored_state",
+  "body": "\\linkterm{factored}{state_repr}"
+  },
+  "structured":{
+  "prefix": "structured_state",
+  "body": "\\linkterm{structured}{state_repr}"
+  },
+  "search_problem":{
+  "prefix": "search_problem",
+  "body": "\\linkterm{search problem}{search_problem}"
+  },
+  "action_application":{
+  "prefix": "applicable",
+  "body": "\\linkterm{applicable}{action_application}"
+  },
+  "state_space":{
+  "prefix": "state_space",
+  "body": "\\linkterm{state space}{state_space}"
+  },
+  "search_prob_sol":{
+  "prefix": "solution_search_prob",
+  "body": "\\linkterm{solution}{search_prob_sol}"
+  },
+  "cost_function":{
+  "prefix": "step_cost",
+  "body": "\\linkterm{step cost}{cost_function}"
+  },
+  "successor_func_state":{
+  "prefix": "successor_func_state",
+  "body": "\\linkterm{successor}{successor_func_state}"
+  },
+  "tree_search":{
+  "prefix": "tree_search",
+  "body": "\\linkterm{tree search algorithm}{tree_search}"
+  },
+  "search_tree":{
+  "prefix": "search_tree",
+  "body": "\\linkterm{search tree}{tree_search}"
+  },
+  "path_cost":{
+  "prefix": "path_cost",
+  "body": "\\linkterm{path cost}{path_cost}"
+  },
+  "search_strategy":{
+  "prefix": "strategy_search",
+  "body": "\\linkterm{strategy}{search_strategy}"
+  },
+  "bsf":{
+  "prefix": "BFS",
+  "body": "\\linkterm{BFS}{bfs}"
+  },
+  "ucs":{
+  "prefix": "UCS",
+  "body": "\\linkterm{UCS}{ucs}"
+  },
+  "dfs":{
+  "prefix": "DFS",
+  "body": "\\linkterm{DFS}{dfs}"
+  },
+  "backtracking":{
+  "prefix": "backtracking",
+  "body": "\\linkterm{backtracking}{backtracking}"
+  },
+  "depth_limited_search":{
+  "prefix": "DLS",
+  "body": "\\linkterm{DLS}{depth_limited_search}"
+  },
+  "ids":{
+  "prefix": "IDS",
+  "body": "\\linkterm{IDS}{ids}"
+  },
+  "graph_search_algorithm":{
+  "prefix": "graph_search_algorithm",
+  "body": "\\linkterm{graph search algorithm}{graph_search}"
+  },
+  "search_graph":{
+  "prefix": "search_graph",
+  "body": "\\linkterm{search graph}{graph_search}"
+  },
+  "search_alg":{
+  "prefix": "search_alg",
+  "body": "\\linkterm{search algorithm}{search_alg}"
+  },
+  "informed_search_alg":{
+  "prefix": "informed_search_alg",
+  "body": "\\linkterm{informed}{informed}"
+  },
+  "evaluation_function":{
+  "prefix": "evaluation_function",
+  "body": "\\linkterm{evaluation function}{eval_func}"
+  },
+  "best_first_search":{
+  "prefix": "best_first_search",
+  "body": "\\linkterm{Best-First Search}{best_first_search}"
+  },
+  "heuristic_search":{
+  "prefix": "heuristic_search",
+  "body": "\\linkterm{heuristic search}{heuristic_search}"
+  },
+  "heuristic":{
+  "prefix": "heuristic",
+  "body": "\\linkterm{heuristic}{heuristic_search}"
+  },
+  "greedy_search":{
+  "prefix": "greedy_search",
+  "body": "\\linkterm{greedy search}{greedy_search}"
+  },
+  "heuristic_function":{
+  "prefix": "heuristic_function",
+  "body": "\\linkterm{heuristic function}{heuristic_function}"
+  },
+  "goal_distance_function":{
+  "prefix": "h_star",
+  "body": "\\linkterm{\\$h^{*}\\$}{goal_distance_function}"
+  },
+  "admissible":{
+  "prefix": "admissible",
+  "body": "\\linkterm{admissible}{admissible}"
+  },
+  "consistent_heuristic":{
+  "prefix": "consistent_heuristic",
+  "body": "\\linkterm{consistent}{consistent_heuristic}"
+  },
+  "astar_eval_function":{
+  "prefix": "astar_eval_function",
+  "body": "\\linkterm{\\$ A^{*} \\$ evaluation function}{astar_eval_function}"
+  },
+  "astar_search":{
+  "prefix": "astar_search",
+  "body": "\\linkterm{\\$ A^{*} \\$ Search}{astar_search}"
+  },
+  "dominance_heuristic":{
+  "prefix": "dominance_heuristic",
+  "body": "\\linkterm{dominates}{dominance}"
+  },
+  "adversarial_search_problem":{
+  "prefix": "adversarial_search_problem",
+  "body": "\\linkterm{adversarial search problem}{adversarial_search_problem}"
+  },
+  "strategy_adversarial":{
+  "prefix": "strategy_adversarial",
+  "body": "\\linkterm{strategy}{strategy_adversarial}"
+  },
+  "minimax_value":{
+  "prefix": "minimax_value",
+  "body": "\\linkterm{minimax value}{minimax}"
+  },
+  "minimax_alg":{
+  "prefix": "minimax",
+  "body": "\\linkterm{minimax}{minimax_alg}"
+  },
+  "eval_func_minimax":{
+  "prefix": "eval_func_minimax",
+  "body": "\\linkterm{evaluation function}{eval_func_minimax}"
+  },
+  "alpha_beta_pruning":{
+  "prefix": "alpha_beta_pruning",
+  "body": "\\linkterm{alpha-beta pruning}{alpha_beta_pruning}"
+  },
+  "CSP":{
+  "prefix": "CSP",
+  "body": "\\linkterm{CSP}{csp}"
+  },
+  "variable_assignment_csp":{
+  "prefix": "variable_assignment_csp",
+  "body": "\\linkterm{variable assignment}{var_ass_csp}"
+  },
+  "satisfying_csp":{
+  "prefix": "satisfies_csp",
+  "body": "\\linkterm{satisfies}{satisfying_csp}"
+  },
+  "consistent_csp":{
+  "prefix": "consistent_csp",
+  "body": "\\linkterm{consistent}{consistent_csp}"
+  },
+  "legal_csp":{
+  "prefix": "legal_csp",
+  "body": "\\linkterm{legal}{legal_csp}"
+  },
+  "illegal_csp":{
+  "prefix": "illegal_csp",
+  "body": "\\linkterm{illegal}{legal_csp}"
+  },
+  "conflicted_variable_csp":{
+  "prefix": "conflicted_variable_csp",
+  "body": "\\linkterm{conflicted}{conflicted_variable_csp}"
+  },
+  "csp_solution":{
+  "prefix": "solution_csp",
+  "body": "\\linkterm{solution}{csp_solution}"
+  },
+  "satisfiable_csp":{
+  "prefix": "satisfiable_csp",
+  "body": "\\linkterm{satisfiable}{satisfiable_csp}"
+  },
+  "discrete_csp":{
+  "prefix": "discrete_csp",
+  "body": "\\linkterm{discrete}{discrete_csp}"
+  },
+  "boolean_csp":{
+  "prefix": "boolean_csp",
+  "body": "\\linkterm{boolean CSP}{boolean_csp}"
+  },
+  "constraint_order":{
+  "prefix": "order_csp",
+  "body": "\\linkterm{order}{constraint_order}"
+  },
+  "binary_csp":{
+  "prefix": "binary_csp",
+  "body": "\\linkterm{binary CSP}{binary_csp}"
+  },
+  "constraint_graph":{
+  "prefix": "constraint_graph",
+  "body": "\\linkterm{constraint graph}{constraint_graph}"
+  },
+  "constraint_network":{
+  "prefix": "constraint_network",
+  "body": "\\linkterm{constraint network}{constraint_network}"
+  },
+  "backtracking_search_csp":{
+  "prefix": "backtracking_search_csp",
+  "body": "\\linkterm{backtracking search}{backtracking_search_csp}"
+  },
+  "forward_checking":{
+  "prefix": "forward_checking",
+  "body": "\\linkterm{forward checking}{forward_checking}"
+  },
+  "arc_consistency":{
+  "prefix": "arc_consistency",
+  "body": "\\linkterm{arc consistency}{arc_consistency}"
+  },
+  "consistent_arc":{
+  "prefix": "consistent_arc",
+  "body": "\\linkterm{consistent}{arc_consistency}"
+  },
+  "mrv_csp":{
+  "prefix": "MRV_csp",
+  "body": "\\linkterm{MRV}{mrv_csp}"
+  },
+  "lcv_csp":{
+  "prefix": "LCV_csp",
+  "body": "\\linkterm{LCV}{lcv_csp}"
+  },
+  "independent_subproblems_csp":{
+  "prefix": "independent_subproblems_csp",
+  "body": "\\linkterm{independent subproblems}{independent_subproblems_csp}"
+  },
+  "decomposition_csp":{
+  "prefix": "decomposition_csp",
+  "body": "\\linkterm{decomposition}{decomposition_csp}"
+  },
+  "tree_strucutred_csp":{
+  "prefix": "tree_strucutred_csp",
+  "body": "\\linkterm{tree-strucutred CSP}{tree_strucutred_csp}"
+  },
+  "conditioning_csp":{
+  "prefix": "conditioning_csp",
+  "body": "\\linkterm{conditioning}{conditioning_csp}"
+  },
+  "cutset_conditioning":{
+  "prefix": "cutset_conditioning",
+  "body": "\\linkterm{cutset conditioning}{cutset_conditioning}"
+  },
+  "logical_system":{
+  "prefix": "logical_system",
+  "body": "\\linkterm{logical system}{logical_system}"
+  },
+  "satisfied_proposition_logical_system":{
+  "prefix": "satisfied_proposition_logical_system",
+  "body": "\\linkterm{satisfied}{satisfied_ls}"
+  },
+  "satisfiable_proposition_logical_system":{
+  "prefix": "satisfiable_proposition_logical_system",
+  "body": "\\linkterm{satisfiable}{satisfiable_ls}"
+  },
+  "unsatisfiable_proposition_logical_system":{
+  "prefix": "unsatisfiable_proposition_logical_system",
+  "body": "\\linkterm{unsatisfiable}{unsatisfiable_ls}"
+  },
+  "falsified_proposition_logical_system":{
+  "prefix": "falsified_proposition_logical_system",
+  "body": "\\linkterm{falsified}{falsified_ls}"
+  },
+  "valid_proposition_logical_system":{
+  "prefix": "valid_proposition_logical_system",
+  "body": "\\linkterm{valid}{valid_ls}"
+  },
+  "invalid_proposition_logical_system":{
+  "prefix": "invalid_proposition_logical_system",
+  "body": "\\linkterm{invalid}{invalid_ls}"
+  },
+  "derivation_relation_logic":{
+  "prefix": "derivation_relation_logic",
+  "body": "\\linkterm{derivation relation}{derivation_relation_logic}"
+  },
+  "inference_rules_logic":{
+  "prefix": "inference_rules_logic",
+  "body": "\\linkterm{inference rule}{inference_rules_logic}"
+  },
+  "assumption_inference":{
+  "prefix": "assumption_inference",
+  "body": "\\linkterm{assumption}{inference_rules_logic}"
+  },
+  "conclusion_inference":{
+  "prefix": "conclusion_inference",
+  "body": "\\linkterm{conclusion}{inference_rules_logic}"
+  },
+  "axiom_logic":{
+  "prefix": "axiom_logic",
+  "body": "\\linkterm{axiom}{axiom_logic}"
+  },
+  "calculus_logic":{
+  "prefix": "calculus_logic",
+  "body": "\\linkterm{calculus}{calculus_logic}"
+  },
+  "derivation_calculus":{
+  "prefix": "derivation_calculus",
+  "body": "\\linkterm{\\$\\mathcal{C}\\$-derivation}{c_derivation}"
+  },
+  "refutation_calculus":{
+  "prefix": "refutation_calculus",
+  "body": "\\linkterm{\\$\\mathcal{C}\\$-refutation}{c_refutation}"
+  },
+  "derivation_system":{
+  "prefix": "derivation_system",
+  "body": "\\linkterm{derivation system}{derivation_system}"
+  },
+  "formal_system":{
+  "prefix": "formal_system",
+  "body": "\\linkterm{formal system}{formal_system}"
+  },
+  "admissible_inference_rule":{
+  "prefix": "admissible_inference_rule",
+  "body": "\\linkterm{admissible}{admissible_inference_rule}"
+  },
+  "derived_inference_rule":{
+  "prefix": "derived_inference_rule",
+  "body": "\\linkterm{derived}{derived_inference_rule}"
+  },
+  "pl0":{
+  "prefix": "pl0",
+  "body": "\\linkterm{\\$\\text{PL}^0\\$}{def:pl0_as_ls}"
+  },
+  "propositional_logic":{
+  "prefix": "propositional_logic",
+  "body": "\\linkterm{propositional logic}{def:pl0_as_ls}"
+  },
+  "formula_pl0":{
+  "prefix": "formula_pl0",
+  "body": "\\linkterm{formula}{wff0_def}"
+  },
+  "formulae_pl0":{
+  "prefix": "formulae_pl0",
+  "body": "\\linkterm{formulae}{wff0_def}"
+  },
+  "canonical_model":{
+  "prefix": "canonical_model",
+  "body": "\\linkterm{canonical}{canonical_model}"
+  },
+  "single_model_ls":{
+  "prefix": "single_model_ls",
+  "body": "\\linkterm{single-model}{canonical_model}"
+  },
+  "model_pl0":{
+  "prefix": "model_pl0",
+  "body": "\\linkterm{model}{model_pl0}"
+  },
+  "variable_ass_pl0":{
+  "prefix": "variable_ass_pl0",
+  "body": "\\linkterm{variable assignment}{var_ass_pl0}"
+  },
+  "value_function_pl0":{
+  "prefix": "value_function_pl0",
+  "body": "\\linkterm{value function}{value_function_pl0}"
+  },
+  "ground_pl0":{
+  "prefix": "ground_pl0",
+  "body": "\\linkterm{ground}{ground_pl0}"
+  },
+  "equivalent_formulae":{
+  "prefix": "equivalent_formulae",
+  "body": "\\linkterm{equivalent}{equivalent_formulae}"
+  },
+  "wff0_set":{
+  "prefix": "wff0_set",
+  "body": "\\text{wff}_0(\\Sigma_{\\text{PL}^0}, \\mathcal{V}_{\\text{PL}^0})"
+  },
+  "signature_pl0":{
+  "prefix": "signature_pl0",
+  "body": "\\Sigma_{\\text{PL}^0}"
+  },
+  "variables_pl0":{
+  "prefix": "variables_pl0",
+  "body": "\\mathcal{V}_{\\text{PL}^0}"
+  },
+  "entailment_pl0":{
+  "prefix": "entailment_pl0",
+  "body": "\\linkterm{entailment}{entailment_pl0}"
+  },
+  "entails_pl0":{
+  "prefix": "entails_pl0",
+  "body": "\\linkterm{entails}{entailment_pl0}"
+  },
+  "sound":{
+  "prefix": "sound_logic",
+  "body": "\\linkterm{sound}{sound}"
+  },
+  "complete":{
+  "prefix": "complete_logic",
+  "body": "\\linkterm{complete}{complete}"
+  },
+  "hilbert_calculus":{
+  "prefix": "hilbert_calculus",
+  "body": "\\linkterm{Hilbert Calculus \\$\\mathcal{H}^0\\$}{hilbert_calculus}"
+  },
+  "ND0":{
+  "prefix": "ND0",
+  "body": "\\linkterm{\\$\\mathcal{ND}_0\\$}{nd_0}"
+  },
+  "nd0_derivation_tree":{
+  "prefix": "derivation_nd0",
+  "body": "\\linkterm{\\$\\mathcal{ND}_0\\$ derivation}{nd0_derivation_tree}"
+  },
+  "hypothetical_reasoning":{
+  "prefix": "hypothetical_reasoning",
+  "body": "\\linkterm{hypothetical reasoning}{hypothetical_reasoning}"
+  },
+  "fol_sig":{
+  "prefix": "fol_sig",
+  "body": "\\linkterm{FOL Signature}{fol_sig}"
+  },
+  "function_constant":{
+  "prefix": "function_constant",
+  "body": "\\linkterm{function constant}{fol_sig}"
+  },
+  "predicate_constant":{
+  "prefix": "predicate_constant",
+  "body": "\\linkterm{predicate constant}{fol_sig}"
+  },
+  "individual_constant":{
+  "prefix": "individual_constant",
+  "body": "\\linkterm{individual constant}{fol_sig}"
+  },
+  "plnq":{
+  "prefix": "plnq",
+  "body": "\\linkterm{\\$\\text{PL}^\\text{nq}\\$}{plnq}"
+  },
+  "wff_terms":{
+  "prefix": "wff_terms",
+  "body": "\\linkterm{\\$\\text{wff}_{\\iota}(\\Sigma)\\$}{wff_terms}"
+  },
+  "wff_formulae_fol":{
+  "prefix": "wff_formulae_fol",
+  "body": "\\linkterm{\\$\\text{wff}_{o}(\\Sigma)\\$}{wff_formulae_fol}"
+  },
+  "theorem_proving":{
+  "prefix": "theorem_proving",
+  "body": "\\linkterm{theorem proving}{theorem_proving}"
+  },
+  "conjecture":{
+  "prefix": "conjecture",
+  "body": "\\linkterm{conjecture}{theorem_proving}"
+  },
+  "ATP":{
+  "prefix": "ATP",
+  "body": "\\linkterm{ATP}{def:atp}"
+  },
+  "atomic_formula":{
+  "prefix": "atomic_formula",
+  "body": "\\linkterm{atomic formula}{atomic_formula}"
+  },  
+  "complex_formula":{
+  "prefix": "complex_formula",
+  "body": "\\linkterm{complex formula}{atomic_formula}"
+  },  
+  "atom":{
+  "prefix": "atom",
+  "body": "\\linkterm{atom}{atomic_formula}"
+  }, 
+  "test_calculus":{
+  "prefix": "test_calculus",
+  "body": "\\linkterm{test calculus}{test_calculus}"
+  }, 
+  "labeled_formula":{
+  "prefix": "labeled_formula",
+  "body": "\\linkterm{labeled formula}{labeled_formula}"
+  },   
+  "label_set":{
+  "prefix": "label_set",
+  "body": "\\linkterm{label set}{labeled_formula}"
+  }, 
+  "label":{
+  "prefix": "label",
+  "body": "\\linkterm{label}{labeled_formula}"
+  },   
+  "literal_formula":{
+  "prefix": "literal_formula",
+  "body": "\\linkterm{literal}{literal}"
+  },    
+  "opposite_literal":{
+  "prefix": "opposite_literal",
+  "body": "\\linkterm{opposite literal}{opposite_literal}"
+  },    
+  "CNF":{
+  "prefix": "CNF",
+  "body": "\\linkterm{CNF}{cnf}"
+  }, 
+  "DNF":{
+  "prefix": "DNF",
+  "body": "\\linkterm{DNF}{dnf}"
+  }, 
+  "tableau_calculus":{
+  "prefix": "tableau_calculus",
+  "body": "\\linkterm{tableau calculus}{tableau_calculus}"
+  }, 
+  "saturated_tableau":{
+  "prefix": "saturated_tableau",
+  "body": "\\linkterm{saturated tableau}{saturated_tableau}"
+  }, 
+  "closed_branch_tableau":{
+  "prefix": "closed_branch_tableau",
+  "body": "\\linkterm{closed}{closed_branch}"
+  }, 
+  "open_branch_tableau":{
+  "prefix": "open_branch_tableau",
+  "body": "\\linkterm{open}{closed_branch}"
+  },
+  "closed_tableau":{
+  "prefix": "closed_tableau",
+  "body": "\\linkterm{closed tableau}{closed_tableau}"
+  },
+  "t0_calculus":{
+  "prefix": "T0_calculus",
+  "body": "\\linkterm{\\$\\mathcal{T}_0\\$}{t0_calculus}"
+  },  
+  "clause":{
+  "prefix": "clause",
+  "body": "\\linkterm{clause}{clause_resolution}"
+  }, 
+  "empty_clause":{
+  "prefix": "empty_clause",
+  "body": "\\linkterm{empty clause}{clause_resolution}"
+  },   
+  "unit_clause":{
+  "prefix": "unit_clause",
+  "body": "\\linkterm{unit clause}{clause_resolution}"
+  }, 
+  "clause_set":{
+  "prefix": "clause_set",
+  "body": "\\linkterm{clause set}{clause_set}"
+  }, 
+  "R0":{
+  "prefix": "R0",
+  "body": "\\linkterm{\\$\\mathcal{R}_0\\$}{R0}"
+  }, 
+  "resolvant":{
+  "prefix": "resolvant",
+  "body": "\\linkterm{resolvant}{R0}"
+  }, 
+  "cut_literals":{
+  "prefix": "cut_literals",
+  "body": "\\linkterm{cut literals}{R0}"
+  }, 
+  "resolution_refutation":{
+  "prefix": "resolution_refutation",
+  "body": "\\linkterm{\\$\\mathcal{R}_0\\$-refutation}{resolution_refutation}"
+  },
+  "cnf0":{
+  "prefix": "cnf0",
+  "body": "\\linkterm{\\$\\text{CNF}_0\\$}{cnf0_calculus}"
+  },
+  "clause_set_simplification":{
+  "prefix": "clause_set_simplification",
+  "body": "\\linkterm{clause set simplification}{clause_set_simplification}"
+  },
+  "SAT":{
+  "prefix": "SAT",
+  "body": "\\linkterm{SAT}{SAT}"
+  },
+  "sat_solver":{
+  "prefix": "sat_solver",
+  "body": "\\linkterm{SAT solver}{sat_solver}"
+  },
+  "sat_solvers":{
+  "prefix": "sat_solvers",
+  "body": "\\linkterm{SAT solvers}{sat_solver}"
+  },
+  "unit_resolution":{
+  "prefix": "unit_resolution",
+  "body": "\\linkterm{unit resolution}{unit_resolution}"
+  },
+  "unit_propagation":{
+  "prefix": "unit_propagation",
+  "body": "\\linkterm{UP}{unit_propagation}"
+  },
+  "splitting_dpll":{
+  "prefix": "splitting_dpll",
+  "body": "\\linkterm{splitting}{splitting_dpll}"
+  },
+  "DPLL":{
+  "prefix": "DPLL",
+  "body": "\\linkterm{DPLL}{DPLL}"
+  },
+  "pl1":{
+  "prefix": "pl1",
+  "body": "\\linkterm{\\$\\text{PL}^1\\$}{pl1}"
+  },
+  "fol_sig_pl1":{
+  "prefix": "fol_sig_pl1",
+  "body": "\\linkterm{FOL Signature}{fol_sig_pl1}"
+  },
+  "Skolem_constants":{
+  "prefix": "Skolem_constants",
+  "body": "\\linkterm{Skolem constants}{fol_sig_pl1}"
+  },
+  "variables_pl1":{
+  "prefix": "variables_pl1",
+  "body": "\\linkterm{\\$V_{\\iota}\\$}{fol_sig_pl1}"
+  },
+  "terms_pl1":{
+  "prefix": "terms_pl1",
+  "body": "\\linkterm{terms}{terms_pl1}"
+  },
+  "terms_pl1_set":{
+  "prefix": "terms_pl1_set",
+  "body": "\\linkterm{\\$\\text{wff}_{\\iota}(\\Sigma_1, V_{\\iota})\\$}{terms_pl1}"
+  },
+  "formulae_pl1_set":{
+  "prefix": "formulae_pl1_set",
+  "body": "\\linkterm{\\$\\text{wff}_{\\circ}(\\Sigma_1, V_{\\iota})\\$}{formulae_pl1}"
+  },
+  "individuals_pl1":{
+  "prefix": "individuals_pl1",
+  "body": "\\linkterm{individuals}{terms_pl1}"
+  },
+  "formula_pl1":{
+  "prefix": "formula_pl1",
+  "body": "\\linkterm{formula}{formulae_pl1}"
+  },
+  "free_vars_pl1":{
+  "prefix": "free_vars_pl1",
+  "body": "\\linkterm{free}{free_vars_pl1}"
+  },
+  "bound_vars_pl1":{
+  "prefix": "bound_vars_pl1",
+  "body": "\\linkterm{bound}{bound_vars_pl1}"
+  },
+  "ground_pl1":{
+  "prefix": "ground_pl1",
+  "body": "\\linkterm{ground}{ground_pl1}"
+  },
+  "alphabetical_variants":{
+  "prefix": "alphabetical_variants",
+  "body": "\\linkterm{alphabetical variant}{alphabetical_variants}"
+  },
+  "domain_pl1":{
+  "prefix": "domain_pl1",
+  "body": "\\linkterm{domain}{domain_pl1}"
+  },
+  "interpretation_pl1":{
+  "prefix": "interpretation_pl1",
+  "body": "\\linkterm{interpretation}{interpretation_pl1}"
+  },
+  "value_function_pl1":{
+  "prefix": "value_function_pl1",
+  "body": "\\linkterm{value function}{value_function_pl1}"
+  },
+  "assignment_extension_pl1":{
+  "prefix": "assignment_extension_pl1",
+  "body": "\\linkterm{assignment extension}{assignment_extension_pl1}"
+  },
+}

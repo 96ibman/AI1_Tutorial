@@ -1,0 +1,181 @@
+\labeledsection{First-Order Predicate Logic}{sec:pl1}
+\definition{$\text{PL}^1$}{
+First-Order (Predicate) Logic $\text{PL}^1$ is a \linkterm{formal system}{formal_system} extensively used in mathematics, philosophy, linguistics, and computer science. It combines \linkterm{$\text{PL}^0$}{def:pl0_as_ls} with the ability to quantify over \linkterm{individuals}{fol_sig}
+}{pl1}
+
+
+\definition{First-Order Signature}{
+A First-Order Signature is a tuple $\Sigma := \tuple{\Sigma_1, \linkterm{\Sigma_0}{wff0_def}}$ where $\Sigma_1 := \Sigma^f \cup \Sigma^p \cup \Sigma^{sk}$:
+\begin{itemize}
+\item $\Sigma^f := \bigcup_{k \in \N} \Sigma_k^f$ of \textbf{function constants} (or \textbf{terms}), where members of $\Sigma_k^f$ denote the $k$-ary \linkterm{functions}{function} on \textbf{individuals}
+\item $\Sigma^p := \bigcup_{k \in \N} \Sigma_k^p$ of \textbf{predicate constants}, where member of $\Sigma_k^p$ denote $k$-ary \linkterm{relations}{relation} among individuals
+\item $\Sigma^{sk} := \bigcup_{k \in \N} \Sigma_k^{sk}$ of \textbf{Skolem constants} that act as witness constructors
+\item All are \linkterm{pairwise disjoint}{pairwise_disjoint}, \linkterm{countable}{countable} \linkterm{sets}{def:set} of symbols for each $k \in \N$.
+\end{itemize}
+We also assume a \linkterm{set}{def:set} of \textbf{individual variables} $V_{\iota} := \set{X,Y,Z,\cdots}$ which we can quantify over them.
+}{fol_sig_pl1}
+
+\commandnote{
+\Defref{fol_sig_pl1} is the full FOL Signature. In \linkterm{$\text{PL}^\text{nq}$}{plnq}, we did not explicitly define $\Sigma_0$ (assumed to be there) and we did not need $\Sigma^{sk}$ since no quantification over \linkterm{individuals}{fol_sig} was allowed. That is why in \Defref{fol_sig} we only mentioned what \linkterm{$\text{PL}^\text{nq}$}{plnq} actually uses of the  \linkterm{full FOL Signature}{fol_sig_pl1}
+}
+
+\commandnote{
+In \linkterm{$\text{PL}^\text{nq}$}{plnq}, we defined terms and formulae in \Defref{wff_terms} and \Defref{wff_formulae_fol} as follows:
+\begin{itemize}
+    \item We denote the \linkterm{set}{def:set} of all well-formed \linkterm{terms}{fol_sig} over a \linkterm{FOL Signature}{fol_sig} $\Sigma$ with $\text{wff}_{\iota}(\Sigma)$, and the \linkterm{closed}{ground_pl0} ones with $\text{cwff}_{\iota}(\Sigma)$
+    \item We denote the \linkterm{set}{def:set} of all well-formed \linkterm{formulae}{fol_sig} over a \linkterm{FOL Signature}{fol_sig} $\Sigma$ with $\text{wff}_o(\Sigma)$, and the \linkterm{closed}{ground_pl0} ones with $\text{cwff}_o(\Sigma)$
+\end{itemize}
+}
+
+\definition{\linkterm{$\text{PL}^1$}{pl1} Terms}{
+The \linkterm{set}{def:set} $\text{wff}_{\iota}(\Sigma_1, V_{\iota})$ of \textbf{well-formed terms} over the signature $\Sigma_1$ and variables \linkterm{$V_{\iota}$}{fol_sig_pl1} is defined by the following \linkterm{grammar}{phrase_structure_grammar}:
+\begin{align*}
+f^k \quad &\in \quad \Sigma_k^f \cup \Sigma_k^{sk} \\
+X \quad &\in \quad \linkterm{V_{\iota}}{fol_sig_pl1} \\ 
+t \quad &::= \quad X \mid f^k(t_1, \cdots, t_k)
+\end{align*}
+}{terms_pl1}
+
+
+\definition{\linkterm{$\text{PL}^1$}{pl1} Propositions}{
+The \linkterm{set}{def:set} $\text{wff}_{\circ}(\Sigma_1, V_{\iota})$ of \textbf{well-formed formulae} over the signature $\Sigma_1$ and variables \linkterm{$V_{\iota}$}{fol_sig_pl1} is defined by the following \linkterm{grammar}{phrase_structure_grammar}:
+\begin{align*}
+p^k \quad &\in \quad \Sigma_k^p \\
+t_i \quad &\in \quad \text{wff}_{\iota}(\Sigma_1, \linkterm{V_{\iota}}{fol_sig_pl1}) \\ 
+X \quad &\in \quad \linkterm{V_{\iota}}{fol_sig_pl1} \\ 
+A \quad &::= \quad p^k(t_1, \cdots, t_k) \mid \top \mid \neg A \mid A \land A \mid \forall X.A
+\end{align*}
+}{formulae_pl1}
+
+\definition{Universal Quantifier}{
+The \textbf{universal quantifier} $\forall$ is a binding operator used to express $\forall X.A$, i.e. a \linkterm{formula}{formulae_pl1} $A$ holds for all possible values of an \linkterm{individual variable}{terms_pl1} $X \in$ \linkterm{$V_{\iota}$}{fol_sig_pl1}
+}{forall}
+
+\commandnote{
+Notice that we only need $\top, \land, \neg$ as connectives because the others ($\bot, \lor, \Rightarrow, \Leftrightarrow$) are defined via \textbf{abbreviations}:
+\begin{itemize}
+    \item $\bot := \neg \top$
+    \item $A \lor B := \neg (\neg A \land \neg B)$
+    \item $A \Rightarrow B := \neg A \lor B$
+    \item $A \Leftrightarrow B := (A \Rightarrow B) \land (B \Rightarrow A)$ 
+\end{itemize}
+}
+
+\definition{Existential Quantifier}{
+The \textbf{existential quantifier} $\exists$ is a binding operator defined as an \textbf{abbreviation} for a negated universal statement: $\exists X.A :\equiv \neg (\forall X. \neg A)$. It allows us to express that at least one \linkterm{individual}{terms_pl1} satisfies the \linkterm{formula}{formulae_pl1} $A$.
+}{exists}
+
+\commandnote{
+\textbf{Remember:} \Defref{var_occ_pl0} , \Defref{ground_pl0} for \linkterm{$\text{PL}^0$}{def:pl0_as_ls}. We have a similar notion of free variables in \linkterm{$\text{PL}^1$}{pl1} that help us define closed/ground \linkterm{$\text{PL}^1$}{pl1} \linkterm{formulae}{formulae_pl1}.
+}
+
+
+
+\definition{Free Variables}{
+An occurrence of a variable $X$ is \textbf{free} in a \linkterm{formula}{formulae_pl1} $A$ if it is not within the scope of a binder. We define the \linkterm{set}{def:set} of free variables in $A$ ($\text{free}(A)$) recursively as follows:
+\begin{itemize}
+    \item \textbf{For Terms} ($t \in $ \linkterm{$\text{wff}_{\iota}(\Sigma_1, V_{\iota})$}{terms_pl1})
+    \begin{itemize}
+        \item $\text{free}(X) = \set{X}$
+        \item $\text{free}(f^k(t_1, \cdots, t_k)) := \bigcup_{i=1}^{k} \text{free}(t_i)$
+    \end{itemize}
+    \item \textbf{For Formulae} ($A \in $ \linkterm{$\text{wff}_{\circ}(\Sigma_1, V_{\iota})$}{formulae_pl1})
+    \begin{itemize}
+        \item $\text{free}(p^k(t_1, \cdots, t_k)) := \bigcup_{i=1}^{k} \text{free}(t_i)$
+        \item $\text{free}(\top) := \emptyset$
+        \item $\text{free}(\neg A) := \text{free}(A)$
+        \item $\text{free}(A \land B) := \text{free}(A) \cup \text{free}(B)$
+        \item $\text{free}(\forall X.A) := \text{free}(A) \setminus \set{X}$
+    \end{itemize}
+\end{itemize}
+}{free_vars_pl1}
+
+\definition{Bound Variables}{
+An occurrence of a variable $X$ is \textbf{bound} if it occurs within the scope of a quantifier. We define the \linkterm{set}{def:set} of bound variables $\text{BVar}(A)$ as the \linkterm{set}{def:set} of all variables that are \textit{captured} by a binder:
+\begin{itemize}
+    \item \textbf{For Terms} ($t \in $ \linkterm{$\text{wff}_{\iota}(\Sigma_1, V_{\iota})$}{terms_pl1})
+    \begin{itemize}
+        \item $\text{BVar}(t) := \emptyset$ (\textit{variables in terms are always free until a formula provides a binder})
+    \end{itemize}
+    \item \textbf{For Formulae} ($A \in $ \linkterm{$\text{wff}_{\circ}(\Sigma_1, V_{\iota})$}{formulae_pl1})
+    \begin{itemize}
+        \item $\text{BVar}(p^k(t_1, \cdots, t_k)) := \emptyset$
+        \item $\text{BVar}(\neg A) := \text{BVar}(A)$
+        \item $\text{BVar}(A \land B) := \text{BVar}(A) \cup \text{BVar}(B)$
+        \item $\text{BVar}(\forall X.A) := \text{BVar}(A) \cup \set{X}$
+    \end{itemize}
+\end{itemize}
+}{bound_vars_pl1}
+
+\definition{Ground Formulae}{
+A \linkterm{$\text{PL}^1$}{pl1} formula $A$ is called \textbf{ground/closed} iff \linkterm{free}{free_vars_pl1}$(A) := \emptyset$. A closed \linkterm{formula}{formulae_pl1} is called a sentence. We denote the \linkterm{set}{def:set} of all \textbf{ground} \linkterm{terms}{terms_pl1} with $\text{cwff}_{\iota}(\Sigma_1, V_{\iota})$ and the \linkterm{set}{def:set} of all sentences with $\text{cwff}_{\circ}(\Sigma_1, V_{\iota})$
+}{ground_pl1}
+
+\definition{Alphabetical Variants}{
+\linkterm{Bound variables}{bound_vars_pl1} can be renamed; specifically, if $\forall X.B$ is a sub-formula of $A$, let $A'$ be the result of replacing $\forall X.B$ in $A$ with $\forall Y.B'$, where $B'$ is obtained from $B$ by replacing all occurrences of $X \in \text{free}(B)$ with a new variable $Y$ that does not occur in $A$. We call $A'$ an \textbf{alphabetical variant} of $A$ (and vice versa).
+}{alphabetical_variants}
+
+
+\definition{\linkterm{$\text{PL}^1$}{pl1} Universe}{
+\linkterm{$\text{PL}^1$}{pl1} uses the universe $\mathcal{D}_{\text{PL}^1} := \mathcal{D}_0 \cup \mathcal{D}_{\iota}$ where $\mathcal{D}_0 = \set{T,F}$ is the \linkterm{set}{def:set} of truth values and $\mathcal{D}_{\iota} \neq \emptyset$ is a non-empty \linkterm{set}{def:set} of \linkterm{individuals}{fol_sig}
+}{domain_pl1}
+
+\definition{Interpretation in \linkterm{$\text{PL}^1$}{pl1}}{
+The interpretation function in \linkterm{$\text{PL}^1$}{pl1} \linkterm{assigns}{var_ass_pl0} values to \linkterm{constants}{fol_sig}:
+\begin{enumerate}
+    \item We use the \linkterm{interpretation}{model_pl0} from \linkterm{$\text{PL}^0$}{def:pl0_as_ls}
+        \begin{itemize}
+        \item $\func{\mathcal{I}(\neg)}{\mathcal{D}_0}{\mathcal{D}_0}$; $T \mapsto F, F \mapsto T$
+        \item $\func{\mathcal{I}(\land)}{\cartprod{\mathcal{D}_0,\mathcal{D}_0}}{\mathcal{D}_0}$; $\tuple{\alpha, \beta} \mapsto T$, iff $\alpha = \beta = T$
+        \item $\mathcal{I}(\top) = T$
+        \item $\mathcal{I}(\bot) = F$
+        \end{itemize}
+    \item We interpret \linkterm{individual constants}{fol_sig} as \linkterm{individuals}{fol_sig}:
+    $
+    \func{\mathcal{I}}{\Sigma_0^f}{\mathcal{D}_{\iota}}
+    $
+    \item We interpret \linkterm{function constants}{fol_sig} as \linkterm{functions}{function}:
+    $
+    \mathcal{I}: \Sigma_{k \neq 0}^f \to \mathcal{D}_{\iota}^{k \neq 0} \to \mathcal{D}_{\iota}
+    $
+    \item We interpret \linkterm{predicate constants}{fol_sig} as \linkterm{relations}{relation}:
+    $
+    \func{\mathcal{I}}{\Sigma_k^p}{\powerset{\mathcal{D}_{\iota}^{k}}}
+    $
+\end{enumerate}
+}{interpretation_pl1}
+
+\definition{\linkterm{$\text{PL}^1$}{pl1} Value Function}{
+Given a model $\tuple{\mathcal{D}, \mathcal{I}}$, the value function $\mathcal{I}_{\varphi}$ is recursively defined:
+\begin{enumerate}
+\item $\func{\mathcal{I}_{\varphi}}{\linkterm{\text{wff}_{\iota}(\Sigma_1, V_{\iota})}{terms_pl1}}{\mathcal{D}_{\iota}}$ assigns values to \linkterm{terms}{terms_pl1} 
+\begin{itemize}
+    \item $\mathcal{I}_{\varphi}(X) := \varphi(X)$, and
+    \item $\mathcal{I}_{\varphi}(f(A_1, \cdots, A_k)) := \mathcal{I}(f)(\mathcal{I}_{\varphi}(A_1), \cdots, \mathcal{I}_{\varphi}(A_k))$
+\end{itemize}
+\item $\func{\mathcal{I}_{\varphi}}{\linkterm{\text{wff}_{\circ}(\Sigma_1, V_{\iota})}{formulae_pl1}}{\mathcal{D}_{\circ}}$ assigns values to \linkterm{formulae}{formulae_pl1}
+\begin{itemize}
+    \item $\mathcal{I}_{\varphi}(\top) = \mathcal{I}(\top) = T$
+    \item $\mathcal{I}_{\varphi}(\neg A) := \mathcal{I}(\neg) (\mathcal{I}_{\varphi}(A))$
+    \item $\mathcal{I}_{\varphi} (A \land B) := \mathcal{I}(\land) (\mathcal{I}_{\varphi}(A), \mathcal{I}_{\varphi}(B))$
+    \item $\mathcal{I}_{\varphi}(p(A_1, \cdots, A_k)) := T, \text{ iff } \tuple{\mathcal{I}_{\varphi}(A_1), \cdots, \mathcal{I}_{\varphi}(A_k)} \in \mathcal{I}(p)$ 
+    \item $\mathcal{I}_{\varphi}(\forall X.A) := T, \text{ iff } \mathcal{I}_{\varphi, [a/X]}(A) = T \text{ for all } a \in \mathcal{D}_{\iota}$
+\end{itemize}
+\end{enumerate}
+}{value_function_pl1}
+
+
+\definition{Assignment Extension}{
+Let $\varphi: V_{\iota} \to \mathcal{D}_{\iota}$ be a \textbf{variable assignment} and $a \in \mathcal{D}_{\iota}$. The \textbf{extension} of $\varphi$ by $a$ for $X$, denoted by $\varphi,[a/X]$ is a variable assignment defined as:
+\[
+\varphi,[a/X](Y) := \begin{cases} 
+a & \text{if } Y = X \\ 
+\varphi(Y) & \text{if } Y \neq X 
+\end{cases}
+\]
+Equivalently, viewing the assignment as a set of ordered pairs:
+\[
+\varphi,[a/X] = \{(Y, \varphi(Y)) \mid Y \in V_{\iota} \setminus \{X\}\} \cup \{(X, a)\}
+\]
+This assignment coincides with $\varphi$ for all variables except $X$, where it maps to the individual $a$.
+}{assignment_extension_pl1}

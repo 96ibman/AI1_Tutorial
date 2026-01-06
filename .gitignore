@@ -323,5 +323,4 @@ TSWLatexianTemp*
 
 
 *.vscode
-latex.json
 *.sty
