@@ -20,7 +20,7 @@ I upload here what I find necessary to support me or the students in the tutoria
 - [8 Dec](/06/)
 - [15 Dec](/07/)
 - 22, 29 Dec, and 5 Jan are cancelled, enjoy Weihnachten :)
-- 12 Jan
+- [12 Jan](/08/)
 - 19 Jan
 - 26 Jan
 - 2 Feb (last session)
