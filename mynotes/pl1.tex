@@ -112,7 +112,7 @@ A \linkterm{$\text{PL}^1$}{pl1} formula $A$ is called \textbf{ground/closed} iff
 }{ground_pl1}
 
 \definition{Alphabetical Variants}{
-\linkterm{Bound variables}{bound_vars_pl1} can be renamed; specifically, if $\forall X.B$ is a sub-formula of $A$, let $A'$ be the result of replacing $\forall X.B$ in $A$ with $\forall Y.B'$, where $B'$ is obtained from $B$ by replacing all occurrences of $X \in \text{free}(B)$ with a new variable $Y$ that does not occur in $A$. We call $A'$ an \textbf{alphabetical variant} of $A$ (and vice versa).
+\linkterm{Bound variables}{bound_vars_pl1} can be \textbf{renamed}; specifically, if $\forall X.B$ is a sub-formula of $A$, let $A'$ be the result of replacing $\forall X.B$ in $A$ with $\forall Y.B'$, where $B'$ is obtained from $B$ by replacing all occurrences of $X \in \text{free}(B)$ with a new variable $Y$ that does not occur in $A$. We call $A'$ an \textbf{alphabetical variant} of $A$ (and vice versa).
 }{alphabetical_variants}
 
 
@@ -179,3 +179,515 @@ Equivalently, viewing the assignment as a set of ordered pairs:
 \]
 This assignment coincides with $\varphi$ for all variables except $X$, where it maps to the individual $a$.
 }{assignment_extension_pl1}
+
+\definition{Expression Language}{
+Let signature $\Sigma$ and variables $\mathcal{V}$ be \linkterm{disjoint sets}{disjoint} and $G$ a \linkterm{grammar}{phrase_structure_grammar} whose vocabulary is $\Sigma \cup \mathcal{V}$, then we call $\tuple{\Sigma, \mathcal{V}, G}$ an \textbf{expression language}, and denote the \linkterm{language}{formal_language} of $G$ with $\text{wfe}(\Sigma, \mathcal{V})$: the \linkterm{set}{def:set} of \textbf{well-formed expressions}.
+}{expression_language}
+
+\commandnote{
+For \linkterm{$\text{PL}^1$}{pl1}, we have:
+\[
+\text{wfe}(\Sigma_1, \mathcal{V}_{\iota}) := \text{wff}_{\circ}(\Sigma_1, V_{\iota}) \cup \text{wff}_{\iota}(\Sigma_1, V_{\iota})
+\]
+}
+
+\definition{Support}{
+Let $f: A \to B$ be a \linkterm{function}{function}. The \textbf{support} of $f$, denoted by $\text{supp}(f)$, is the \linkterm{set}{def:set} of all elements in the \linkterm{domain}{domain_codomain} $A$ for which the \linkterm{function}{function} does not return a "default" or "identity" value. 
+}{support_function}
+
+\definition{Substitution}{
+Let \linkterm{$\text{wfe}(\Sigma, \mathcal{V})$}{expression_language} be an \linkterm{expression language}{expression_language}, then we call $\func{\sigma}{\mathcal{V}}{\text{wfe}(\Sigma, \mathcal{V})}$ a \textbf{substitution} iff the \linkterm{support}{support_function} $\text{supp}(\sigma) := \set{X \mid (X,A) \in \sigma \land X \neq A}$ of $\sigma$ is \linkterm{finite}{set_cardinality}. We denote the \textbf{empty substitution} with $\epsilon$.
+}{substitution}
+
+\definition{}{
+We can \textbf{discharge} a variable $X$ from a \linkterm{substitution}{substitution} $\sigma$ by setting $\sigma_{-X} := \sigma , [X/X]$
+}{discharge_substitution}
+
+\definition{}{
+Let $\sigma$ be a \linkterm{substitution}{substitution}, then we call $\text{intro}(\sigma) := \bigcup_{X \in \text{supp}(\sigma)} \text{free}(\sigma(X))$ the \linkterm{set}{def:set} of variables \textbf{introduced} by $\sigma$.
+}{substitution_introduced}
+
+\textbf{Example: }consider the \linkterm{formula}{formulae_pl1} $A := \forall X. p(X,Y)$ and the \linkterm{substitution}{substitution} $\sigma := \set{[Z / Y]}$:
+\begin{itemize}
+    \item $\text{supp}(\sigma) = \set{Y}$
+    \item $\text{free}(\sigma(Y)) = \text{free}(Z) = \set{Z}$
+    \item $\text{intro}(\sigma) = \text{free}(\sigma(Y)) = \set{Z}$
+\end{itemize}
+
+\definition{Substitution Application}{
+We define substitution application by:
+\begin{itemize}
+    \item $\sigma(c) = c$ for $c \in \Sigma$
+    \item $\sigma(X) = A$ iff $X \in \mathcal{V}$ and $(X,A) \in \sigma$
+    \item $\sigma(f(A_1, \cdots, A_n)) = f(\sigma(A_1), \cdots, \sigma(A_n))$
+    \item $\sigma(\forall X.A) = \forall X.\sigma_{-X}(A)$
+\end{itemize}
+}{substitution_application}
+
+\commandnote{
+The concept of \linkterm{support}{support_function} is useful to handle \linkterm{finiteness}{set_cardinality} in systems that are \linkterm{infinite}{set_cardinality}. For example, in \linkterm{$\text{PL}^1$}{pl1}, the \linkterm{set}{def:set} of variables $\mathcal{V}_{\iota}$ is \linkterm{infinite}{set_cardinality}. However, when we \linkterm{apply a substitution}{substitution_application}, we don't want to deal with an \linkterm{infinite}{set_cardinality} number of changes. By requiring the \linkterm{support}{support_function} of a \linkterm{substitution}{substitution} to be \linkterm{finite}{set_cardinality}, we ensure that only a managable, \linkterm{countable}{countable} number of variables are being modified, while the \linkterm{infinite}{set_cardinality} rest of them simply stay the same (mapping to their \textit{"identity"} value).
+}
+
+\textbf{Substitution Example}: consider the formula $g(x,y, h(z))$, and we want to \linkterm{apply}{substitution_application} the \linkterm{substitution}{substitution} $\sigma := \set{x \mapsto a, y \mapsto f(b), z \mapsto a}$ we get the formula $g(a, f(b), h(a))$
+
+\commandnote{
+Usually we use another notation for writing the \linkterm{substitution}{substitution} $\sigma := \set{x \mapsto a, y \mapsto f(b), z \mapsto a}$ which is $[a/x], [f(b) / y], [a / z]$ where $[A / X]$ (read as \textit{A for X} i.e. substitute $X$ with $A$) $\equiv X \mapsto A \equiv (X,A) \in \sigma$  
+}
+
+\definition{Substitution Extension}{
+Let $\sigma$ be a \linkterm{substitution}{substitution}, then we denote the \textbf{extension} of $\sigma$ with $[A / X]$ by $\sigma , [A / X]$ and define it as $\set{(Y,B) \in \sigma \mid Y \neq X} \cup \set{(X,A)}$.
+}{substitution_extension}
+
+\definition{Capture-Avoiding Substitution Application}{
+Let $\sigma$ be a \linkterm{substitution}{substitution}, $A$ a \linkterm{formula}{formulae_pl1}, and $A'$ an \linkterm{alphabetical variant}{alphabetical_variants} of $A$, such that $\text{intro}(\sigma) \cap \text{BVar}(A') = \emptyset$. Then we define \textbf{capture-avoiding substitution application} via $\sigma(A) := \sigma(A')$
+}{subst_app_avoid_capture}
+
+\commandnote{
+We said $\sigma(\forall X.A) = \forall X.\sigma_{-X}(A)$ but this can lead to \refterm{variable capture}{variable_capture}, i.e. $[f(X) / Y](\forall X.p(X,Y))$ would evaluate to $\forall X.p(X,f(X))$ where the second occurrence of $X$ is now \linkterm{bound}{bound_vars_pl1} whereas it was \linkterm{free}{free_vars_pl1} before.
+
+The solution for this is to \linkterm{rename}{alphabetical_variants} the \linkterm{bound variable}{bound_vars_pl1} $X$ in $\forall X.p(X,Y)$ before \linkterm{applying}{substitution_application} the \linkterm{substitution}{substitution} and there where we need \linkterm{capture-avoiding substitution application}{subst_app_avoid_capture} 
+}
+
+\textbf{Example:} we want to \linkterm{apply}{substitution_application} $\sigma := \set{[f(X) / Y]}$ to the \linkterm{formula}{formulae_pl1} $A = \forall X. p(X,Y)$
+\begin{itemize}
+    \item $\text{intro}(\sigma) \cap \text{BVar}(A) = \set{X} \cap \set{X} = \set{X}$ 
+    \item Hence, we need to find an \linkterm{alphabetical variant}{alphabetical_variants} $A'$ for $A$, say $A' = \forall Z. p(Z,Y)$
+    \item Now $\text{intro}(\sigma) \cap \text{BVar}(A') = \set{X} \cap \set{Z} = \emptyset$
+    \item Hence, we define $\sigma(A) = \sigma(A')$
+    \item $\sigma(A') = \sigma(\forall Z. p(Z,Y)) = \forall Z. \sigma_{-Z} (p(Z,Y))$
+    \item $[f(X) / Y](p(Z,Y)) = p(Z,f(X))$
+    \item $\sigma(A) = \sigma(A') = \forall Z.p(Z,f(X))$
+\end{itemize}
+
+\Lemma{
+Let $A$ and $B$ be \linkterm{terms}{terms_pl1}, then $\mathcal{I}_{\varphi}([B / X](A)) = \mathcal{I}_{\psi}(A)$, where $\psi = \varphi , [\mathcal{I}_{\varphi}(B) / X]$.    
+}{lem_subs_terms}
+\Proof{
+By induction on the depth of $A$:
+\begin{enumerate}
+\item $\text{depth} = 0$
+
+Then $A$ is either a variable or a constant. If $A$ is variable, say $Y$, we have two cases $Y=X$ and $Y \neq X$:
+\begin{enumerate}
+    \item $A = Y = X$: 
+    
+    then $\mathcal{I}_{\varphi}([B / X](A)) = \mathcal{I}_{\varphi}([B / X](X)) = \mathcal{I}_{\varphi}(B) = \psi(X) = \mathcal{I}_{\psi}(X) = \mathcal{I}_{\psi}(A)$
+
+    \item $A = Y \neq X$:
+    
+    then $\mathcal{I}_{\varphi}([B / X](A)) = \mathcal{I}_{\varphi}([B / X](Y)) = \mathcal{I}_{\varphi}(Y) = \varphi(Y) = \psi(Y) = \mathcal{I}_{\psi}(Y) = \mathcal{I}_{\psi}(A)$
+
+    \item $A$ is a constant $\leadsto$ analogous to 1.b
+\end{enumerate}  
+\item $\text{depth} > 0$
+
+then $A = f(A_1, \cdots, A_n)$ and we have
+\begin{align*}
+\mathcal{I}_{\varphi}([B / X](A)) \quad &= \quad \mathcal{I}(f) (\mathcal{I}_{\varphi}([B / X](A_1)), \cdots, \mathcal{I}_{\varphi}([B / X](A_n))) \\
+ \quad &= \quad \mathcal{I}(f)(\mathcal{I}_{\psi}(A_1), \cdots, \mathcal{I}_{\psi}(A_n)) \\
+ \quad &= \quad \mathcal{I}_{\psi}(A)
+\end{align*}
+by induction hypothesis
+\end{enumerate}
+}
+
+\Lemma{
+Let $A$ and $B$ be \linkterm{propositions}{formulae_pl1}, then $\mathcal{I}_{\varphi}([B / X]A) = \mathcal{I}_{\psi}(A)$, where $\psi = \varphi , [\mathcal{I}_{\varphi}(B) / X]$.    
+}{lem_subs_formulae}
+
+\Proof{
+By induction on the number of $n$ connectives and quantifiers in $A$:
+\begin{enumerate}
+\item $n=0$
+
+then $A$ is an \linkterm{atomic formula}{atomic_formula}, and we can argue like in the induction step of the \Lemref{lem_subs_terms}
+\item $n>0$ and $A = \neg B$ or $A = C \circ D$
+
+Here we argue like in the induction step of \Lemref{lem_subs_terms} as well
+\item $n>0$ and $A = \forall Y.C$ where (\linkterm{WLOG}{def:wlog}) $X \neq Y$ (otherwise, \linkterm{rename}{alphabetical_variants})
+\begin{enumerate}
+\item then $\mathcal{I}_{\psi}(A) = \mathcal{I}_{\psi}(\forall Y.C) = T$, iff $\mathcal{I}_{\psi, [a / Y]}(C) = T$ for all $a \in \mathcal{D}_{\iota}$
+\item But $\mathcal{I}_{\psi, [a / Y]}(C) = \mathcal{I}_{\varphi, [a / Y]}([B / X](C)) = T$, by induction hypothesis.
+\item So $\mathcal{I}_{\psi}(A) = \mathcal{I}_{\varphi}(\forall Y.[B / X](C)) = \mathcal{I}_{\varphi}([B / X](\forall Y.C)) = \mathcal{I}_{\varphi}([B / X](A))$ 
+\end{enumerate}
+\end{enumerate}
+}
+
+\definition{$\mathcal{ND}_1$}{
+\textbf{The First-Order Natural Deduction Calculus} extends \linkterm{$\mathcal{ND}_0$}{nd_0} by the following four \linkterm{inference rule}{inference_rules_logic}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        % impl. intro
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\forall I^{*}]{\forall X. A}{A}
+            \]
+        \end{minipage}
+    
+        % impl. elim.
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\forall E]{[B/X](A)}{\forall X.A}
+            \]
+        \end{minipage}
+    \end{multicols}
+    
+    * means that $A$ does not depend on any hypothesis in which $X$ is \linkterm{free}{free_vars_pl1}
+
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.8cm}
+            \[
+                \infer[\exists I]{\exists X.A}{[B/X](A)}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\exists E^1]{C}{
+                    \exists X.A \qquad
+                    \infer*{C}{[[c/X](A)]^1} \qquad
+                    c \in \sum_{0}^{sk} \text{new} \qquad
+                }                    
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{nd1}
+
+
+
+\definition{$\mathcal{ND}^1_{\vdash}$}{
+The \linkterm{inference rules}{inference_rules_logic} of the \textbf{First-Order Sequent Style Natural Deduction Calculus} consist of those from \linkterm{$\mathcal{ND}^{0}_{\vdash}$}{nd0_seq} plus the following quantifiers rules:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        % impl. intro
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\forall I]{\Gamma \vdash \forall X. A}{\Gamma \vdash A \quad X \notin \text{free}(\Gamma)}
+            \]
+        \end{minipage}
+    
+        % impl. elim.
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\forall E]{\Gamma \vdash [B/X](A)}{\Gamma \vdash \forall X.A}
+            \]
+        \end{minipage}
+    \end{multicols}
+    
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\exists I]{\Gamma \vdash \exists X.A}{\Gamma \vdash [B/X](A)}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\exists E^1]{\Gamma \vdash C}{
+                    \Gamma \vdash \exists X.A \quad 
+                    \Gamma , [c/X]A \vdash C \quad
+                    c \in \Sigma_0^{\text{sk}} \text{new}
+                }                    
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{nd1_seq}
+
+\definition{$\text{PL}^1_{=}$}{
+We extend \linkterm{$\text{PL}^1$}{pl1} with a new logical constant for \textbf{equality} $= \in \Sigma^p_2$ and fox its \linkterm{interpretation}{interpretation_pl1} to $\mathcal{I}(=) := \set{(x,x) \mid x \in \mathcal{D}_{\iota}}$. We call the extended logic \textbf{First-Order Logic with Equality}.
+}{pl1=}
+
+\definition{Position}{
+A position is a finite sequence of natural numbers $p = \langle i_1, i_2, \dots, i_n \rangle$ that describes a path from the root of a \linkterm{well-formed expression}{expression_language} to a specific sub-node.
+For an \linkterm{expression}{expression_language} $A$, the subexpression at position $p$ is denoted by $A|_p$.
+We write $C[A]_p$ to indicate that the expression $C$ contains the subexpression $A$ at position $p$.
+If $A$ is an \linkterm{atomic formula}{atomic_formula}, we call $p$ an \textbf{occurrence} of $A$ in $C$.
+}{position}
+
+\commandnote{
+\begin{minipage}{0.5\textwidth}
+\textbf{Example: }consider $C := (p \land q) \Rightarrow r$
+\begin{itemize}
+    \item \linkterm{Position}{position} $\tuple{1}$ is the subexpression $(p \land q)$
+    \item \linkterm{Position}{position} $\tuple{1,1}$ is the \linkterm{occurrence}{position} of the \linkterm{atom}{atomic_formula} $p$
+    \item \linkterm{Position}{position} $\tuple{2}$ is the \linkterm{occurrence}{position} of the \linkterm{atom}{atomic_formula} $r$
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[
+  level distance=1.2cm,
+  sibling distance=1.5cm,
+  edge from parent/.style={draw, ->},
+  every node/.style={circle, draw, minimum size=3mm, font=\small}
+]
+
+\node {$\Rightarrow$}
+  child {
+    node {$\land$} 
+    child { node {$p$} } 
+    child { node {$q$} } 
+  }
+  child {
+    node {$r$} 
+  };
+
+\end{tikzpicture}
+\end{minipage}
+}
+
+\definition{Replacement}{
+Let $p$ be a \linkterm{position}{position}, then $[A / p]C$ is the \linkterm{expression}{expression_language} obtained from $C$ by \textbf{replacing} the subexpression at $p$ by $A$
+}{replacement}
+
+\definition{$\mathcal{ND}^1_{=}$}{
+\textbf{The First-Order Logic with Equality Natural Deduction Calculus} extends \linkterm{$\mathcal{ND}_1$}{nd1} by the following two \linkterm{inference rule}{inference_rules_logic}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[{=I}]{A = A}{}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[{=E}]{[B/p] C}{A = B \quad C[A]_p}
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{nd1=}
+
+\commandnote{
+\linkterm{equivalence}{equivalent_formulae} ($\Leftrightarrow$) behaves exactly as equality ($=$) 
+}
+
+\definition{}{
+$\Leftrightarrow I$ is \linkterm{derivable}{derived_inference_rule} and $\Leftrightarrow E$ is \linkterm{admissible}{admissible_inference_rule} in \linkterm{$\mathcal{ND}_1$}{nd1}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[{\Leftrightarrow I}]{A \Leftrightarrow A}{}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[{\Leftrightarrow E}]{[B/p] C}{A \Leftrightarrow B \quad C[A]_p}
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{equiv_rules}
+
+
+\Figref{fig:nd_rules_all} shows all \linkterm{inference rules}{inference_rules_logic} of the natural deduction calculus, i.e. the \linkterm{union}{set_union} of \linkterm{$\mathcal{ND}_0$}{nd_0}, \linkterm{$\mathcal{ND}_1$}{nd1}, \linkterm{$\mathcal{ND}^1_{=}$}{nd1=}, and \linkterm{equivalence rules}{equiv_rules}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        
+        \begin{multicols}{3}
+            % conj. intro
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land I]{A \land B}{A & B}
+                \]
+            \end{minipage}
+        
+            % conj. elimL
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land E_l]{A}{A \land B}
+                \]
+            \end{minipage}
+        
+            % conj. elimR
+            \noindent
+            \begin{minipage}{\linewidth}   
+                \[
+                    \infer[\land E_r]{B}{A \land B}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \begin{multicols}{2}
+            % impl. intro
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\Rightarrow I^1]{A \Rightarrow B}{\infer*{B}{[A]^1}}
+                \]
+            \end{minipage}
+        
+            % impl. elim.
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace*{1cm}
+                \[
+                    \infer[\Rightarrow E]{B}{A \Rightarrow B \quad A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \noindent
+        \begin{minipage}{\linewidth}
+            % TND
+            $$
+                \infer[\mathcal{TND}]{A \lor \neg A}{\quad}
+            $$
+        \end{minipage}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[{\Leftrightarrow I}]{A \Leftrightarrow A}{}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[{\Leftrightarrow E}]{[B/p] C}{A \Leftrightarrow B \quad C[A]_p}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\lor I_l]{A \lor B}{A}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\lor I_r]{A \lor B}{B}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\lor E^1]{C}{
+                    A \lor B \quad
+                    \infer*{C}{[A]^1} \quad
+                    \infer*{C}{[B]^1}
+                }
+            \]
+        \end{minipage}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\neg I^1]{\neg A}{
+                        \infer*{C}{[A]^1} \quad \infer*{\neg C}{[A]^1}
+                    }
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace*{1cm}
+                \[
+                    \infer[\neg E]{A}{\neg \neg A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\bot I]{\bot}{\neg A \quad A}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\bot E]{A}{\bot}
+                \]
+            \end{minipage}
+        \end{multicols}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\forall I^{*}]{\forall X. A}{A}
+                \]
+            \end{minipage}
+        
+            % impl. elim.
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\forall E]{[B/X](A)}{\forall X.A}
+                \]
+            \end{minipage}
+        \end{multicols}
+        
+        * means that $A$ does not depend on any hypothesis in which $X$ is \linkterm{free}{free_vars_pl1}
+
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \vspace{0.8cm}
+                \[
+                    \infer[\exists I]{\exists X.A}{[B/X](A)}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\exists E^1]{C}{
+                        \exists X.A \qquad
+                        \infer*{C}{[[c/X](A)]^1} \qquad
+                        c \in \sum_{0}^{sk} \text{new} \qquad
+                    }                    
+                \]
+            \end{minipage}
+        \end{multicols}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[{=I}]{A = A}{}
+                \]
+            \end{minipage}
+        
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[{=E}]{[B/p] C}{A = B \quad C[A]_p}
+                \]
+            \end{minipage}
+        \end{multicols}
+    \end{tcolorbox}
+    \caption{All Natural Deduction Rules}
+    \label{fig:nd_rules_all}
+\end{figure}
