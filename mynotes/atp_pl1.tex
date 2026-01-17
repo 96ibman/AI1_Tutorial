@@ -1,1 +1,450 @@
 \labeledsection{Automated Theorem Proving in First-Order Logic}{sec:atp_pl1}
+\definition{$\mathcal{T}_1$}{
+The \textbf{Standard First-Order Tableau Calculus} extends \linkterm{$\mathcal{T}_0$}{t0_calculus} with the following \linkterm{inference rules}{inference_rules_logic}
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{T}_1 \forall]{([C/X](A))^T}{(\forall X.A)^T \quad C \in \text{\linkterm{cwff}{wff_terms}}_{\iota}(\Sigma)}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{T}_1 \exists]{([c/X]A)^F}{(\forall X.A)^F \quad c \in \Sigma_0^{sk} \text{new}}
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{T1_standard}
+
+\commandnote{
+\textbf{Problem: }The rule $\mathcal{T}_1 \forall$ displays a case of \textit{"don't know indeterminism"}: to find a \linkterm{refutation}{c_refutation} we have to guess a formula $C$ from the \linkterm{infinite}{set_cardinality} \linkterm{set}{def:set} $\text{cwff}_{\iota}(\Sigma)$. 
+
+For \linkterm{proof}{proofs} \linkterm{search}{tree_search}, this means $\mathcal{T}_1 \forall$ is \linkterm{infinitely}{set_cardinality} branching in general
+}
+
+\definition{$\mathcal{T}^f_1$}{
+The \textbf{Free Variable Tableau Calculus} extends \linkterm{$\mathcal{T}_0$}{t0_calculus} with the following \linkterm{inference rules}{inference_rules_logic}
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.3cm}
+            \[
+                \infer[\mathcal{T}^f_1 \forall]{([Y/X](A))^T}{(\forall X.A)^T \quad Y \text{new}}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{T}^f_1 \exists]{
+                    ([f(X^1, \cdots, X^k)/X]A)^F
+                }{
+                    (\forall X.A)^F \quad \text{free}(\forall X.A) = \set{X^1, \cdots, X^k} \quad f \in \Sigma^{sk}_k \text{new}
+                }
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+and generalizes its cut rule $\mathcal{T}_0 \bot$ to:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{T}_1^f \bot]{\bot : \sigma}{
+                    \begin{array}{lll}
+                        A^\alpha & & \\
+                        \vdots &  & \\
+                        B^\beta & \quad (\alpha \neq \beta) & \quad \sigma(A) = \sigma(B)
+                    \end{array}
+                }
+            \]
+        \end{minipage}
+\end{tcolorbox}
+$\mathcal{T}_1^f$ \textbf{instantiates} the \textbf{whole tableau} by $\sigma$
+}{T1_free}
+
+\definition{}{
+\linkterm{Derivable rules}{derived_inference_rule} in \linkterm{$\mathcal{T}^f_1$}{T1_free}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.3cm}
+            \[
+                \infer{([Y/X](A))^F}{(\exists X.A)^F \quad Y \text{new}}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+            \infer{([f(X^1,\cdots,X^k)/X](A))^T}{
+                (\exists X.A)^T \quad
+                free(\forall X.A) = \{X^1,\cdots,X^k\} \quad
+                f \in \Sigma_{k}^{sk} \text{new}
+            }
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{T1_free_derived}
+
+Combining \linkterm{$\mathcal{T}_0$}{t0_calculus} and \linkterm{$\mathcal{T}^f_1$}{T1_free} we get the \linkterm{inference rules}{inference_rules_logic} shown in \figref{fig:tableau_all}:
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_0 \land]{
+                \begin{array}{c}
+                    A^T \\
+                    B^T
+                \end{array}
+            }{(A \land B)^T}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_0 \lor]{A^F \mid B^F}{(A \land B)^F}
+        \]
+    \end{minipage}
+\end{multicols}
+
+\begin{multicols}{2}
+    % Negation True Rule
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_0 \neg^T]{A^F}{(\neg A)^T}
+        \]
+    \end{minipage}
+
+    % Negation False Rule
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_0 \neg^F]{A^T}{(\neg A)^F}
+        \]
+    \end{minipage}
+\end{multicols}
+
+% Contradiction Rule
+\noindent
+\begin{minipage}{\linewidth}
+    \[
+        \infer[\mathcal{T}_0 \bot]{\bot}{
+            \begin{array}{ll}
+                A^\alpha & \\
+                \vdots & \\
+                A^\beta & (\alpha \neq \beta)
+            \end{array}
+        }
+    \]
+\end{minipage}
+
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        %\vspace{0.3cm}
+        \[
+        \hspace{-2cm}
+            \infer[\mathcal{T}^f_1 \forall]{([Y/X](A))^T}{(\forall X.A)^T \quad Y \text{new}}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+        \hspace{-2cm}
+            \infer[\mathcal{T}^f_1 \exists]{
+                ([f(X^1, \cdots, X^k)/X]A)^F
+            }{
+                (\forall X.A)^F \quad \text{free}(\forall X.A) = \set{X^1, \cdots, X^k} \quad f \in \Sigma^{sk}_k \text{new}
+            }
+        \]
+    \end{minipage}
+\end{multicols}
+
+
+\begin{minipage}{\linewidth}
+    \[
+        \infer[\mathcal{T}_1^f \bot]{\bot : \sigma}{
+            \begin{array}{lll}
+                A^\alpha & & \\
+                \vdots &  & \\
+                B^\beta & \quad (\alpha \neq \beta) & \quad \sigma(A) = \sigma(B)
+            \end{array}
+        }
+    \]
+\end{minipage}
+
+\par\vspace{0.5em}
+\noindent
+\begin{tikzpicture}
+    \draw[dashed] (0,0) -- (\linewidth,0);
+\end{tikzpicture}
+\par\vspace{0.5em}
+
+\begin{multicols}{3}
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[]{A^F \mid B^T}{(A \Rightarrow B)^T}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[]{
+                \begin{array}{c}
+                    A^T \\
+                    B^F
+                \end{array}
+            }{(A \Rightarrow B)^F}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \vspace{-0.4cm}
+        \[
+            \infer[]{B^T}{
+                \begin{array}{c}
+                    A^T \\
+                    (A \Rightarrow B)^T
+                \end{array}
+            }
+        \]
+    \end{minipage}
+\end{multicols}
+
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[]{A^T \mid B^T}{(A \lor B)^T}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[]{
+                \begin{array}{c}
+                    A^F \\
+                    B^F
+                \end{array}
+            }{(A \lor B)^F}
+        \]
+    \end{minipage}
+\end{multicols}
+
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[]{
+                \begin{array}{c} A^T \\ B^T \end{array}
+                \mid
+                \begin{array}{c} A^F \\ B^F \end{array}
+            }{(A \iff B)^T}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[]{
+                \begin{array}{c} A^T \\ B^F \end{array}
+                \mid
+                \begin{array}{c} A^F \\ B^T \end{array}
+            }{(A \iff B)^F}
+        \]
+    \end{minipage}
+\end{multicols}
+
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        %\vspace{0.3cm}
+        \[
+        \hspace{-2cm}
+            \infer{([Y/X](A))^F}{(\exists X.A)^F \quad Y \text{new}}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+        \hspace{-2cm}
+        \infer{([f(X^1,\cdots,X^k)/X](A))^T}{
+            (\exists X.A)^T \quad
+            free(\forall X.A) = \{X^1,\cdots,X^k\} \quad
+            f \in \Sigma_{k}^{sk} \text{new}
+        }
+        \]
+    \end{minipage}
+\end{multicols}
+\end{tcolorbox}
+\caption{\linkterm{$\mathcal{T}_0$}{t0_calculus} $\cup$ \linkterm{$\mathcal{T}^f_1$}{T1_free}}
+\label{fig:tableau_all}
+\end{figure}
+
+\definition{Unification}{
+For given \linkterm{terms}{terms_pl1} $A_1, A_2$, \textbf{unificatoin} is the problem of finding a \linkterm{substitution}{substitution} $\sigma$ (called \textbf{unifier}), such that $\sigma(A_1)=\sigma(A_2)$
+}{unification}
+
+\definition{Unification Problem}{
+We call a formula $A^1 =^? B^1 \land \cdots \land A^n =^? B^n$ a \textbf{unification problem} iff $A^i, B^i \in$ \linkterm{$\text{wff}_{\iota}(\Sigma_1, V_{\iota})$}{terms_pl1}
+}{unification_problem}
+
+\commandnote{
+We consider \linkterm{unification problems}{unification_problem} as \linkterm{sets}{def:set} of equations. $\land$ here is associative, commutative, and idempotent.
+We consider equations as two-\linkterm{element}{def:set} \linkterm{multisets}{multiset}, $=^?$ here is commutative
+}
+
+\definition{}{
+A \linkterm{substitution}{substitution} is called a \textbf{unifier} for a \linkterm{unification problem}{unification_problem} $\mathcal{E}$ (and thus $\mathcal{E}$ is \textbf{unifiable}), iff it is a (simultaneous) unifier for all pairs in $\mathcal{E}$ 
+}{unifier_unifiable}
+
+\definition{}{
+The solution for a \linkterm{unification problem}{unification_problem} $U(A_1, A_2)$ is the \linkterm{set}{def:set} of \linkterm{unifiers}{unifier_unifiable} $\set{\sigma \mid \sigma(A_1) = \sigma(A_2)}$. For example, let $\mathcal{E} := f(X) =^? f(g(Y))$, solutions are, e.g.
+\begin{itemize}
+\item $[g(a)/X], [a/Y]$
+\item $[g(g(a))/X], [g(a)/Y]$
+\item $[g(Z)/X], [Z/Y]$
+\item $[g(Y)/X]$
+\end{itemize}
+}{unification_prob_sol}
+
+\definition{}{
+Let $\sigma$ and $\theta$ be \linkterm{substitutions}{substitution} and $W \subseteq \mathcal{V}_{\iota}$, we say that a \linkterm{substitution}{substitution} $\sigma$ is \textbf{more general} than $\theta$ on $W$ (write as $\sigma \leq \theta[W]$), iff there is a \linkterm{substitution}{substitution} $\rho$, such that $\theta = \rho \circ \sigma[W]$, where $\sigma = \rho[W]$, iff $\sigma(X) = \rho(X)$ for all $X \in W$
+}{more_general_subst}
+
+\begin{itemize}
+    \item The substitution $\sigma = [g(Z)/X, Z/Y]$ is \linkterm{more general}{more_general_subst} than $\theta = [g(a)/X, a/Y]$ because there exists $\rho = [a/Z]$ such that:
+    \[ \theta = \rho \circ \sigma \]
+    This identity $\theta = \rho \circ \sigma$ is verified by applying the \linkterm{composition}{relation_composition} to the variables in the domain:
+    \begin{itemize}
+        \item $(\rho \circ \sigma)(X) = \rho(\sigma(X)) = \rho(g(Z)) = g(a)$
+        \item $(\rho \circ \sigma)(Y) = \rho(\sigma(Y)) = \rho(Z) = a$
+    \end{itemize}
+    Since the mapping for each variable matches $\theta$, we confirm that $\theta$ is a specialization of $\sigma$ via $\rho$.
+
+    \item Likewise, $\sigma$ is \linkterm{more general}{more_general_subst} than $\theta' = [g(g(a))/X, g(a)/Y]$ via $\rho' = [g(a)/Z]$, since:
+    \[ \theta' = \rho' \circ \sigma \]
+    where $(\rho' \circ \sigma)(X) = g(g(a))$ and $(\rho' \circ \sigma)(Y) = g(a)$.
+\end{itemize}
+
+\definition{MGU}{
+$\sigma$ is called a \textbf{most general unifier (mgu)} of $A_1,A_2$, iff it is \linkterm{minimal}{least_element} in $U(A_1, A_2)$ \textbf{with respect to} the \linkterm{more general}{more_general_subst} ordering ($\leq$) restricted to the variables occurring in the problem: $W = \text{free}(A_1) \cup \text{free}(A_2)$. 
+}{mgu}
+
+\definition{}{
+We call a pair $A =^? B$ \textbf{solved} in a \linkterm{unification problem}{unification_problem} $\mathcal{E}$, iff $A$ is a variable $X$, $\mathcal{E} = X =^? A \land \mathcal{E'}$, and $X \notin (\text{free}(A) \cup \text{free}(\mathcal{E'}))$. We call a \linkterm{unification problem}{unification_problem} $\mathcal{E}$ a \textbf{solved form}, iff all its pairs are \textbf{solved}.
+}{solved_unif_prob}
+
+\Lemma{
+\linkterm{Solved forms}{solved_unif_prob} are of the form $X^1 =^? B^1 \land \cdots \land X^n =^? B^n$ where $X^i$ are distinct and $X^i \notin \text{free}(B^j)$
+}{lemm:solved_forms}
+
+\definition{$\mathcal{E}_{\sigma}$}{
+Any \linkterm{substitution}{substitution} $\sigma = [B^1/X^1], \cdots , [B^n / X^n]$ induces a \textbf{solved unification problem} 
+\[
+\mathcal{E}_{\sigma} := (X^1 =^? B^1 \land \cdots \land X^n =^? B^n)
+\]
+}{solved_unification_problem}
+
+\Lemma{
+If $\mathcal{E} = X^1 =^? B^1 \land \cdots \land X^n =^? B^n$ is a \linkterm{solved form}{solved_unif_prob}, then $\mathcal{E}$ has the unique \linkterm{MGU}{mgu} $\sigma_{\epsilon} := [B^1 / X^1], \cdots , [B^n / X^n]$.
+}{}
+
+\definition{$\mathcal{U}$}{
+The inference system $\mathcal{U}$ consists of the following \linkterm{inference rules}{inference_rules_logic}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+            \infer[\mathcal{U}_{dec}]
+            {\mathcal{E} \land A^1 =^? B^1 \land \cdots \land A^n =^? B^n}
+            {\mathcal{E} \land f(A^1,\cdots,A^n) =^? f(B^1,\cdots,B^n)}
+            \]
+        \end{minipage}
+    
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.1cm}
+            \[
+            \infer[\mathcal{U}_{triv}]
+            {\mathcal{E}}
+            {\mathcal{E} \land A =^? A}
+            \]
+        \end{minipage}
+    \end{multicols}
+
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{U}_{elim}]
+                {[A/X](\mathcal{E} \land X =^? A)}
+                {\mathcal{E} \land X =^? A \quad X \notin free(A) \quad X \in free(\mathcal{E})}
+            \]
+        \end{minipage}
+
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.4cm}
+            \[
+                \infer[\mathcal{U} \bot]
+                {\bot}
+                {\mathcal{E} \land f(X^1,\cdots,X^n) =^? g(Y^1,\cdots,Y^n)}
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{unification_calc}
+
+\Lemma{
+\linkterm{$\mathcal{U}$}{unification_calc} is \linkterm{sound}{sound}: $\mathcal{E} \vdash_{\mathcal{U}} \mathcal{F}$ implies $U(\mathcal{F}) \subseteq U(\mathcal{E})$
+}{}
+
+\Lemma{
+\linkterm{$\mathcal{U}$}{unification_calc} is \linkterm{complete}{complete}: $\mathcal{E} \vdash_{\mathcal{U}} \mathcal{F}$ implies $U(\mathcal{E}) \subseteq U(\mathcal{F})$
+}{}
+
+\Lemma{
+\linkterm{$\mathcal{U}$}{unification_calc} is confluent: the order of derivations does not matter
+}{}
+
+\Corollary{
+First-Order \linkterm{unification}{unification} is unitary: i.e. \linkterm{MGUs}{mgu} are unique up to \linkterm{renaming}{alphabetical_variants} of \linkterm{introduced variables}{substitution_introduced} 
+}{}
+
+\Lemma{
+\linkterm{$\mathcal{U}$}{unification_calc} is terminating; any \linkterm{$\mathcal{U}$}{unification_calc}-\linkterm{-derivation}{c_derivation} is \linkterm{finite}{set_cardinality}
+}{}
+
+\definition{}{
+We call an equational problem $\mathcal{E}$ \linkterm{$\mathcal{U}$}{unification_calc}-\textbf{reducible}, iff there is a \linkterm{$\mathcal{U}$}{unification_calc}-step $\mathcal{E} \vdash_{\mathcal{U}} \mathcal{F}$ from $\mathcal{E}$
+}{u_reducible}
+
+\Lemma{
+If $\mathcal{E}$ is \linkterm{unifiable}{unifier_unifiable} but not \linkterm{solved}{solved_unif_prob}, then it is \linkterm{$\mathcal{U}$-reducible}{u_reducible}
+}{}
+
+\Corollary{
+First-Order \linkterm{unification}{unification} is decidable in \linkterm{$\text{PL}^1$}{pl1}
+}{}

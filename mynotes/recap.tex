@@ -302,6 +302,26 @@ The size $\setsize{A}$ (or $\abs{A}$) of a \linkterm{set}{def:set} $A$ is the nu
 A \linkterm{family}{family} of \linkterm{sets}{def:set} is called \textbf{pairwise disjoint} or \textbf{mutually disjoint}, if any two of those \linkterm{sets}{def:set} are \linkterm{disjoint}{disjoint}.
 }{pairwise_disjoint}
 
+\definition{Multiset}{
+A \textbf{multiset} (or \textbf{bag}) is a generalization of a \linkterm{set}{def:set} where \linkterm{elements}{def:set} can appear more than once. Formally, a multiset $\mathcal{M}$ over a domain $D$ is a pair $(D, m)$, where $m: D \to \mathbb{N}$ is a function mapping each \linkterm{element}{def:set} $x \in D$ to its \textbf{multiplicity} (the number of occurrences).
+}{multiset}
+
+\definition{Multiset Membership}{
+$x \in \mathcal{M} :\equiv m(x) > 0$
+}{multiset_membership}
+
+\definition{Multiset Size}{
+The size of a multiset $\mathcal{M} = (D, m)$, denoted $\setsize{\mathcal{M}}$, is the sum of the multiplicities of all its \linkterm{elements}{def:set}: $\setsize{\mathcal{M}} = \sum_{x \in D} m(x)$.
+}{multiset_size}
+
+\definition{Multiset Sum (Union)}{
+The sum of two multisets $\mathcal{M}_1 = (D, m_1)$ and $\mathcal{M}_2 = (D, m_2)$, denoted $\mathcal{M}_1 \uplus \mathcal{M}_2$, is a multiset where the multiplicity of each \linkterm{element}{def:set} is the sum of its multiplicities: $m_{\uplus}(x) = m_1(x) + m_2(x)$.
+}{multiset_sum}
+
+\definition{Multiset Equality}{
+$\mathcal{M}_1 \equiv \mathcal{M}_2 :\equiv \forall x \in D. m_1(x) = m_2(x)$
+}{multiset_equality}
+
 \subsection{Relations}
 
 \definition{Relation}{
@@ -368,6 +388,18 @@ In a \linkterm{non-strict partial ordering}{partial_ordering},  two elements $a,
 \definition{Linear Order}{
 A \linkterm{partial ordering}{partial_ordering} is called linear (or total) on $A$, iff all \linkterm{elements}{def:set} in $A$ are \linkterm{comparable}{comparable}, i.e. if $(x,y) \in R$ or $(y,x) \in R$ for all $x,y \in A$. For example, the $\leq$ \linkterm{relation}{relation_on} is a \linkterm{linear order}{linear_order} on $\mathbb{N}$. However, the \linkterm{"divides" ($\mid$) relation}{divides_relation} is a \linkterm{non-strict partial ordering}{partial_ordering} on $\mathbb{N}$ that is not \linkterm{linear}{linear_order} (e.g., neither $2 \mid 3$ nor $3 \mid 2$).
 }{linear_order}
+
+\definition{Partially Ordered Set (Poset)}{
+A \textbf{Partially Ordered Set} (or \textbf{poset}) is a pair $\langle G, \preceq \rangle$ where $G$ is a \linkterm{set}{def:set} and $\preceq$ is a \linkterm{non-strict partial ordering}{partial_ordering} on $G$.
+}{poset}
+
+\definition{Least Element}{
+Let $\langle G, \preceq \rangle$ be a \linkterm{poset}{poset} and $T \subseteq G$. An \linkterm{element}{def:set} $t \in T$ is the \textbf{least} (or \textbf{smallest}, \textbf{minimal}, or $\preceq$-\textbf{minimal}) element of $T$ iff $t \preceq t'$ for all $t' \in T$.
+}{least_element}
+
+\definition{Greatest Element}{
+Let $\langle G, \preceq \rangle$ be a \linkterm{poset}{poset} and $T \subseteq G$. An \linkterm{element}{def:set} $t \in T$ is the \textbf{greatest} (or \textbf{largest}, \textbf{maximal}, or $\preceq$-\textbf{maximal}) element of $T$ iff $t' \preceq t$ for all $t' \in T$.
+}{greatest_element}
 
 \subsection{Functions}
 \definition{Partial function}{
