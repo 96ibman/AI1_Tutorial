@@ -360,6 +360,72 @@ Here we argue like in the induction step of \Lemref{lem_subs_terms} as well
 }{nd1}
 
 
+\commandnote{
+If our knowledge base has $\text{loves}(\text{Anna}, \text{Anna})$, using $\exists I$ we can infer several things, e.g.:
+\begin{itemize}
+    \item $\exists X. \text{loves}(X,X)$
+    \item $\exists X. \text{loves}(X, \text{Anna})$
+    \item $\exists X. \text{loves}(\text{Anna},X)$
+    \item $\exists X \exists Y. \text{loves}(X,Y)$
+\end{itemize}
+Hence, you might see the rule written in the following notation:
+\[
+    \infer[\exists I]{\exists X.A(\cdots c \cdots X \cdots)}{A(\cdots c \cdots c \cdots)}
+\]
+to emphasize that we do not need to \linkterm{replace}{replacement} all instances of the \linkterm{terms}{terms_pl1} $c$ with the variable $X$ (but we can!)
+}
+
+\minititle{Notes on $\forall I$}
+If we are trying to introduce something of the form $\forall X.A$, conceptually, this is a tricky thing to do! Because how could we prove that $A$ holds for everything! It is not practical to go through every \linkterm{individuals}{terms_pl1}! Therefore, we need a clever way of doing that. 
+
+Let's compare between two types of reasoning that involve generalization, first, let's see the following one:
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \renewcommand{\arraystretch}{1.3} 
+        \begin{tabular}{r l l}
+            \textbf{Step} & \textbf{Formula} & \textbf{Rule Applied} \\
+            \hline
+            (1) & $\text{Blonde}(\text{Anna})$ & Assumption \\
+            (2) & $\text{Blonde}(\text{Anna}) \lor \text{Brown}(\text{Anna})$ & $\lor I_l$ (on 1) \\
+            (3) & $\text{Blonde}(\text{Anna}) \Rightarrow (\text{Blonde}(\text{Anna}) \lor \text{Brown}(\text{Anna}))$ & $\Rightarrow I^1$ (on 1, 2) $\leadsto$ Discharge (1) \\
+            (4) & $\forall X. (\text{Blonde}(X) \Rightarrow (\text{Blonde}(X) \lor \text{Brown}(X)))$ & $\forall I$ (on 3) \\
+        \end{tabular}
+    \end{tcolorbox}
+\end{figure}
+
+
+That was a \textbf{valid} reasoning. Now let's see another one that looks \textit{(similar)}:
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \renewcommand{\arraystretch}{1.3} 
+        \begin{tabular}{r l l}
+            \textbf{Step} & \textbf{Formula} & \textbf{Rule Applied} \\
+            \hline
+            (1) & $\text{Blonde}(\text{Anna})$ & Assumption \\
+            (2) & $\text{Tall}(\text{Anna})$ & Assumption \\
+            (3) & $\text{Blonde}(\text{Anna}) \land \text{Tall}(\text{Anna})$ & $\land I$ (on 1,2) \\
+            (4) & $\text{Tall}(\text{Anna}) \Rightarrow (\text{Blonde}(\text{Anna}) \land \text{Tall}(\text{Anna}))$ & $\Rightarrow I^2$ (on 2,3) $\leadsto$ Discharge (2) \\
+            (5) & $\forall X. (\text{Tall}(X) \Rightarrow (\text{Blonde}(X) \land \text{Tall}(X)))$ & $\forall I$ (on 4) \\
+        \end{tabular}
+    \end{tcolorbox}
+\end{figure}
+
+That was \text{invalid} reasoning in an obvious way! Just because someone is tall, that doesn't mean they are both tall and blonde!
+
+The difference is in the way the \linkterm{individuals}{terms_pl1} "Anna" was used. In the incorrect proof, we assumed Anna is blonde, then we assumed something further about her (being tall), under that new assumption we inferred she's both tall and blonde and then we inferred something further to conclude everyone is like that!
+
+In the correct one, however, we derived the formula from one assumption about Anna and Anna did not appear anywhere before that. Anna was just an \textit{arbitrary} name.
+
+Therefore, the rule might also be written in a different notation:
+\[
+    \infer[\forall I]{\forall X. A(\cdots X \cdots X \cdots)}{A(\cdots c \cdots c \cdots)}
+\]
+
+where $c$ is arbitrary and $X \notin A$ 
+
 
 \definition{$\mathcal{ND}^1_{\vdash}$}{
 The \linkterm{inference rules}{inference_rules_logic} of the \textbf{First-Order Sequent Style Natural Deduction Calculus} consist of those from \linkterm{$\mathcal{ND}^{0}_{\vdash}$}{nd0_seq} plus the following quantifiers rules:
@@ -404,8 +470,9 @@ The \linkterm{inference rules}{inference_rules_logic} of the \textbf{First-Order
 \end{tcolorbox}
 }{nd1_seq}
 
+\newpage
 \definition{$\text{PL}^1_{=}$}{
-We extend \linkterm{$\text{PL}^1$}{pl1} with a new logical constant for \textbf{equality} $= \in \Sigma^p_2$ and fox its \linkterm{interpretation}{interpretation_pl1} to $\mathcal{I}(=) := \set{(x,x) \mid x \in \mathcal{D}_{\iota}}$. We call the extended logic \textbf{First-Order Logic with Equality}.
+We extend \linkterm{$\text{PL}^1$}{pl1} with a new logical constant for \textbf{equality} $= \in \Sigma^p_2$ and fix its \linkterm{interpretation}{interpretation_pl1} to $\mathcal{I}(=) := \set{(x,x) \mid x \in \mathcal{D}_{\iota}}$. We call the extended logic \textbf{First-Order Logic with Equality}.
 }{pl1=}
 
 \definition{Position}{
@@ -690,4 +757,312 @@ $\Leftrightarrow I$ is \linkterm{derivable}{derived_inference_rule} and $\Leftri
     \end{tcolorbox}
     \caption{All Natural Deduction Rules}
     \label{fig:nd_rules_all}
+\end{figure}
+
+\newpage
+\minititle{Example Proofs}
+
+\Figref{fig:nd1_proof_1} shows a linearized \linkterm{$\mathcal{ND}_1$}{nd1} proof of the \linkterm{formula}{formulae_pl1}:
+\[
+((\exists X. f(X)) \Rightarrow g(a)) \Rightarrow (\forall X.(f(X) \Rightarrow g(a)))
+\]
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \renewcommand{\arraystretch}{1.3} 
+        \begin{tabular}{r l l}
+            \textbf{Step} & \textbf{Formula} & \textbf{Rule Applied} \\
+            \hline
+            (1) & $(\exists X. f(X)) \Rightarrow g(a)$ & Assumption \\
+            \hline
+            (2) & $f(b)$ & Assumption \\
+            (3) & $\exists X.f(X)$ & $\exists I$ (on 2) \\
+            (4) & $g(a)$ & $\Rightarrow E$ (on 1,3) \\
+            (5) & $f(b) \Rightarrow g(a)$ & $\Rightarrow I^2$ (on 2, 4) $\leadsto$ Discharge (2) \\
+            \hline
+            (6) & $\forall X.(f(X) \Rightarrow g(a))$ & $\forall I$ (on 5) \\
+            (7) & $((\exists X. f(X)) \Rightarrow g(a)) \Rightarrow (\forall X.(f(X) \Rightarrow g(a)))$ & $\Rightarrow I^1$ (on 1, 6) $\leadsto$ Discharge (1) \\
+        \end{tabular}
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{ND}_1$}{nd1} Linearized Style Example Proof}
+    \label{fig:nd1_proof_1}
+\end{figure}
+
+The same \linkterm{formula}{formulae_pl1} proof in Gentzen-Prawitz Style is shown in \figref{fig:nd1_gentzen_example}: 
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        $$
+        \infer[\Rightarrow I^1]
+        { ((\exists X. f(X)) \Rightarrow g(a)) \Rightarrow (\forall X. (f(X) \Rightarrow g(a))) }
+        {
+            \infer[\forall I]
+            { \forall X. (f(X) \Rightarrow g(a)) }
+            {
+                \infer[\Rightarrow I^2]
+                { f(b) \Rightarrow g(a) }
+                {
+                    \infer[\Rightarrow E]
+                    { g(a) }
+                    {
+                        [(\exists X. f(X)) \Rightarrow g(a)]^1
+                        &
+                        \infer[\exists I]
+                        { \exists X. f(X) }
+                        { [f(b)]^2 }
+                    }
+                }
+            }
+        }
+        $$
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{ND}_1$}{nd1} Gentzen-Prawitz Style Example Proof }
+    \label{fig:nd1_gentzen_example}
+\end{figure}
+
+
+\Figref{fig:nd1seq_proof_example} shows an example Sequent-Style proof for the validity of the sequent:
+\[
+(\exists X.(f(X) \land g(X))) \vdash (\exists X.f(X) \land \exists X.g(X))
+\]
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        
+        Let $\Phi = \exists X.(f(X) \land g(X))$.
+        \vspace{1em}
+        
+        $$
+        \infer[\exists E]
+        {\Phi \vdash \exists X.f(X) \land \exists X.g(X)}
+        {
+            \infer[\text{Ax}]{\Phi \vdash \exists X.(f(X) \land g(X))}{}
+            &
+            \infer[\land I]
+            {\Phi, f(a) \land g(a) \vdash \exists X.f(X) \land \exists X.g(X)}
+            {
+                \infer[\exists I]
+                {\Phi, f(a) \land g(a) \vdash \exists X.f(X)}
+                {
+                    \infer[\land E_l]
+                    {\Phi, f(a) \land g(a) \vdash f(a)}
+                    {
+                        \infer[\text{Ax}]{\Phi, f(a) \land g(a) \vdash f(a) \land g(a)}{}
+                    }
+                }
+                &
+                \infer[\exists I]
+                {\Phi, f(a) \land g(a) \vdash \exists X.g(X)}
+                {
+                    \infer[\land E_r]
+                    {\Phi, f(a) \land g(a) \vdash g(a)}
+                    {
+                        \infer[\text{Ax}]{\Phi, f(a) \land g(a) \vdash f(a) \land g(a)}{}
+                    }
+                }
+            }
+            &
+            \begin{array}{l} a \in \Sigma_0^{sk} \\ \text{new} \end{array}
+        }
+        $$
+        
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{ND}^1_{\vdash}$}{nd1_seq} Example Proof}
+    \label{fig:nd1seq_proof_example}
+\end{figure}
+
+\newpage
+\section*{Excursion}
+\definition{Integer Division (Euclidean Division)}{
+For any integers $a$ (the \textbf{dividend}) and $b$ (the \textbf{divisor}) where $b \neq 0$, there exist unique integers $q$ (the \textbf{quotient}) and $r$ (the \textbf{remainder}) such that:
+$a = b \cdot q + r \quad \text{and} \quad 0 \leq r < |b|$
+}{integer_division}
+
+\definition{Quotient}{
+The result $q$ obtained from \linkterm{integer division}{integer_division}. It represents how many full times the divisor $b$ fits into the dividend $a$.
+}{quotient}
+
+\definition{Remainder}{
+The amount $r$ "left over" after \linkterm{integer division}{integer_division}. If $r=0$, then $b \mid a$ (the divisor \linkterm{divides}{divides_relation} the dividend).
+}{remainder}
+
+\definition{Set of Divisors}{
+For a given integer $n \in \mathbb{Z}$, the \textbf{set of divisors} is the \linkterm{set}{def:set} of all integers that stand in the \linkterm{divides relation}{divides_relation} to $n$. Formally:
+$\text{Div}(n) := \{d \in \mathbb{Z} \mid d \linkterm{\mid}{divides_relation} n\}$
+}{set_of_divisors}
+
+\definition{Prime Number}{
+A natural number $p \in \mathbb{N}$ is \textbf{prime} iff $p > 1$ and its only positive \linkterm{divisors}{set_of_divisors} are $1$ and itself. Formally: 
+$p \in \mathbb{P} :\equiv p > 1 \land \forall d \in \mathbb{N}. ((d \linkterm{\mid}{divides_relation} p) \Rightarrow d = 1 \lor d = p)$
+}{prime_number}
+
+\definition{Composite Number}{
+A natural number $n \in \mathbb{N}$ is \textbf{composite} iff there exists at least one \linkterm{divisor}{set_of_divisors} other than $1$ and itself. Formally: 
+$n \text{ is composite} :\equiv n > 1 \land \exists d \in \mathbb{N}. (1 < d < n \land d \linkterm{\mid}{divides_relation} n)$
+}{composite_number}
+
+\definition{Prime Factor}{
+An integer $p$ is a \textbf{prime factor} of $n \in \mathbb{Z}$ iff $p \in \mathbb{P}$ and $p \in \text{Div}(n)$ (i.e., $p$ is a \linkterm{prime number}{prime_number} that stands in the \linkterm{divides relation}{divides_relation} to $n$).
+}{prime_factor}
+
+\definition{Prime Factor Multiset}{
+For any $n \in \mathbb{N}, n > 1$, the \textbf{prime factor multiset} $\mathcal{M}(n)$ over the domain $\mathbb{P}$ is the \linkterm{multiset}{multiset} where the \linkterm{multiplicity}{multiset} $m(p)$ of each prime $p$ is its exponent in the \linkterm{prime factorization}{prime_factorization}. The product of all \linkterm{elements}{def:set} in the \linkterm{multiset}{multiset} equals $n$: $\prod_{p \in \mathbb{P}} p^{m(p)} = n$.
+}{prime_factor_multiset}
+
+\definition{Prime Factorization}{
+The representation of a natural number $n > 1$ as its \linkterm{prime factor multiset}{prime_factor_multiset}. By the Fundamental Theorem of Arithmetic, this \linkterm{multiset}{multiset} is unique.
+}{prime_factorization}
+
+\commandnote{
+\noindent\textbf{Example: Prime Factorization of 12}
+To find the \linkterm{prime factor multiset}{prime_factor_multiset}, we use \textbf{Trial Division}. We repeatedly divide by the smallest possible \linkterm{prime number}{prime_number} ($p \in \{2, 3, 5, \dots\}$) until the \linkterm{quotient}{quotient} reaches $1$.
+
+\begin{enumerate}
+    \item \textbf{Trial with $p=2$}: $12 \div 2 = 6$. Record $m(2) = 1$. Target is $6$.
+    \item \textbf{Trial with $p=2$ again}: $6 \div 2 = 3$. Update $m(2) = 2$. Target is $3$.
+    \item \textbf{Trial with $p=2$}: $3 \div 2 = 1$ with remainder $1$. Since $2 \nmid 3$, we move to the next prime, $p=3$.
+    \item \textbf{Trial with $p=3$}: $3 \div 3 = 1$. Record $m(3) = 1$. Target is $1$. Terminate.
+\end{enumerate}
+
+\textbf{Final Multiset:}
+The \linkterm{multiset}{multiset} is $\mathcal{M}(12) = \{2, 2, 3\}$, where $m(2)=2$ and $m(3)=1$.
+\textbf{Final Notation:} $12 = 2^2 \cdot 3$.
+}
+
+\definition{Coprime}{
+Two integers $a,b \in \mathbb{Z}$ are \textbf{coprime} iff the \linkterm{intersection}{set_intersection} of their \linkterm{prime factor multisets}{prime_factor_multiset} is empty. Formally:
+$\mathcal{M}(a) \cap \mathcal{M}(b) = \emptyset$, where $\cap$ for \linkterm{multisets}{multiset} is defined by $m_{\cap}(x) = \min(m_a(x), m_b(x))$.
+}{coprime}
+
+\definition{Greatest Common Divisor (GCD)}{
+For two natural numbers $a, b \in \mathbb{N}$, the \textbf{Greatest Common Divisor}, denoted $\text{gcd}(a,b)$, is the largest positive integer that \linkterm{divides}{divides_relation} both $a$ and $b$. If $\text{gcd}(a,b) = 1$, then $a$ and $b$ are \linkterm{coprime}{coprime}.
+}{gcd}
+
+\noindent\textbf{Method 1: Prime Factorization}
+This method identifies the shared "building blocks" of two numbers. The GCD is the product of the \linkterm{elements}{def:set} in the \linkterm{multiset intersection}{multiset_intersection} of their \linkterm{prime factor multisets}{prime_factor_multiset}.
+
+\textbf{Example: Find $\text{gcd}(24, 36)$}
+\begin{enumerate}
+    \item Find \linkterm{prime factor multisets}{prime_factor_multiset}:
+    $\mathcal{M}(24) = \{2, 2, 2, 3\}$ and $\mathcal{M}(36) = \{2, 2, 3, 3\}$.
+    \item Find the \linkterm{multiset intersection}{multiset_intersection}:
+    $\mathcal{M}(24) \cap \mathcal{M}(36) = \{2, 2, 3\}$ (using the minimum multiplicity for each prime).
+    \item Multiply the \linkterm{elements}{def:set}:
+    $2 \times 2 \times 3 = 12$.
+    \item Result: $\text{gcd}(24, 36) = 12$.
+\end{enumerate}
+
+\noindent\textbf{Method 2: Successive Division}
+This method uses the \linkterm{remainder}{remainder} from \linkterm{integer division}{integer_division}. We repeatedly replace the larger number with the remainder until the remainder is $0$. The last non-zero remainder is the GCD.
+
+\textbf{Example: Find $\text{gcd}(48, 18)$}
+\begin{enumerate}
+    \item $48 \div 18$: \linkterm{quotient}{quotient} $2$, \linkterm{remainder}{remainder} $12$. \hfill ($48 = 18 \cdot 2 + 12$)
+    \item $18 \div 12$: \linkterm{quotient}{quotient} $1$, \linkterm{remainder}{remainder} $6$. \hfill ($18 = 12 \cdot 1 + 6$)
+    \item $12 \div 6$: \linkterm{quotient}{quotient} $2$, \linkterm{remainder}{remainder} $0$. \hfill ($12 = 6 \cdot 2 + 0$)
+\end{enumerate}
+The last non-zero remainder is $\mathbf{6}$, so $\text{gcd}(48, 18) = 6$.
+
+\definition{Even Integer}{
+An integer $n \in \mathbb{Z}$ is \textbf{even} iff there exists an integer $k \in \mathbb{Z}$ such that $n = 2k$.
+}{even_def}
+
+\definition{Odd Integer}{
+An integer $n \in \mathbb{Z}$ is \textbf{odd} iff there exists an integer $k \in \mathbb{Z}$ such that $n = 2k + 1$.
+}{odd_def}
+
+
+\Lemma{
+$\forall n,m \in \mathbb{Z}, \neg (2n+1 = 2m)$ (an \linkterm{odd}{odd_def} number can never equal an \linkterm{even}{even_def} number) 
+}{parity_lemma}
+
+\Lemma{
+$\forall n,m \in \mathbb{N} \setminus \{1\}. \mathcal{M}(nm) \equiv \mathcal{M}(mn)$ 
+(The \linkterm{prime factor multiset}{prime_factor_multiset} of $nm$ is \linkterm{identical}{multiset_equality} to that of $mn$, as $\mathcal{M}(n) \uplus \mathcal{M}(m) \equiv \mathcal{M}(m) \uplus \mathcal{M}(n)$.)
+}{prime_factor_multiset_equivalence}
+
+\Lemma{
+$\forall n \in \mathbb{N} \setminus \{1\}, \forall p \in \mathbb{P}. \abs{\mathcal{M}(n \cdot p)} = \abs{\mathcal{M}(n)} + 1$
+(Multiplying a number by a \linkterm{prime}{prime_number} $p$ increases the total \linkterm{count of prime factors}{multiset_size} by exactly one, as $\mathcal{M}(np) \equiv \mathcal{M}(n) \uplus \{p\}$.)
+}{prime_factor_increment}
+
+\Lemma{
+$\forall n \in \mathbb{N} \setminus \{1\}, \forall k \in \mathbb{N}. \abs{\mathcal{M}(n^k)} = k \cdot \abs{\mathcal{M}(n)}$
+(The total \linkterm{count of prime factors}{multiset_size} of $n^k$ is $k$ times the count of prime factors of $n$. Specifically, for $k=2$, the count \textbf{doubles}: $\abs{\mathcal{M}(n^2)} = 2 \cdot \abs{\mathcal{M}(n)}$.)
+}{prime_factor_power_scaling}
+
+\definition{Rational Number}{
+A real number $x \in \mathbb{R}$ is \textbf{rational} iff it can be expressed as a ratio of two \linkterm{integers}{integer_def}. Formally:
+$x \in \mathbb{Q} :\equiv \exists p, q \in \mathbb{Z}. (q \neq 0 \land x = \frac{p}{q})$
+}{rational_number}
+
+\definition{Irrational Number}{
+A real number $x \in \mathbb{R}$ is \textbf{irrational} iff it is not \linkterm{rational}{rational_number}. Formally:
+$x \in \mathbb{I} :\equiv x \in \mathbb{R} \setminus \mathbb{Q}$
+}{irrational_number}
+
+\Theorem{
+$\sqrt{2} \notin \mathbb{Q}$ (\linkterm{irrational}{irrational_number}).
+}{root2_irrational}
+
+\Proof{
+Suppose for the sake of contradiction that $\sqrt{2}$ is \linkterm{rational}{rational_number}.
+\begin{enumerate}
+    \item Then there exist $p, q \in \mathbb{N}$ such that $\sqrt{2} = \frac{p}{q}$.
+    \item Squaring both sides gives $2 = \frac{p^2}{q^2}$, which implies:
+    $$2q^2 = p^2$$
+    \item Let $\abs{\mathcal{M}(n)}$ be the \linkterm{total count of prime factors}{multiset_size} of $n$. We analyze the parity of the counts on both sides of the equation:
+    \begin{itemize}
+        \item \textbf{Right Side ($p^2$):} By the \linkterm{Scaling Lemma}{prime_factor_power_scaling} (\lemref{prime_factor_power_scaling}), $\abs{\mathcal{M}(p^2)} = 2 \cdot \abs{\mathcal{M}(p)}$. This count is \linkterm{even}{even_def}.
+        \item \textbf{Left Side ($2q^2$):} By the \linkterm{Increment Lemma}{prime_factor_increment} (\lemref{prime_factor_increment}), $\abs{\mathcal{M}(2 \cdot q^2)} = \abs{\mathcal{M}(q^2)} + 1$. 
+        \item Since $\abs{\mathcal{M}(q^2)}$ is $2 \cdot \abs{\mathcal{M}(q)}$ (\linkterm{even}{even_def}), then $\abs{\mathcal{M}(q^2)} + 1$ is \linkterm{odd}{odd_def}.
+    \end{itemize}
+    \item This implies an \linkterm{even}{even_def} number of prime factors equals an \linkterm{odd}{odd_def} number of prime factors.
+    \item By the \linkterm{Parity Non-Equivalence Lemma}{parity_lemma} (\lemref{parity_lemma}), $\forall n,m. \neg(2n = 2m+1)$. 
+\end{enumerate}
+This is a contradiction. Therefore, the assumption that $\sqrt{2} \in \mathbb{Q}$ must be false. 
+Thus, $\sqrt{2}$ is \linkterm{irrational}{irrational_number}.
+}
+
+We can do real mathematics with \linkterm{$\mathcal{ND}^1_{=}$}{nd1=}, \figref{fig:nd1=_proof} shows an \linkterm{$\mathcal{ND}^1_{=}$}{nd1=} \linkterm{proof by contradiction}{proof_by_contradiction} that $\sqrt{2}$ is \linkterm{irrational}{irrational_number}:
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \renewcommand{\arraystretch}{1.3} 
+        \begin{tabular}{r l l}
+            \textbf{Step} & \textbf{Formula} & \textbf{Rule Applied} \\
+            \hline
+            (1) & $\forall n,m \in \mathbb{Z}, \neg (2n+1 = 2m)$ & \Lemref{parity_lemma} \\
+            (2) & $\forall n \in \mathbb{N} \setminus \{1\}, \forall k \in \mathbb{N}. \abs{\mathcal{M}(n^k)} = k \cdot \abs{\mathcal{M}(n)}$ & \Lemref{prime_factor_power_scaling} \\
+            (3) & $\forall n \in \mathbb{N} \setminus \{1\}, \forall p \in \mathbb{P}. \abs{\mathcal{M}(n \cdot p)} = \abs{\mathcal{M}(n)} + 1$ & \Lemref{prime_factor_increment} \\
+            (4) & $\forall x. \text{irr}(x) \Leftrightarrow \neg (\exists p,q. x = \frac{p}{q})$ & \Defref{irrational_number} \\
+            (5) & $\text{irr}(\sqrt{2}) \Leftrightarrow \neg (\exists p,q. \sqrt{2} = \frac{p}{q})$ & $\forall E$ (on 4) \\
+            (6) & $\neg \text{irr}(\sqrt{2})$ & Assumption \\
+            (7) & $\neg \neg (\exists p,q. \sqrt{2} = \frac{p}{q})$ & $\Leftrightarrow E$ (on 5,6) \\
+            (8) & $\exists p,q. \sqrt{2} = \frac{p}{q}$ & $\neg E$ (on 7) \\
+            (9) & $\sqrt{2} = \frac{p}{q}$ & $\text{Ax}$ (follows from 6) \\
+            (10) & $2 = \frac{p^2}{q^2} \leadsto 2q^2 = p^2$ & Arithmetic (on 9) \\
+            (11) & $\abs{\mathcal{M}(p^2)} = 2 \cdot \abs{\mathcal{M}(p)}$ & $\forall E$ (on 2) \\
+            (12) & $q^2 \in \N \land 2 \in \mathbb{P} \Rightarrow \abs{\mathcal{M}(q^2 \cdot 2)} = \abs{\mathcal{M}(q^2)} + 1$ & $\forall E$ (on 3) \\
+            (13) & $q^2 \in \N \land 2 \in \mathbb{P}$ & $\text{Ax}$, \Defref{prime_number} \\
+            (14) & $\abs{\mathcal{M}(2q^2)} = \abs{\mathcal{M}(q^2)} + 1$ & $\Rightarrow E$ (on 12, 13) \\
+            (15) & $\abs{\mathcal{M}(q^2)} = 2 \cdot \abs{\mathcal{M}(q)}$ & $\forall E$ (on 2) \\
+            (16) & $\abs{\mathcal{M}(2q^2)} = 2 \cdot \abs{\mathcal{M}(q)} + 1$ & $= E$ (on 14, 15) \\
+            (17) & $\abs{\mathcal{M}(p^2)} = \abs{\mathcal{M}(p^2)}$ & $= I$  \\
+            (18) & $\abs{\mathcal{M}(2q^2)} = \abs{\mathcal{M}(p^2)}$ & $= E$ (on 10,17)  \\
+            (19) & $2 \cdot \abs{\mathcal{M}(q)} + 1 = \abs{\mathcal{M}(p^2)}$ & $= E$ (on 16,18)  \\
+            (20) & $2 \cdot \abs{\mathcal{M}(q)} + 1 = 2 \cdot \abs{\mathcal{M}(p)}$ & $= E$ (on 11,19)  \\
+            (21) & $\neg (2 \abs{\mathcal{M}(q)}+1 = 2 \abs{\mathcal{M}(p)})$ & $\forall E$ (on 1)  \\ 
+            (22) & $\bot$ & $\bot I$ (on 20,21)  \\ 
+            (23) & $\bot$ & $\exists E^6$ (on 22)  \\   
+            (24) & $\neg \neg \text{irr}(\sqrt{2})$ & $\neg I$ (on 23)  \\ 
+            (25) & $\text{irr}(\sqrt{2})$ & $\neg E$ (on 24)  \\     
+        \end{tabular}
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{ND}^1_{=}$}{nd1=} Proof of $\sqrt{2} \notin \Q$}
+    \label{fig:nd1=_proof}
 \end{figure}

@@ -318,6 +318,10 @@ The size of a multiset $\mathcal{M} = (D, m)$, denoted $\setsize{\mathcal{M}}$, 
 The sum of two multisets $\mathcal{M}_1 = (D, m_1)$ and $\mathcal{M}_2 = (D, m_2)$, denoted $\mathcal{M}_1 \uplus \mathcal{M}_2$, is a multiset where the multiplicity of each \linkterm{element}{def:set} is the sum of its multiplicities: $m_{\uplus}(x) = m_1(x) + m_2(x)$.
 }{multiset_sum}
 
+\definition{Multiset Intersection}{
+The \linkterm{intersection}{set_intersection} of two multisets $\mathcal{M}_1 = (D, m_1)$ and $\mathcal{M}_2 = (D, m_2)$, denoted $\mathcal{M}_1 \cap \mathcal{M}_2$, is a multiset where the multiplicity of each \linkterm{element}{def:set} is the minimum of its multiplicities in the two multisets: $m_{\cap}(x) = \min(m_1(x), m_2(x))$.
+}{multiset_intersection}
+
 \definition{Multiset Equality}{
 $\mathcal{M}_1 \equiv \mathcal{M}_2 :\equiv \forall x \in D. m_1(x) = m_2(x)$
 }{multiset_equality}

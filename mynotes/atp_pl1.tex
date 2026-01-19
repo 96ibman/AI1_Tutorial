@@ -301,8 +301,90 @@ Combining \linkterm{$\mathcal{T}_0$}{t0_calculus} and \linkterm{$\mathcal{T}^f_1
 \label{fig:tableau_all}
 \end{figure}
 
+\newpage
+\textbf{Example Proof}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \centering
+        \begin{tikzpicture}[node distance=1ex]
+            \node (F) {$[(\forall X. P(X) \Rightarrow Q(X)) \Rightarrow ((\forall X. P(X)) \Rightarrow (\forall X. Q(X)))]^F$};
+            \node (F1) [below=of F] {$[\forall X. P(X) \Rightarrow Q(X)]^T$};
+            \node (F2) [below=of F1] {$((\forall X. P(X)) \Rightarrow (\forall X. Q(X)))^F$};
+            \node (F3) [below=of F2] {$[\forall X. P(X)]^T$};
+            \node (F4) [below=of F3] {$[\forall X. Q(X)]^F$};
+            \node (F5) [below=of F4] {$[P(Y)]^T$};
+            \node (F6) [below=of F5] {$[Q(c)]^F$};
+            \node (F7) [below=of F6] {$[P(Z) \Rightarrow Q(Z)]^T$};
+            
+            %Branch
+            \node (pOfZF) [below left=of F7] {$[P(Z)]^F$};
+            \node (qOfZT) [below right=of F7] {$[Q(Z)]^T$};
+            \node (close1) [below=of pOfZF] {$\bot : [Y / Z]$};
+            \node (subst) [below=of qOfZT] {$[Q(Y)]^T$};
+            \node (close2) [below=of subst] {$\bot : [c / Y]$};
+
+            % Edges
+            \path (F7) edge[-] (pOfZF);
+            \path (F7) edge[-] (qOfZT);
+        \end{tikzpicture}
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{T}^f_1$}{T1_free} Proof Example}
+    \label{t1proofexample}
+\end{figure}
+
+All \linkterm{$\mathcal{T}^f_1$}{T1_free} \linkterm{rules}{inference_rules_logic} need to be applied once except for $\mathcal{T}^f_1 \forall$. The number of applications of $\mathcal{T}^f_1 \forall$ to $\forall X.A$  is called it's \refterm{multiplicity}{multiplicity_forall_rule}.
+
+\Theorem{
+\linkterm{$\mathcal{T}^f_1$}{T1_free} is only \linkterm{complete}{complete} with unbounded \linkterm{multiplicities}{multiplicity_forall_rule}
+}{thm:t1_completeness}
+
+\commandnote{
+That is why \linkterm{validity}{valid_ls} in \linkterm{$\text{PL}^1$}{pl1} is undecidable
+}
+
+For example, see the \linkterm{proof}{proofs} in \figref{t1proof_multiplicity}:
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+\centering
+\begin{tikzpicture}[node distance=1.2ex]
+    % Root expansion
+    \node (F) {$[(P(a) \lor P(b)) \Rightarrow \exists X. P(X)]^F$};    
+    \node (F1) [below=of F] {$[P(a) \lor P(b)]^T$};    
+    \node (F2) [below=of F1] {$[\exists X. P(X)]^F$}; 
+    
+    % The node showing substitution progress
+    \node (F3) [below=of F2] {$[P(Y)]^F$};
+    \node (label1) [right=0.5cm of F3, color=red] {$\xrightarrow{[a/Y]} [P(a)]^F$};
+
+    % The branching
+    \draw (F3) -- ++(-1.5,-1) node(F4) [below] {$[P(a)]^T$};
+    \draw (F3) -- ++(1.5,-1) node(F5) [below] {$[P(b)]^T$};
+
+    % Left closure
+    \node (close1) [below=of F4] {$\bot: [a/Y]$};
+    
+    % Right expansion and closure
+    \node (subst) [below=2cm of F5] {$[P(Z)]^F$};
+    \node (label2) [right=0.5cm of subst, color=blue] {$\xrightarrow{[b/Z]} [P(b)]^F$};
+    \node (close2) [below=of subst] {$\bot : [b / Z]$};
+
+    % Connect the second expansion visually
+    \draw[->, bend left=40, color=blue, dashed] (F2.east) to node[midway, right, scale=0.8] {2nd application of $\mathcal{T}^f_1 \forall$} (subst.east);
+    \draw (F5) -- (subst);
+
+\end{tikzpicture}
+\end{tcolorbox}
+\caption{$\mathcal{T}^f_1 \forall$ Multiplicity Example}
+\label{t1proof_multiplicity}
+\end{figure}
+
+
 \definition{Unification}{
-For given \linkterm{terms}{terms_pl1} $A_1, A_2$, \textbf{unificatoin} is the problem of finding a \linkterm{substitution}{substitution} $\sigma$ (called \textbf{unifier}), such that $\sigma(A_1)=\sigma(A_2)$
+For given \linkterm{terms}{terms_pl1} $A_1, A_2$, \textbf{unification} is the problem of finding a \linkterm{substitution}{substitution} $\sigma$ (called \textbf{unifier}), such that $\sigma(A_1)=\sigma(A_2)$
 }{unification}
 
 \definition{Unification Problem}{
@@ -417,6 +499,97 @@ The inference system $\mathcal{U}$ consists of the following \linkterm{inference
 \end{tcolorbox}
 }{unification_calc}
 
+\textbf{Unification Example : }Let $\mathcal{E} := f(g(X, X), h(a)) =^? f(g(a, Z), h(Z))$
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \centering
+        \vspace{0.3cm}
+        \[
+        \infer[\mathcal{U}_{triv}]
+        {X =^? a \land Z =^? a}
+        {
+            \infer[\mathcal{U}_{elim}]
+            {X =^? a \land Z =^? a \land a =^? a}
+            {
+                \infer[\mathcal{U}_{elim}]
+                {X =^? a \land a =^? Z \land a =^? Z}
+                {
+                    \infer[\mathcal{U}_{dec}]
+                    {X =^? a \land X =^? Z \land a =^? Z}
+                    {
+                        \infer[\mathcal{U}_{dec}]
+                        {X =^? a \land X =^? Z \land h(a) =^? h(Z)}
+                        {
+                            \infer[\mathcal{U}_{dec}]
+                            {g(X, X) =^? g(a, Z) \land h(a) =^? h(Z)}
+                            {f(g(X, X), h(a)) =^? f(g(a, Z), h(Z))}
+                        }
+                    }
+                }
+            }
+        }
+        \]
+        \vspace{0.1cm}
+        The final $\mathcal{E}$ is in \linkterm{solved form}{solved_unif_prob} since all the pairs are \linkterm{solved}{solved_unif_prob}. Hence $\mathcal{E}$ has the unique \linkterm{MGU}{mgu} $\sigma_{\epsilon} := [a / X], [a / Z]$. 
+    \end{tcolorbox}
+\end{figure}
+
+\textbf{Unification Example : }Let $\mathcal{E} := S_1(g(f(x), g(x, y)), y) =^? S_1(g(z, v), f(w))$
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \centering
+        \vspace{0.3cm}
+        \[
+        \infer[\mathcal{U}_{elim}]
+        {z =^? f(x) \land v =^? g(x, f(w)) \land y =^? f(w)}
+        {
+            \infer[\mathcal{U}_{elim}]
+            {z =^? f(x) \land v =^? g(x, y) \land y =^? f(w)}
+            {
+                \infer[\mathcal{U}_{dec}]
+                {z =^? f(x) \land v =^? g(x, y) \land y =^? f(w)}
+                {
+                    \infer[\mathcal{U}_{dec}]
+                    {g(f(x), g(x, y)) =^? g(z, v) \land y =^? f(w)}
+                    {S_1(g(f(x), g(x, y)), y) =^? S_1(g(z, v), f(w))}
+                }
+            }
+        }
+        \]
+        \vspace{0.4cm}
+        \flushleft
+        The final equation $z =^? f(x) \land v =^? g(x, f(w)) \land y =^? f(w)$ is in \linkterm{solved form}{solved_unif_prob}. \\
+        The \linkterm{MGU}{mgu} is $\{z \to f(x), v \to g(x, f(w)), y \to f(w)\}$.
+    \end{tcolorbox}
+\end{figure}
+
+\textbf{Unification Example : } Let $\mathcal{E}:=S_2(g(f(x), g(x, u)), f(y), z) =^? S_2(g(g(g(u, v), f(w)), f(c)), f(g(u, v)), f(c))$ (\linkterm{not unifiable}{unifier_unifiable})
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \centering
+        \[
+        \infer[\mathcal{U} \bot]
+        {\bot}
+        {
+            \infer[\mathcal{U}_{dec}]
+            {f(x) =^? g(g(u, v), f(w)) \land g(x, u) =^? f(c) \land f(y) =^? f(g(u, v)) \land z =^? f(c)}
+            {
+                \infer[\mathcal{U}_{dec}]
+                {g(f(x), g(x, u)) =^? g(g(g(u, v), f(w)), f(c)) \land f(y) =^? f(g(u, v)) \land z =^? f(c)}
+                {S_2(g(f(x), g(x, u)), f(y), z) =^? S_2(g(g(g(u, v), f(w)), f(c)), f(g(u, v)), f(c))}
+            }
+        }
+        \]
+    \end{tcolorbox}
+\end{figure}
+
 \Lemma{
 \linkterm{$\mathcal{U}$}{unification_calc} is \linkterm{sound}{sound}: $\mathcal{E} \vdash_{\mathcal{U}} \mathcal{F}$ implies $U(\mathcal{F}) \subseteq U(\mathcal{E})$
 }{}
@@ -447,4 +620,50 @@ If $\mathcal{E}$ is \linkterm{unifiable}{unifier_unifiable} but not \linkterm{so
 
 \Corollary{
 First-Order \linkterm{unification}{unification} is decidable in \linkterm{$\text{PL}^1$}{pl1}
+}{}
+
+\textbf{Recall: }in \linkterm{$\mathcal{T}^f_1$}{T1_free}, the rule $\mathcal{T}^f_1 \bot$ instantiates the whole tableau. The problem is that there might be more than one $\mathcal{T}^f_1 \bot$ opportunity on a branch and choosing which one makes a difference. For example, in the following proof, if we choose to close first on the right branch, the tableau does not close! However, choosing the other $\mathcal{T}^f_1 \bot$ in the left branch allows closure!
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+\centering
+\begin{tikzpicture}[node distance=1.2ex]
+    % Initial Formula
+    \node (F0) {$(\exists X.(p(a) \wedge p(b) \Rightarrow p(X)) \wedge (q(b) \Rightarrow q(X)))^F$};
+    
+    % Gamma Expansion (Free Variable y)
+    \node (F1) [below=of F0] {$((p(a) \wedge p(b) \Rightarrow p(Y)) \wedge (q(b) \Rightarrow q(Y)))^F$};
+    
+    % The Branching (Conjunction on F-side)
+    \coordinate (Lpoint) at ([xshift=-2.5cm, yshift=-1.5cm]F1.south);
+    \coordinate (Rpoint) at ([xshift=2.5cm, yshift=-1.5cm]F1.south);
+    
+    \draw (F1.south) -- (Lpoint);
+    \draw (F1.south) -- (Rpoint);
+
+    % Left Branch
+    \node (L1) [below=0.1cm of Lpoint] {$(p(a) \wedge p(b) \Rightarrow p(Y))^F$};
+    \node (L2) [below=of L1] {$p(a)^T$};
+    \node (L3) [below=of L2] {$p(b)^T$};
+    \node (L4) [below=of L3] {$p(Y)^F$};
+    \node (Lclose) [below=of L4, color=blue] {$\bot: [a/Y]$};
+
+    % Right Branch
+    \node (R1) [below=0.1cm of Rpoint] {$(q(b) \Rightarrow q(Y))^F$};
+    \node (R2) [below=of R1] {$q(b)^T$};
+    \node (R3) [below=of R2] {$q(Y)^F$};
+
+\end{tikzpicture}
+\end{tcolorbox}
+\end{figure}
+
+Therefore, when implementing \linkterm{$\mathcal{T}^f_1$}{T1_free}, there are two ways of systematic search, namely \textbf{backtracking search} back over $\mathcal{T}^f_1 \bot$ opportunities and \linkterm{saturate}{saturated_tableau} without $\mathcal{T}^f_1 \bot$ and find \textbf{spanning matings}.
+
+\definition{Spanning Mating}{
+Let $\mathcal{T}$ be a \linkterm{$\mathcal{T}^f_1$}{T1_free} tableau, then we call a \linkterm{unification problem}{unification_problem} $\mathcal{E} := A_1 =? B_1 \cdots A_n =? B_n$ a \textbf{mating} for $\mathcal{T}$, iff $A_i^T$ and $B_i^F$ occur in the same branch in $\mathcal{T}$. We say taht $\mathcal{E}$ is a \textbf{spanning mating}, if $\mathcal{E}$ is \linkterm{unifiable}{unifier_unifiable} and every branch $\mathcal{B}$ of $\mathcal{T}$ contains $A_i^T$ and $B_i^F$ for some $i$.
+}{spanning_mating}
+
+\Theorem{
+A \linkterm{$\mathcal{T}^f_1$}{T1_free}-tableau with \linkterm{spanning mating}{spanning_mating} induces a \linkterm{closed}{closed_tableau} \linkterm{$\mathcal{T}_1$}{T1_standard} tableau.
 }{}
