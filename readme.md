@@ -1,5 +1,8 @@
 # What is this?
 I upload here what I find necessary to support me or the students in the tutorial sessions.
+
+> **UPDATE (19/1/2026):** The sessions on 26 Jan and 2 Feb will be held online (NOT in-person). [Zoom Meeting Link](https://fau.zoom-x.de/j/65362670691)  
+
 > **UPDATE (07/11/2025):** I started to write a (partial) summary of lecture content which you can find [here](/mynotes/main.pdf). (*No promises that I will commit to that!*)
 
 # Tutorial Info
@@ -21,9 +24,9 @@ I upload here what I find necessary to support me or the students in the tutoria
 - [15 Dec](/07/)
 - 22, 29 Dec, and 5 Jan are cancelled, enjoy Weihnachten :)
 - [12 Jan](/08/)
-- 19 Jan
-- 26 Jan
-- 2 Feb (last session)
+- [19 Jan](/09/)
+- 26 Jan (online)
+- 2 Feb (online)
 
 # References
 - [Course Home Page on ALeA](https://courses.voll-ki.fau.de/course-home/ai-1)
