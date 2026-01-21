@@ -667,3 +667,563 @@ Let $\mathcal{T}$ be a \linkterm{$\mathcal{T}^f_1$}{T1_free} tableau, then we ca
 \Theorem{
 A \linkterm{$\mathcal{T}^f_1$}{T1_free}-tableau with \linkterm{spanning mating}{spanning_mating} induces a \linkterm{closed}{closed_tableau} \linkterm{$\mathcal{T}_1$}{T1_standard} tableau.
 }{}
+
+\definition{$\text{CNF}_1$}{
+The \textbf{First-Order CNF Calculus} $\text{CNF}_1$ extends \linkterm{$\text{CNF}_0$}{cnf0_calculus} by the following \linkterm{rules}{inference_rules_logic}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\forall^T]
+            {([Z/X](A))^T \lor C}
+            {(\forall X.A)^T \lor C \quad Z \notin (\text{free}(A) \cup \text{free}(C))}
+        \]
+    \end{minipage}
+    
+    \noindent
+    \begin{minipage}{\linewidth}
+        \vspace{1cm}
+        \[
+            \infer[\forall^F]
+            {([f(X_1,\cdots,X_k)/X](A))^F \lor C}
+            {(\forall X.A)^F \lor C \quad \text{free}(\forall X.A) = \{X_1,\cdots,X_k\} \quad
+            f \in \sum_{k}^{sk} \text{new}}
+        \]
+    \end{minipage}
+\end{tcolorbox}
+}{cnf1_calculus}
+
+\definition{}{
+The following \linkterm{inference rules}{inference_rules_logic} are \linkterm{derived}{derived_inference_rule} in \linkterm{$\text{CNF}_1$}{cnf1_calculus}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\exists^T]
+            {([f(X_1,\cdots,X_k)/X](A))^T \lor C}
+            {(\exists X.A)^T \lor C \quad \text{free}(\exists X.A) = \{X_1,\cdots,X_k\} \quad
+            f \in \sum_{k}^{sk} \text{new}}
+        \]
+    \end{minipage}
+    
+    \noindent
+    \begin{minipage}{\linewidth}
+        \vspace{1cm}
+        \[
+            \infer[\exists^F]
+            {([Z/X](A))^F \lor C}
+            {(\exists X.A)^F \lor C \quad Z \notin (\text{free}(A) \cup \text{free}(C))}
+        \]
+    \end{minipage}
+\end{tcolorbox}
+}{cnf1_calculus_derived}
+
+\definition{}{
+\linkterm{$\text{CNF}_0$}{cnf0_calculus} $\cup$ \linkterm{$\text{CNF}_1$}{cnf1_calculus} \linkterm{rules}{inference_rules_logic} are shown in \figref{fig:cnf0_cnf1}
+}{}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\lor^T]
+                    {C \lor A^T \lor B^T}
+                    {C \lor (A \lor B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\lor^F]
+                    {(C \lor A^F) \land (C \lor B^F)}
+                    {C \lor (A \lor B)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \begin{multicols}{2}
+            % Negation True Rule
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\neg^T]
+                    {C \lor A^F}
+                    {C \lor \neg A^T}
+                \]
+            \end{minipage}
+
+            % Negation False Rule
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\neg^F]
+                    {C \lor A^T}
+                    {C \lor \neg A^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\forall^T]
+                {([Z/X](A))^T \lor C}
+                {(\forall X.A)^T \lor C \quad Z \notin (\text{free}(A) \cup \text{free}(C))}
+            \]
+        \end{minipage}
+        
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.5cm}
+            \[
+                \infer[\forall^F]
+                {([f(X_1,\cdots,X_k)/X](A))^F \lor C}
+                {(\forall X.A)^F \lor C \quad \text{free}(\forall X.A) = \{X_1,\cdots,X_k\} \quad
+                f \in \sum_{k}^{sk} \text{new}}
+            \]
+        \end{minipage}
+
+        \par\vspace{0.5cm}
+        \noindent
+        \begin{tikzpicture}
+            \draw[dashed] (0,0) -- (\linewidth,0);
+        \end{tikzpicture}
+
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\Rightarrow^T]
+                    {C \lor A^F \lor B^T}
+                    {C \lor (A \Rightarrow B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\Rightarrow^F]
+                    {(C \lor A^T) \land (C \lor B^F)}
+                    {C \lor (A \Rightarrow B)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\land^T]
+                    {(C \lor A^T) \land (C \lor B^T)}
+                    {C \lor (A \land B)^T}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\land^F]
+                    {C \lor A^F \lor B^F}
+                    {C \lor (A \land B)^F}
+                \]
+            \end{minipage}
+        \end{multicols}
+
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.5cm}
+            \[
+                \infer[\exists^T]
+                {([f(X_1,\cdots,X_k)/X](A))^T \lor C}
+                {(\exists X.A)^T \lor C \quad \text{free}(\exists X.A) = \{X_1,\cdots,X_k\} \quad
+                f \in \sum_{k}^{sk} \text{new}}
+            \]
+        \end{minipage}
+        
+        \noindent
+        \begin{minipage}{\linewidth}
+            \vspace{0.5cm}
+            \[
+                \infer[\exists^F]
+                {([Z/X](A))^F \lor C}
+                {(\exists X.A)^F \lor C \quad Z \notin (\text{free}(A) \cup \text{free}(C))}
+            \]
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{\linkterm{$\text{CNF}_0$}{cnf0_calculus} $\cup$ \linkterm{$\text{CNF}_1$}{cnf1_calculus}}
+    \label{fig:cnf0_cnf1}
+\end{figure}
+
+\definition{$\mathcal{R}_1$}{
+The \textbf{First-Order Resolution Calculus} $\mathcal{R}_1$ is a \linkterm{test calculus}{test_calculus} that manipulates \linkterm{formulae}{formulae_pl1} in \linkterm{CNF}{cnf}, therefore, it operates on \linkterm{clause sets}{clause_set}, and it has the following two \linkterm{inference rules}{inference_rules_logic}:
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+    \begin{multicols}{2}
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{R}_1]
+                {(\sigma(C)) \lor (\sigma(D))}
+                {A^T \lor C \quad B^F \lor D \quad \sigma = \text{\linkterm{MGU}{mgu}}(A,B)}
+            \]
+        \end{minipage}
+
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+                \infer[\mathcal{R}_1]
+                {(\sigma(A)) \lor (\sigma(C))}
+                {A^{\alpha} \lor B^{\beta} \lor C \quad \sigma = \text{\linkterm{MGU}{mgu}}(A,B)}
+            \]
+        \end{minipage}
+    \end{multicols}
+\end{tcolorbox}
+}{R1}
+
+\definition{}{
+\linkterm{$\mathcal{R}_0$}{R0} $\cup$ \linkterm{$\mathcal{R}_1$}{R1} \linkterm{inference rules}{inference_rules_logic} are shown in \figref{fig:r0_r1}
+}{r0_r1}
+
+\begin{figure}[H]
+    \centering
+    \begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+        \noindent
+        \begin{minipage}{\linewidth}
+            \[
+            \infer[\mathcal{R}_0]
+            {A \lor B}
+            {P^T \lor A \qquad \qquad P^F \lor B}
+            \]
+        \end{minipage}
+        \begin{multicols}{2}
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\mathcal{R}_1]
+                    {(\sigma(C)) \lor (\sigma(D))}
+                    {A^T \lor C \quad B^F \lor D \quad \sigma = \text{\linkterm{MGU}{mgu}}(A,B)}
+                \]
+            \end{minipage}
+
+            \noindent
+            \begin{minipage}{\linewidth}
+                \[
+                    \infer[\mathcal{R}_1]
+                    {(\sigma(A)) \lor (\sigma(C))}
+                    {A^{\alpha} \lor B^{\beta} \lor C \quad \sigma = \text{\linkterm{MGU}{mgu}}(A,B)}
+                \]
+            \end{minipage}
+        \end{multicols}
+    \end{tcolorbox}
+    \caption{\linkterm{$\mathcal{R}_0$}{R0} $\cup$ \linkterm{$\mathcal{R}_1$}{R1}}
+    \label{fig:r0_r1}
+\end{figure}
+
+\textbf{Example 1:} We want to prove the following using \linkterm{$\mathcal{R}_1$}{R1}:
+\[
+\exists X. \forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))
+\]
+
+We \linkterm{label}{labeled_formula} it with $F$ and use \linkterm{$\text{CNF}_1$}{cnf1_calculus}:
+\[
+[\exists X. \forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))]^F
+\]
+
+We apply $\exists^F$ where
+\[
+X1 \notin \text{free}(\forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))) = \set{X}
+\]
+
+We get:
+\[
+[\forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X1,b)))]^F
+\]
+
+We apply $\forall^F$ where:
+\[
+\text{free}(\forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X1,b)))) = \set{X1} \quad \abs{\set{X1}} = 1
+\]
+Hence, we invent a new $f(X1) \in \Sigma^{sk}_1$ and apply $[f(X1) / Y]$, we get:
+\[
+[\exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(f(X1)) \land R(X1,b)))]^F
+\]
+We apply $\exists^F$ where:
+\[
+Z1 \notin \text{free}(\exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(f(X1)) \land R(X1,b)))) = \set{Z,X1}
+\]
+We get:
+\[
+[\exists W. ((\neg P(Z1) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(f(X1)) \land R(X1,b)))]^F
+\]
+We apply $\exists^F$ where:
+\[
+W1 \notin \text{free}(((\neg P(Z1) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(f(X1)) \land R(X1,b)))) = \set{Z1, W, X1}
+\]
+We get:
+\[
+[((\neg P(Z1) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W1,a) \lor (P(f(X1)) \land R(X1,b)))]^F
+\]
+We apply $\lor^F$, we get:
+\[
+[\neg P(Z1) \land \neg R(b,a)]^F \land  [\neg R(a,b)]^F \land [R(W1,a)]^F \land [(P(f(X1)) \land R(X1,b))]^F
+\]
+We apply $\land^F$, we get:
+\[
+[\neg P(Z1)]^F \lor [\neg R(b,a)]^F \land  [\neg R(a,b)]^F \land [R(W1,a)]^F \land [P(f(X1))]^F \lor [R(X1,b)]^F
+\]
+We apply $\neg^F$:
+\[
+[P(Z1)]^T \lor [R(b,a)]^T \land  [R(a,b)]^T \land [R(W1,a)]^F \land [P(f(X1))]^F \lor [R(X1,b)]^F
+\]
+The final \linkterm{clause set}{clause_set} is:
+\[
+\set{[P(Z1)]^T \lor [R(b,a)]^T, [R(a,b)]^T, [R(W1,a)]^F, [P(f(X1))]^F \lor [R(X1,b)]^F}
+\]
+
+We start the \linkterm{$\mathcal{R}_1$}{R1}-\linkterm{refutation}{c_refutation}:
+
+\begin{enumerate}
+\item $[P(Z1)]^T \lor [R(b,a)]^T$
+\item $[R(a,b)]^T$
+\item $[R(W1,a)]^F$
+\item $[P(f(X1))]^F \lor [R(X1,b)]^F$
+\item Resolve $2$ with $4$ under $\sigma = [a/X1] \leadsto [P(f(a))]^F$
+\item Resolve $1$ with $5$ under $\sigma = [a/Z1] \leadsto [R(b,a)]^T$
+\item Resolve $3$ with $6$ under $\sigma = [b/W1] \leadsto \set{\square}$
+\end{enumerate}
+
+\minititle{A trick to make life easier}
+When asked to prove something using \linkterm{$\mathcal{R}_1$}{R1}, we need first to transform to \linkterm{CNF}{cnf} using \linkterm{$\text{CNF}_1$}{cnf1_calculus}. Instead of applying the \linkterm{$\text{CNF}_1$}{cnf1_calculus} rules, we do the following steps:
+\begin{enumerate}
+    \item Negate the formula 
+    \item Push negation inside
+    \item Eliminate $\forall$ and $\exists$:
+    \begin{itemize}
+        \item If you are eliminating a $\forall$, leave the universally quantified variable as it is in the formula
+        \item If you are eliminating a $\exists$, Skolemize:
+        \begin{itemize}
+            \item If before the $\exists$ there is a $\forall$, we Skolemize by new function $f \in \Sigma_k^{sk}$ whose parameters are the universally quantified variables before $\exists$
+            \item If no $\forall$ is before the $\exists$, we Skolemize with a new constant $c \in \Sigma_0^{sk}$
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Same Example} (now with the trick):
+We want to prove the following using \linkterm{$\mathcal{R}_1$}{R1}:
+\[
+\exists X. \forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))
+\]
+
+We negate the formula:
+\[
+\neg (\exists X. \forall Y. \exists Z. \exists W. ((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b))))
+\]
+
+We push negation inside:
+\[
+\forall X. \exists Y. \forall Z. \forall W. \neg((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))
+\]
+
+We eliminate $\forall W.$:
+\[
+\forall X. \exists Y. \forall Z. \neg((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))
+\]
+
+We eliminate $\forall Z.$:
+\[
+\forall X. \exists Y. \neg((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(Y) \land R(X,b)))
+\]
+
+We Skolemize $\exists Y.$:
+\[
+\forall X. \neg((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(f(X)) \land R(X,b)))
+\]
+
+We eliminate $\forall X.$
+\[
+\neg((\neg P(Z) \land \neg R(b,a)) \lor \neg R(a,b) \lor R(W,a) \lor (P(f(X)) \land R(X,b)))
+\]
+We continue by starting applying \linkterm{$\text{CNF}_0$}{cnf0_calculus} rules as above.
+
+\textbf{Example 2:} We want to prove the following using \linkterm{$\mathcal{R}_1$}{R1}:
+\[
+\exists X.\forall Y.\exists W.\exists Z.\neg((R(Z,Y) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,Y) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)
+\]
+
+We negate:
+\[
+\neg (\exists X.\forall Y.\exists W.\exists Z.\neg((R(Z,Y) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,Y) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+))
+\]
+
+We push negation inside:
+\[
+\forall X.\exists Y.\forall W.\forall Z.\neg \neg((R(Z,Y) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,Y) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)
+\]
+
+We eliminate $\forall Z.$
+\[
+\forall X.\exists Y.\forall W.\neg \neg((R(Z,Y) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,Y) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)
+\]
+
+We eliminate $\forall W.$
+\[
+\forall X.\exists Y.\neg \neg((R(Z,Y) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,Y) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)
+\]
+
+We Skolemize $\exists Y.$
+\[
+\forall X.\neg \neg((R(Z,f(X)) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,f(X)) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)
+\]
+
+We eliminate $\forall X.$
+\[
+\neg \neg((R(Z,f(X)) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,f(X)) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)
+\]
+
+This is just:
+\[
+[\neg((R(Z,f(X)) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,f(X)) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+)]^F
+\]
+
+Using $\neg^F$
+\[
+[(R(Z,f(X)) \lor \neg P(Z))\land
+(\neg Q(d) \lor P(c)) \land
+(Q(d)\lor \neg P(c))\land
+(\neg R(Z,f(X)) \lor \neg P(W) \lor \neg Q(X))\land
+P(c)
+]^T
+\]
+Using $\land^T$
+\[
+(R(Z,f(X)) \lor \neg P(Z))^T \land
+(\neg Q(d) \lor P(c))^T \land
+(Q(d)\lor \neg P(c))^T \land
+(\neg R(Z,f(X)) \lor \neg P(W) \lor \neg Q(X))^T \land
+(P(c))^T
+\]
+
+We are in \linkterm{CNF}{cnf}, we start the proof:
+
+\begin{tabular}{|l|l|l|} \hline
+1 & $(R(Z,f(X)))^T \lor (P(Z))^F$ & initial \\ \hline
+2 & $(Q(d))^F \lor (P(c))^T$ & initial \\ \hline
+3 & $(Q(d))^T \lor (P(c))^F$ & initial \\ \hline
+4 & $(R(Z,f(X)))^F \lor (P(W))^F \lor (Q(X))^F$ & initial \\ \hline
+5 & $(P(c))^T$ & initial \\ \hline
+6 & $(Q(d))^T$ & 3, 5 \\ \hline
+7 & $(R(c, f(X)))^T$ & 1, 5 $[c/Z]$ \\ \hline
+8 & $(P(W))^F \lor (Q(X))^F$ & 4, 7 $[c/Z]$ \\ \hline
+9 & $(Q(X))^F$ & 5, 8 $[c/W]$ \\ \hline
+10 & $\square$ & 6, 9 $[d/X]$ \\ \hline
+\end{tabular}
+
+\textbf{Example 3: }Prove the following using \linkterm{$\mathcal{R}_1$}{R1}:
+\[
+\forall X \forall Y \forall Z \exists Z \exists U \exists V \exists W ((P(X,Y) \Rightarrow (P(Z,a)\Rightarrow R(a))) \Rightarrow ((P(U,V) \land P(W,a)) \Rightarrow R(a)))
+\]
+
+Negate:
+\[
+\neg (\forall X \forall Y \forall Z \exists Z \exists U \exists V \exists W ((P(X,Y) \Rightarrow (P(Z,a)\Rightarrow R(a))) \Rightarrow ((P(U,V) \land P(W,a)) \Rightarrow R(a))))
+\]
+
+Push negation inside:
+\[
+\exists X \exists Y \exists Z \forall Z \forall U \forall V \forall W \neg ((P(X,Y) \Rightarrow (P(Z,a)\Rightarrow R(a))) \Rightarrow ((P(U,V) \land P(W,a)) \Rightarrow R(a)))
+\]
+
+Eliminate $\forall Z \forall U \forall V \forall W$
+\[
+\exists X \exists Y \exists Z \neg((P(X,Y) \Rightarrow (P(Z,a)\Rightarrow R(a))) \Rightarrow ((P(U,V) \land P(W,a)) \Rightarrow R(a)))
+\]
+
+Skolemize:
+\[
+\neg((P(x,y) \Rightarrow (P(z,a)\Rightarrow R(a))) \Rightarrow ((P(U,V) \land P(W,a)) \Rightarrow R(a))) \quad x,y,z \in \Sigma_0^{sk}
+\]
+
+This is just:
+\[
+((P(x,y) \Rightarrow (P(z,a)\Rightarrow R(a))) \Rightarrow ((P(U,V) \land P(W,a)) \Rightarrow R(a)))^F
+\]
+
+Apply $\Rightarrow^F$
+\[
+(P(x,y) \Rightarrow (P(z,a)\Rightarrow R(a)))^T \land ((P(U,V) \land P(W,a)) \Rightarrow R(a))^F
+\]
+
+Apply $\Rightarrow^T$
+\[
+(P(x,y))^F \lor (P(z,a)\Rightarrow R(a))^T \land ((P(U,V) \land P(W,a)) \Rightarrow R(a))^F
+\]
+
+Apply $\Rightarrow^F$
+\[
+(P(x,y))^F \lor (P(z,a)\Rightarrow R(a))^T \land (P(U,V) \land P(W,a))^T \land (R(a))^F
+\]
+
+Apply $\land^T$
+\[
+(P(x,y))^F \lor (P(z,a)\Rightarrow R(a))^T \land (P(U,V))^T \land (P(W,a))^T \land (R(a))^F
+\]
+
+Apply $\Rightarrow^T$
+\[
+(P(x,y))^F \lor (P(z,a))^F \lor (R(a))^T \land (P(U,V))^T \land (P(W,a))^T \land (R(a))^F
+\]
+
+We are in \linkterm{CNF}{cnf}, we start the proof:
+
+\begin{tabular}{|l|l|l|} \hline
+1 & $(P(x,y))^F \lor (P(z,a))^F \lor (R(a))^T$ & initial \\ \hline
+2 & $(P(U,V))^T$ & initial \\ \hline
+3 & $(P(W,a))^T$ & initial \\ \hline
+4 & $(R(a))^F$ & initial \\ \hline
+5 & $(P(z,a))^F \lor (R(a))^T$ & 1,2 $[x/U],[y/V]$ \\ \hline
+6 & $(R(a))^T$ & 3,5 $[z/W]$ \\ \hline
+7 & $\square$ & 4,6 \\ \hline
+\end{tabular}
