@@ -1,0 +1,351 @@
+\labeledsection{Logic-Based Knowledge Representation}{sec:kr}
+\definition{Semantic Network}{
+A semantic network is a \linkterm{directed graph}{directed_graph} for representing knowledge:
+\begin{itemize}
+    \item \linkterm{nodes}{tree} represent \textbf{objects} and \textbf{concepts} (classes of objects)
+    \item \linkterm{edges}{directed_graph} (called links) represent relations between these
+\end{itemize}
+}{semantic_network}
+
+\definition{Inclusion}{
+We call links labeled by \textit{isa} inclusion links or isa links (inclusion of concepts)
+}{isa}
+
+\definition{Instance}{
+We call links labeled by \textit{inst} instance links or inst links (concept memership)
+}{inst}
+
+\definition{Relations in Semantic Nets}{
+We call all links labels \textbf{except} \linkterm{isa}{isa} and \linkterm{inst}{inst} in a \linkterm{semantic network}{semantic_network} \textbf{relations}.
+}{relations_sn}
+
+\definition{Inference in Semantic Networks}{
+Let $N$ be a \linkterm{semantic network}{semantic_network} and $R$ a \linkterm{relation}{relations_sn} in $N$ such that $A \xrightarrow{\linkterm{isa}{isa}} B \xrightarrow{R} C$ or $A \xrightarrow{\linkterm{inst}{inst}} B \xrightarrow{R} C$, then we can derive a \linkterm{relation}{relations_sn} $A \xrightarrow{R} C$ in $N$. The process of deriving new concepts and \linkterm{relation}{relations_sn} from existing ones is called \textbf{inference} and concepts/\linkterm{relation}{relations_sn} that are only available via inference are called \textbf{implicit} in a \linkterm{semantic network}{semantic_network}.
+}{inference_sn}
+
+\textbf{Example: } blue are \linkterm{derived}{inference_sn} \linkterm{relations}{relations_sn}, red is not allowed:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/derived_relations_sn.png}
+    \caption{\linkterm{Inference}{inference_sn} in \linkterm{semantic networks}{semantic_network}}
+    \label{fig:derived_relations}
+\end{figure}
+
+\definition{TBox}{
+We call the subgraph of a \linkterm{semantic network}{semantic_network} $N$ spanned by the \linkterm{isa links}{isa} and \linkterm{relations}{relations_sn} between \textbf{concepts} the \textbf{terminology} (or \textbf{TBox}, or \textbf{Isa Hierarchy}).
+}{tbox}
+
+\definition{ABox}{
+We call the subgraph of a \linkterm{semantic network}{semantic_network} $N$ spanned by the \linkterm{inst links}{inst} and \linkterm{relations}{relations_sn} between \textbf{objects} the \textbf{assertions} (or \textbf{ABox}).
+}{abox}
+
+\textbf{Example: }
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/abox_tbox.png}
+    \caption{\linkterm{TBox}{tbox} and \linkterm{ABox}{abox} in \linkterm{semantic networks}{semantic_network}}
+    \label{fig:tbox_abox}
+\end{figure}
+
+\definition{$\text{PL}^0_{\text{DL}}$}{
+We use \linkterm{propositional logic}{def:pl0_as_ls} as a \linkterm{set}{def:set} description language. We define $\text{PL}^0_{\text{DL}}$ by the following \linkterm{grammar}{phrase_structure_grammar} for the $\text{PL}^0_{\text{DL}}$ concepts (formulae):
+\[
+\mathcal{L} ::= C \mid \top \mid \bot \mid \overline{\mathcal{L}} \mid \mathcal{L} \sqcap \mathcal{L} \mid \mathcal{L} \sqcup \mathcal{L} \mid \mathcal{L} \sqsubseteq \mathcal{L} \mid \mathcal{L} \equiv \mathcal{L}
+\]
+}{pl0dl}
+
+\linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl} is formed from:
+\begin{itemize}
+    \item \linkterm{atomic formulae}{atomic_formula}
+    \item concept intersection ($\sqcap$)
+    \item concept complement ($\overline{\cdot}$)
+    \item concept union ($\sqcup$)
+    \item concept subsumption ($\sqsubseteq$), and equivalence ($\equiv$)
+\end{itemize}
+
+\definition{Set-Theoretic Semantics of \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl}}{
+Let $\mathcal{D}$ be a given \linkterm{set}{def:set} (\linkterm{domain of discourse}{domain_of_discourse}) and $\func{\varphi}{\mathcal{V}_{\text{PL}^0}}{\powerset{\mathcal{D}}}$. We define the valuation $\sint{\cdot}$ as:
+\begin{itemize}
+    \item $\sint{P} := \varphi(P)$ (for atomic concepts)
+    \item $\sint{\top} := \mathcal{D}$ and $\sint{\bot} := \emptyset$
+    \item $\sint{\overline{A}} := \mathcal{D} \setminus \sint{A}$ 
+    \item $\sint{A \sqcap B} := \sint{A} \cap \sint{B}$ 
+    \item $\sint{A \sqcup B} := \sint{A} \cup \sint{B}$ 
+    \item $\sint{A \sqsubseteq B}$ is satisfied iff $\sint{\overline{A}} \cup \sint{B} = \mathcal{D}$ which is satisfied iff $\sint{A} \subseteq \sint{B}$ 
+    \item $\sint{A \equiv B}$ is satisfied iff $\sint{A} = \sint{B}$ 
+\end{itemize}
+}{set_theoretic_semantics_pl0dl}
+
+\commandnote{
+The triple $\langle \text{PL}^0_{\text{DL}}, \mathcal{S}, \sint{\cdot} \rangle$, where $\mathcal{S}$ is the class of possible domains, forms a \linkterm{logical system}{logical_system}.
+}
+
+\definition{Concept Axiom}{
+A concept axiom is a \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl} formula $A$ that is assumed to be true in the world.
+}{concept_axiom}
+
+\definition{Set-Theoretic Semantics of Axioms}{
+$A$ is true in \linkterm{domain of discourse}{domain_of_discourse} $\mathcal{D}$ iff $\sint{A} = \mathcal{D}$
+}{set_theoretic_semantics_axioms}
+
+\commandnote{
+Any concept we add to our world is just a \linkterm{set}{def:set}, for example, here is a world with three concepts (no \linkterm{concept axioms}{concept_axiom} yet):
+
+\begin{figure}[H]
+    \includegraphics[width=0.4\linewidth]{images/concepts_sets1.png}
+\end{figure}
+
+Looks a mess? try to add \linkterm{concept axioms}{concept_axiom}. Here is how it looks like when adding:
+\begin{itemize}
+    \item $\text{son} \sqsubseteq \text{child}$
+    \item $\text{daughter} \sqsubseteq \text{child}$
+\end{itemize}
+
+\begin{figure}[H]
+    \includegraphics[width=0.2\linewidth]{images/concepts_sets2.png}
+\end{figure}
+
+We add two more \linkterm{concept axioms}{concept_axiom}:
+\begin{itemize}
+    \item $\overline{\text{son} \sqcap \text{daughter}}$
+    \item $\text{child} \sqsubseteq \text{son} \sqcup \text{daughter}$
+\end{itemize}
+
+\begin{figure}[H]
+    \includegraphics[width=0.2\linewidth]{images/concepts_sets3.png}
+\end{figure}
+
+}
+
+The set-theoretic semantics is compatible with the regular semantics of \linkterm{propositional logic}{def:pl0_as_ls}, therefore we have the same \linkterm{propositional identities}{identities_pl0}:
+
+\begin{table}[h]
+\centering
+\caption{\linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl} Identities}
+\label{tab:identities_pl0dl}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Name} & \textbf{for $\sqcap$} & \textbf{for $\sqcup$} \\
+\hline
+Idempotence      & $\varphi \sqcap \varphi = \varphi$        & $\varphi \sqcup \varphi = \varphi$ \\
+Identity         & $\varphi \sqcap \top = \varphi$            & $\varphi \sqcup \bot = \varphi$ \\
+Absorption 1     & $\varphi \sqcap \bot = \bot$                & $\varphi \sqcup \top = \top$ \\
+Commutativity    & $\varphi \sqcap \psi = \psi \sqcap \varphi$ & $\varphi \sqcup \psi = \psi \sqcup \varphi$ \\
+Associativity    & $\varphi \sqcap (\psi \sqcap \theta) = (\varphi \sqcap \psi)\sqcap \theta$  
+                 & $\varphi \sqcup (\psi \sqcup \theta) = (\varphi \sqcup \psi)\sqcup \theta$ \\
+Distributivity   & $\varphi \sqcap (\psi \sqcup \theta)= (\varphi \sqcap \psi)\sqcup (\varphi \sqcap \theta)$ 
+                 & $\varphi \sqcup (\psi \sqcap \theta)= (\varphi \sqcup \psi)\sqcap (\varphi \sqcup \theta)$ \\
+Absorption 2     & $\varphi \sqcap (\varphi \sqcup \theta)= \varphi$ 
+                 & $\varphi \sqcup (\varphi \sqcap \theta)= \varphi$ \\
+De Morgan rule   & $\overline{\varphi \sqcap \psi}= \overline{\varphi} \sqcup \overline{\psi}$ 
+                 & $\overline{\varphi \sqcup \psi} = \overline{\varphi} \sqcap \overline{\psi}$ \\
+double negation  & \multicolumn{2}{c|}{$\overline{\overline{\varphi}}  = \varphi$} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\definition{Translation to \linkterm{$\text{PL}^1$}{pl1}}{
+We define the translation of \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl} expressions into \linkterm{$\text{PL}^1$}{pl1} using two functions: a recursive mapping $\text{FOL}_x$ for concept expressions and a top-level mapping $\text{FOL}$ for axioms/formulae.
+}{mapping_pl0dl_pl1}
+
+\textbf{Recursive mapping for Concepts:}
+
+\begin{tabular}{@{}l@{}}
+    $\text{FOL}_x(p) := p(X)$ \\
+    $\text{FOL}_x(\overline{A}) := \neg \text{FOL}_x(A)$ \\
+    $\text{FOL}_x(A \sqcap B) := \text{FOL}_x(A) \land \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(A \sqcup B) := \text{FOL}_x(A) \lor \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(A \sqsubseteq B) := \text{FOL}_x(A) \Rightarrow \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(A \equiv B) := \text{FOL}_x(A) \Leftrightarrow \text{FOL}_x(B)$ \\
+\end{tabular}
+
+\textbf{Mapping for Formulae (calls $\text{FOL}_x$):}
+\begin{tabular}{@{}l@{}}
+    $\text{FOL}(A) := \forall X. \, \text{FOL}_x(A)$ \\
+\end{tabular}
+
+\textbf{Example: }
+Let's translate the formula: \textit{"an undergrad is a person who is not a graduate"}. In \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl}, we can express this by:
+\[
+\text{undergrad} \equiv \text{person} \sqcap \overline{\text{graduate}}
+\]
+
+\begin{align*}
+\text{FOL}(\text{undergrad} \equiv \text{person} \sqcap \overline{\text{graduate}}) &= \forall X. \text{FOL}_x(\text{undergrad} \equiv \text{person} \sqcap \overline{\text{graduate}}) \\
+\text{FOL}_x(\text{undergrad} \equiv \text{person} \sqcap \overline{\text{graduate}}) &= \text{FOL}_x(\text{undergrad}) \Leftrightarrow \text{FOL}_x(\text{person} \sqcap \overline{\text{graduate}}) \\
+\text{FOL}_x(\text{undergrad}) &= \text{undergrad}(X) \\
+\text{FOL}_x(\text{person} \sqcap \overline{\text{graduate}}) &= \text{FOL}_x(\text{person}) \land \text{FOL}_x(\overline{\text{graduate}}) \\
+&= \text{person}(X) \land \neg \text{FOL}_x(\text{graduate}) \\
+&= \text{person}(X) \land \neg \text{graduate}(X) \\
+\text{FOL}(\text{undergrad} \equiv \text{person} \sqcap \overline{\text{graduate}}) &= \forall X. (\text{undergrad}(X) \Leftrightarrow (\text{person}(X) \land \neg \text{graduate}(X)))
+\end{align*}
+
+\definition{Ontology}{
+An \textbf{ontology} consists of a \linkterm{formal system}{formal_system} $\tuple{\mathcal{L}, \mathcal{M}, \vDash, \mathcal{C}}$ with \linkterm{concept axioms}{concept_axiom} about:
+\begin{itemize}
+    \item individuals: concrete entities in a \linkterm{domain of discourse}{domain_of_discourse} (instances of concepts)
+    \item concepts: particular collections of individuals that share properties and aspects
+    \item relations: ways in which individuals can be related to one another
+\end{itemize}
+}{def:ontology}
+
+\commandnote{
+An \textbf{ontology} is a representation of the types, properties, and interrelationships of the entities that really exist for a particular \linkterm{domain of discourse}{domain_of_discourse}
+}
+
+\commandnote{
+    \begin{itemize}
+        \item \linkterm{Semantic networks}{semantic_network} are \linkterm{ontologies}{def:ontology}
+        \item \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl} is an \linkterm{ontology}{def:ontology} format that is \textit{formal} but \textit{weak}
+        \item \linkterm{$\text{PL}^1$}{pl1} is an \linkterm{ontology}{def:ontology} format that is \textit{formal} and \textit{expressive}
+    \end{itemize}
+}
+
+\definition{Description Logic}{
+A description logic (DL) is a \linkterm{formal system}{formal_system} for talking about collections of objects and their relations that is at least as expressive as \linkterm{$\text{PL}^0$}{def:pl0_as_ls} with \linkterm{Set-Theoretic Semantics}{set_theoretic_semantics_pl0dl} and offers individuals and relations.
+}{description_logic}
+
+\definition{DL Components}{
+A \linkterm{description logic}{description_logic} has the following four components:
+\begin{itemize}
+\item a \linkterm{formal language}{formal_language} $\mathcal{L}$ with logical constants $\sqcap, \overline{\cdot}, \sqcup, \sqsubseteq, $and $\equiv$
+\item a \linkterm{Set-Theoretic Semantics}{set_theoretic_semantics_pl0dl} $\tuple{\mathcal{D}, \sint{\cdot}}$
+\item a \linkterm{translation}{mapping_pl0dl_pl1} into \linkterm{$\text{PL}^1$}{pl1} that is compatible with $\tuple{\mathcal{D}, \sint{\cdot}}$
+\item a \linkterm{calculus}{calculus_logic} for $\mathcal{L}$ that induces a decision procedure for $\mathcal{L}$-satisfibility
+\end{itemize}
+}{dl_components}
+
+\definition{Concept Definition}{
+Let $\mathcal{D}$ be a \linkterm{description logic}{description_logic} with concepts $\mathcal{C}$ Then a \textbf{concept definition} is a pair $c = C$ where $c$ is a new concept name and $C \in \mathcal{C}$ is a $\mathcal{D}$-formula. Example: $\text{mother} = \text{woman} \sqcap \text{has\_child}$ 
+}{concept_definition}
+
+\definition{Recursive Concept Definition}{
+A \linkterm{concept definition}{concept_definition} $c = C$ is called \textbf{recursive}, iff $c$ occurs in $C$.
+}{recursive_concept_definition}
+
+\definition{Acyclic TBox}{
+A \linkterm{TBox}{tbox} is a \linkterm{finite}{set_cardinality} \linkterm{set}{def:set} of \linkterm{concept definitions}{concept_definition} and \linkterm{concept axioms}{concept_axiom}. It is called \textbf{acyclic}, iff it does not contain \linkterm{recursive definitions}{recursive_concept_definition}.
+}{acyclic_tbox}
+
+\definition{}{
+A formula $A$ is called \textbf{normalized} w.r.t. a \linkterm{TBox}{tbox} $\mathcal{T}$, iff it does not contain concepts defined in $\mathcal{T}$.
+}{}
+
+\definition{}{
+\linkterm{Ontology}{def:ontology} systems employ three main kinds of inference / reasoning:
+\begin{itemize}
+    \item Consistency test: is a \linkterm{concept definition}{concept_definition} \linkterm{satisfiable}{satisfiable_ls}
+    \item Subsumption test: does a concept subsume another?
+    \item Instance test: is an individual an example of a concept?
+\end{itemize}
+}{}
+
+\definition{Consistent Concept}{
+We call a concept $C$ consistent, iff there is no concept $A$ with both $C \sqsubseteq A$ and $C \sqsubseteq \overline{A}$
+}{consistent_concept}
+
+\definition{Inconsistent Concept}{
+A concept $C$ is called inconsistent, iff $\sint{C} = \emptyset$ for all $\mathcal{D}$.
+}{inconsistent_concept}
+
+For example, consider we have the following \linkterm{TBox}{tbox} in \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl}:
+\begin{itemize}
+    \item $\text{man} = \text{person} \sqcap \text{has\_Y}$
+    \item $\text{woman} = \text{person} \sqcap \overline{\text{has\_Y}}$
+    \item $\text{hermaphrodite} = \text{man} \sqcap \text{woman}$
+\end{itemize}
+the concept $\text{hermaphrodite}$ is \linkterm{inconsistent}{inconsistent_concept} since $\sint{\text{hermaphrodite}} = \emptyset$ for all $\mathcal{D}$
+
+\commandnote{
+We test satisfiability using tableaux, resolution, DPLL in \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl}
+}
+
+
+\definition{Subsumption}{
+$A$ subsumes $B$ (modulo a set $\mathcal{A}$ of \linkterm{concept axioms}{concept_axiom}), iff $\sint{B} \subseteq \sint{A}$ for all interpretations $\mathcal{D}$ that satisfy $\mathcal{A}$. Equivalently, iff $\mathcal{A} \sqsubseteq B \sqsubseteq A = T$
+}{subsumes}
+
+\commandnote{
+Subsumption tests reduce to consistency tests because in \linkterm{$\text{PL}^0$}{def:pl0_as_ls}, $\mathcal{A} \Rightarrow (A \Rightarrow B)$ is \linkterm{valid}{valid_ls} iff $\mathcal{A} \land A \land \neg B$ is \linkterm{inconsistent}{inconsistent_concept}.
+}
+
+\textbf{Example: }if we want to know whether $\text{man} \sqsubseteq \text{person}$ in the previous \linkterm{TBox}{tbox}, we check the consistency of $\text{man} \land \neg \text{person}$. $\text{person} \land \text{has\_Y} \land \neg \text{person}$ is \linkterm{inconsistent}{inconsistent_concept}, hence $\text{man} \sqsubseteq \text{person}$.
+
+
+\definition{Instance Test}{
+An instance test computes, given an \linkterm{ontology}{def:ontology}, whether an individual is a \linkterm{member}{def:set} of a given concept.
+}{instance_test_dl}
+
+\commandnote{
+This is not something that we can do in \linkterm{$\text{PL}^0_{\text{DL}}$}{pl0dl} because it is a \linkterm{TBox}{tbox} only system.
+}
+
+\definition{$\mathcal{ALC}$ Syntax}{
+The formulae of $\mathcal{ALC}$ are given by the following grammar:
+\[
+F_{\mathcal{ALC}} ::= C \mid \top \mid \bot \mid   
+F_{\mathcal{ALC}} \sqcap F_{\mathcal{ALC}} \mid   
+F_{\mathcal{ALC}} \sqcup F_{\mathcal{ALC}} \mid
+\exists R. F_{\mathcal{ALC}} \mid
+\forall R. F_{\mathcal{ALC}}
+\]
+}{alc_grammar}
+
+\commandnote{
+\begin{itemize}
+\item  \linkterm{$\text{PL}^0$}{def:pl0_as_ls} is not expressive enough
+\item \linkterm{$\text{PL}^1$}{pl1} is too expressive and not decidable
+\item Middle ground $\leadsto \mathcal{ALC}$
+\item $\mathcal{ALC}$ is a simple \linkterm{description logic}{description_logic}
+\item It is more expressive than \linkterm{$\text{PL}^0$}{def:pl0_as_ls} but weaker than \linkterm{$\text{PL}^1$}{pl1}
+\item It allows us to quantify only over \linkterm{finite}{set_cardinality} \linkterm{sets}{def:set} (unline \linkterm{$\text{PL}^1$}{pl1} where we quantify over \linkterm{$V_{\iota}$}{fol_sig_pl1} which is \linkterm{infinite}{set_cardinality})
+\item Restricted quantification: the quantified variables in $\mathcal{ALC}$ only range over values that can be reached via binary relations such as \texttt{has\_child}
+\end{itemize}
+}
+
+\definition{Role}{
+A role represent a binary relation (like in \linkterm{$\text{PL}^1$}{pl1})
+}{role_alc}
+
+\textbf{Syntax Examples}:
+
+\begin{itemize}
+\item $\text{person} \sqcap (\exists \text{has\_child.student})$
+
+This means the \linkterm{set}{def:set} of persons that have a child which is a student, i.e. parents of students
+
+\item $\text{person} \sqcap (\exists \text{has\_child.}\exists \text{has\_child.student})$
+
+grandparents of students
+
+\item $\text{person} \sqcap (\exists \text{has\_child.}\exists \text{has\_child.student}\sqcup \text{teacher})$
+
+grandparents of students or teachers
+
+\item $\text{person} \sqcap (\forall \text{has\_child.student})$
+
+parents whose children are \textbf{all} students 
+
+\item $\text{person} \sqcap (\forall \text{has\_child}.\exists \text{has\_child.student})$
+
+grandparents, whose children \textbf{all} have \textbf{at least} one child that is a student
+
+\item $\text{car} \sqcap \exists \text{has\_parts}.\exists \text{made\_in}. \overline{\text{EU}}$
+
+cars that have at least one part that has not been made in the EU 
+
+\item $\text{student} \sqcap \forall \text{audit\_course.graduatelevelcourse}$
+
+students that \textbf{all} the courses they audit are graduate level courses
+
+\item $\text{house} \sqcap \forall \text{has\_parkig.off\_street}$
+
+houses with only off-street parking
+
+\item $\text{student} \sqcap \forall \text{audit\_course}.(\exists \text{has\_tutorial}.\top \sqsubseteq \forall \text{has\_TA.woman})$ \hfill remember $A \sqsubseteq B \equiv \overline{A} \sqcup B$
+
+students that only audit courses that either have no tutorials or tutorials that are TAed by women
+
+
+\end{itemize}
