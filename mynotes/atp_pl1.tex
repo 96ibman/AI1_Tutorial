@@ -1227,3 +1227,159 @@ We are in \linkterm{CNF}{cnf}, we start the proof:
 6 & $(R(a))^T$ & 3,5 $[z/W]$ \\ \hline
 7 & $\square$ & 4,6 \\ \hline
 \end{tabular}
+
+
+\textbf{Example 4:} Let's just see an example where we need to convert to \linkterm{CNF}{cnf} (no \linkterm{proof}{proofs} required)
+\[
+\forall X. ((\forall Y. Q(Y) \Rightarrow P(X,Y)) \Rightarrow (\exists Y. P(Y,X)))
+\]
+
+First, we transform $(Q(Y) \Rightarrow P(X,Y))$ \hfill $A \Rightarrow B \leadsto \neg A \lor B$
+
+\[
+\forall X. ((\forall Y. \neg Q(Y) \lor P(X,Y)) \Rightarrow (\exists Y. P(Y,X)))
+\]
+
+Then we transform the outer implication:
+\[
+\forall X. (\neg (\forall Y. \neg Q(Y) \lor P(X,Y)) \lor (\exists Y. P(Y,X)))
+\]
+
+We push negation:
+\[
+\forall X. ((\exists Y. Q(Y) \land \neg P(X,Y)) \lor (\exists Y. P(Y,X)))
+\]
+
+Since we have two \textbf{different} $\exists Y$, we rename one to keep them distinct:
+\[
+\forall X. ((\exists Y. Q(Y) \land \neg P(X,Y)) \lor (\exists Z. P(Z,X)))
+\]
+
+We Skolemize $\exists Z$ and $\exists Y$:
+\[
+\forall X. ((Q(g(X)) \land \neg P(X,g(X))) \lor (P(f(X),X)))
+\]
+
+We eliminate the $\forall X$:
+\[
+(Q(g(X)) \land \neg P(X,g(X))) \lor (P(f(X),X))
+\]
+
+We distribute $\lor$ over $\land$
+
+\[
+(Q(g(X)) \lor P(f(X),X)) \land (\neg P(X,g(X)) \lor P(f(X),X))
+\]
+
+The final \linkterm{clause set}{clause_set} is: $\set{Q(g(X)) \lor P(f(X),X) , \neg P(X,g(X)) \lor P(f(X),X)}$
+
+\definition{Horn Clause}{
+A \textbf{Horn clause} is a \linkterm{clause}{clause_resolution} with \textbf{at most} one \textbf{positive} \linkterm{literal}{literal}
+}{horn_clause}
+
+\commandnote{
+In Logic Programming Languages (e.g. PROLOG), \linkterm{$\text{PL}^1$}{pl1} \linkterm{Resolution}{R1} is the main machine behind the language. 
+
+\textbf{Observations}:
+\begin{itemize}
+    \item A rule in PROLOG $H:-B_1, \cdots, B_n$ correspond to $H^T \lor B_1^F \cdots B_n^F$, i.e. a \linkterm{Horn clause}{horn_clause}
+    \item A goal set (query) $?-G_1, \cdots, G_n$ corresponds to $G_1^F \cdots G_n^F$
+    \item A fact $F$ corresponds to the \linkterm{unit clause}{clause_resolution} $F^T$
+\end{itemize}
+}
+
+\definition{Horn Logic}{
+Let $S := \langle \mathcal{L}, \mathcal{M}, \vDash \rangle$ be a \linkterm{logical system}{logical_system}. A \linkterm{formal system}{formal_system} $\langle S, \mathcal{C} \rangle$ is called a \textbf{Horn Logic} if:
+\begin{itemize}
+    \item The language $\mathcal{L}$ is the \linkterm{set}{def:set} of \linkterm{Horn clauses}{horn_clause}.
+    \item The \linkterm{calculus}{calculus_logic} $\mathcal{H}$ is defined by the \linkterm{rules}{inference_rules_logic} of \linkterm{Modus Ponens}{hilbert_calculus} ($\text{MP}$), Conjunction Introduction ($\land I$), and \linkterm{Substitution}{hilbert_calculus} ($\text{Subst}$).
+\end{itemize}
+}{horn_logic}
+
+\definition{Answer Substitution}{
+A logic program (\linkterm{set}{def:set} of \linkterm{Horn clauses}{horn_clause}) $P$ \textbf{entails} a query $Q$ with \textbf{answer substitution} $\sigma$, iff there is an $\mathcal{H}$-\linkterm{derivation}{c_derivation} $D$ of $Q$ from $P$ and $\sigma$ is the combined \linkterm{substitution}{substitution} of the \linkterm{Subst}{hilbert_calculus} instances in $D$
+}{answer_substitution_horn}
+
+\textbf{Example:}
+\begin{verbatim}
+human(leibniz).
+human(sokrates).
+greek(sokrates).
+fallible(X):-human(X).
+\end{verbatim}
+\textbf{Query: }?-fallible(X), greek(X).
+
+We have three facts, one rule, and one query. They translate to the following \linkterm{clause set}{clause_set}:
+\begin{enumerate}
+    \item $\text{human(leibniz)}^T$
+    \item $\text{human(sokrates)}^T$
+    \item $\text{greek(sokrates)}^T$
+    \item $\text{fallible}(X)^T \lor \text{human}(X)^F$ \hfill ($\text{human}(X) \Rightarrow \text{fallible}(X)$)
+    \item $\text{fallible}(X)^F \lor \text{greek}(X)^F$ \hfill (Start Resolution)
+    \item Resolve (1) with (4) under $[\text{leibniz} / X] \leadsto \text{fallible}(\text{leibniz})^T$
+    \item Resolve (5) with (6) under $[\text{leibniz} / X] \leadsto \text{greek}(\text{leibniz})^F$
+    \item $\text{greek}(\text{leibniz})^F$ cannot be resolved further; the program \linkterm{backtracks}{backtracking} to try another \linkterm{substitution}{substitution}.
+    \item Resolve (2) with (4) under $[\text{sokrates} / X] \leadsto \text{fallible}(\text{sokrates})^T$
+    \item Resolve (5) with (9) under $[\text{sokrates} / X] \leadsto \text{greek}(\text{sokrates})^F$
+    \item Resolve (3) with (10) $\leadsto \{ \square \}$
+    \item The program returns $T$ and the \linkterm{answer substitution}{answer_substitution_horn} $\sigma := [\text{sokrates} / X]$.
+\end{enumerate}
+
+\minititle{Forward and Backward Chaining:}
+Other than querying (Backchaining), PROLOG derives facts given the set of facts initially written (Forward Chaining):
+
+\textbf{Backchaining Example}:
+\begin{verbatim}
+has_motor(c).
+has_wheels(c,4).
+car(X) :- has_motor(X), has_wheels(X,4).
+\end{verbatim}
+\textbf{Query: }?-car(X).
+
+We have two facts, one rule, and one query. They translate to the following \linkterm{clause set}{clause_set}:
+\begin{enumerate}
+    \item $\text{m}(c)^T$
+    \item $\text{w}(c,4)^T$
+    \item $\text{c}(X)^T \lor \text{m}(X)^F \lor \text{w}(X,4)^F$ \hfill ($\text{m}(X) \land \text{w}(X,4) \Rightarrow \text{c}(X)$)
+    \item $\text{c}(X)^F$ \hfill (Start Resolution)
+    \item Resolve (3) with (4) $\leadsto \text{m}(X)^F \lor \text{w}(X,4)^F$ 
+    \item Resolve (5) with (1) under $[c / X] \leadsto \text{w}(c,4)^F$
+    \item Resolve (6) with (2) $\leadsto \{ \square \}$
+    \item The program returns $T$ and the \linkterm{answer substitution}{answer_substitution_horn} $\sigma := [c / X]$.
+\end{enumerate}
+
+\minititle{Forward Chaining Example:}
+\begin{minipage}[t]{0.45\textwidth}
+\begin{verbatim}
+has_motor(c).
+has_wheels(c,4).
+car(X) :- has_motor(X), 
+          has_wheels(X,4).
+\end{verbatim}
+
+We have two facts and one rule, which translate to:
+\begin{enumerate}
+    \item $m(c)^T$
+    \item $w(c,4)^T$
+    \item $m(X) \land w(X,4) \Rightarrow car(X)$
+\end{enumerate}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.5\textwidth}
+PROLOG can derive the fact $\text{car}(c)$ using the $\mathcal{H}$ \linkterm{calculus}{calculus_logic}:
+\[
+\infer[MP]{\text{car}(c)}{
+    \infer[\land I]{m(c) \land w(c,4)}{
+        \infer[Ax]{m(c)}{}
+        &
+        \infer[Ax]{w(c,4)}{}
+    }
+    &
+    \infer[\text{Subst [c/X]}]{m(c) \land w(c,4) \Rightarrow car(c)}{
+        \infer[Ax]{m(X) \land w(X,4) \Rightarrow car(X)}{}
+    }
+}
+\]
+\end{minipage}
+
+

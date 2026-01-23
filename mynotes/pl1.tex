@@ -69,7 +69,16 @@ The \textbf{existential quantifier} $\exists$ is a binding operator defined as a
 \textbf{Remember:} \Defref{var_occ_pl0} , \Defref{ground_pl0} for \linkterm{$\text{PL}^0$}{def:pl0_as_ls}. We have a similar notion of free variables in \linkterm{$\text{PL}^1$}{pl1} that help us define closed/ground \linkterm{$\text{PL}^1$}{pl1} \linkterm{formulae}{formulae_pl1}.
 }
 
-
+\definition{Canonical Forms of Formulae}{
+A \linkterm{formula}{formulae_pl1} is said to be in:
+\begin{itemize}
+    \item \textbf{Prenex Normal Form (PNF)} iff it consists of a sequence of quantifiers (called the \textit{prefix}) over a quantifier-free formula (called the \textit{matrix}). Example: $\forall X \exists Y (P(X) \lor Q(Y))$
+    \item \textbf{Skolem Normal Form (SNF)}, iff it is in PNF and does not contain existential quantifiers. Example: $\forall X (P(X) \lor Q(f(X)))$
+    \item \textbf{Negation Normal Form (NNF)}, iff negations are only \linkterm{literals}{literal}. Example: $(\neg P \lor Q) \land (R \lor \neg S)$
+    \item \textbf{Conjunctive Normal Form (CNF)}, iff it is a conjunction of disjunctions of \linkterm{literals}{literal}. Example: $(P \lor Q \lor \neg R) \land (\neg P \lor S)$
+    \item \textbf{Disjunctive Normal Form (DNF)}, iff it is a disjunction of conjunctions of \linkterm{literals}{literal}. Example: $(P \land Q \land \neg R) \lor (\neg P \land S)$
+\end{itemize}
+}{canonical_forms_formulae}
 
 \definition{Free Variables}{
 An occurrence of a variable $X$ is \textbf{free} in a \linkterm{formula}{formulae_pl1} $A$ if it is not within the scope of a binder. We define the \linkterm{set}{def:set} of free variables in $A$ ($\text{free}(A)$) recursively as follows:
