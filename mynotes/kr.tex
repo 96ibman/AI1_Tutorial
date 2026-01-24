@@ -346,6 +346,379 @@ houses with only off-street parking
 \item $\text{student} \sqcap \forall \text{audit\_course}.(\exists \text{has\_tutorial}.\top \sqsubseteq \forall \text{has\_TA.woman})$ \hfill remember $A \sqsubseteq B \equiv \overline{A} \sqcup B$
 
 students that only audit courses that either have no tutorials or tutorials that are TAed by women
-
-
 \end{itemize}
+
+
+\definition{Concept Definition in \linkterm{$\mathcal{ALC}$}{alc_grammar}}{
+A concept definition is a pair consisting of a new concept name (the \linkterm{defineiendum}{defineiendum}) and an \linkterm{$\mathcal{ALC}$}{alc_grammar} formula (the \linkterm{definiens}{definiens}). Concepts that are not \linkterm{defineienda}{defineiendum} are called \textbf{primitive}
+}{concept_definition_alc}
+
+\commandnote{
+We extend the \linkterm{$\mathcal{ALC}$ grammar}{alc_grammar} from \defref{alc_grammar} by the following:
+\[
+\text{CD}_{\linkterm{\mathcal{ALC}}{alc_grammar}} ::= C = F_{\linkterm{\mathcal{ALC}}{alc_grammar}}
+\]
+So it becomes:
+\begin{align*}
+F_{\mathcal{ALC}} &::= C \mid \top \mid \bot \mid   
+F_{\mathcal{ALC}} \sqcap F_{\mathcal{ALC}} \mid   
+F_{\mathcal{ALC}} \sqcup F_{\mathcal{ALC}} \mid
+\exists R. F_{\mathcal{ALC}} \mid
+\forall R. F_{\mathcal{ALC}} \\ 
+\text{CD}_{\mathcal{ALC}} &::= C = F_{\mathcal{ALC}}
+\end{align*}
+}
+
+\linkterm{Concept definitions}{concept_definition_alc} Examples:
+\begin{itemize}
+\item $\text{man} = \text{person} \sqcap \exists \text{has\_chrom.Y\_chrom}$
+
+meaning, a man is a perosn who has at lease one Y chromosome. \texttt{person} here is a \linkterm{primitive concept}{concept_definition_alc}
+
+\item $\text{woman} = \text{person} \sqcap \forall \text{has\_chrom}.\overline{\text{ Y\_chrom}}$
+\item $\text{mother} = \text{woman} \sqcap \exists \text{has\_child.person}$
+\item $\text{father} = \text{man} \sqcap \exists \text{has\_child.person}$
+\item $\text{grandparent} = \text{person} \sqcap \exists \text{has\_child}.(\text{mother} \sqcup \text{father})$
+\end{itemize}
+
+\definition{}{
+We call an \linkterm{$\mathcal{ALC}$}{alc_grammar} formula $\varphi$ \textbf{normalized} w.r.t. a \linkterm{set}{def:set} of \linkterm{concept definitions}{concept_definition_alc}, iff all concepts occuring in $\varphi$ are \linkterm{primitive}{concept_definition_alc}.
+}{normalized_formula_alc}
+
+\definition{Normalization}{
+Given a set $\mathcal{D}$ of \linkterm{concept definitions}{concept_definition_alc}, \textbf{normalization} is the process of replacing in an \linkterm{$\mathcal{ALC}$}{alc_grammar} formula $\varphi$ all occurences of \linkterm{defineienda}{defineiendum} in $\mathcal{D}$ with their \linkterm{definientia}{definiens}.
+}{normalization_alc}
+
+\textbf{Example: }\linkterm{normalization}{normalization_alc} of \texttt{grandparent}:
+\begin{itemize}
+\item $\text{grandparent} = \text{person} \sqcap \exists \text{has\_child}.(\text{mother} \sqcup \text{father})$
+\item $\text{grandparent} = \text{person} \sqcap \exists \text{has\_child}.(\text{woman} \sqcap \exists \text{has\_child.person} \sqcup \text{man} \sqcap \exists \text{has\_child.person})$
+\item $\text{grandparent} = \text{person} \sqcap \exists \text{has\_child}.(\text{person} \sqcap \forall \text{has\_chrom}.\overline{\text{ Y\_chrom}} \sqcap \exists \text{has\_child.person} \sqcup  \text{person} \sqcap \exists \text{has\_chrom.Y\_chrom} \sqcap \exists \text{has\_child.person})$
+\end{itemize}
+
+\commandnote{
+\begin{itemize}
+    \item \linkterm{Normalization}{normalization_alc} results can be exponential.
+    \item \linkterm{Normalization}{normalization_alc} need not to terminate on cyclic \linkterm{TBoxes}{tbox}
+\end{itemize}
+}
+
+\definition{\linkterm{$\mathcal{ALC}$}{alc_grammar} Semantics}{
+\linkterm{$\mathcal{ALC}$}{alc_grammar} Semantics is an extension of the \linkterm{Set-Theoretic Semantics}{set_theoretic_semantics_pl0dl} of \linkterm{$\text{PL}^0$}{def:pl0_as_ls}.
+}{alc_semantics}
+
+\definition{\linkterm{$\mathcal{ALC}$}{alc_grammar} Interpretation}{
+A \textbf{model} for \linkterm{$\mathcal{ALC}$}{alc_grammar} is a pair $\tuple{\mathcal{D}, \sint{\cdot}}$, where $\mathcal{D}$ is a non-empty \linkterm{set}{def:set} (\linkterm{domain of discourse}{domain_of_discourse}) and $\sint{\cdot}$ is the interpretation such that:
+\begin{itemize}
+    \item $\sint{\top} = \mathcal{D}, \quad \sint{\bot} = \emptyset, \quad \sint{r} \subseteq \cartprod{\mathcal{D},\mathcal{D}}$
+    \item $\sint{\overline{\varphi}} = \overline{\sint{\varphi}} = \mathcal{D} \setminus \sint{\varphi}$
+    \item $\sint{\varphi \sqcap \psi} = \sint{\varphi} \cap \sint{\psi}$
+    \item $\sint{\varphi \sqcup \psi} = \sint{\varphi} \cup \sint{\psi}$
+    \item $\sint{\exists R.\varphi} = \set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{R} \land y \in \sint{\varphi}}$
+    \item $\sint{\forall R.\varphi} = \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{R} \Rightarrow y \in \sint{\varphi}}$
+\end{itemize}
+}{alc_interp}
+
+\definition{\linkterm{$\mathcal{ALC}$}{alc_grammar} to \linkterm{$\text{PL}^1$}{pl1} Translation}{
+The translation of \linkterm{$\mathcal{ALC}$}{alc_grammar} into \linkterm{$\text{PL}^1$}{pl1} extends the one from \defref{mapping_pl0dl_pl1} by the following quantifier rules:
+
+\begin{tabular}{@{}l@{}}
+$\text{FOL}_x(\forall R. \varphi) := (\forall Y. R(X,Y) \Rightarrow \text{FOL}_(\varphi))$\\
+$\text{FOL}_x(\exists R. \varphi) := (\exists Y. R(X,Y) \land \text{FOL}_y(\varphi))$ \\
+\end{tabular}
+}{alc_to_pl1_tr}
+
+\definition{\linkterm{$\mathcal{ALC}$}{alc_grammar} Identities}{
+\begin{enumerate}
+\item $\overline{\exists R. \varphi} = \forall R. \overline{\varphi}$
+\item $\forall R. (\varphi \sqcap \psi) = \forall R. \varphi \sqcap \forall R.\psi$
+\item $\overline{\forall R. \varphi} = \exists R. \overline{\varphi}$
+\item $\exists R. (\varphi \sqcup \psi) = \exists R.\varphi \sqcup \exists R.\psi$ 
+\end{enumerate}
+}{alc_identities}
+
+\textbf{Proof of (1)}:
+
+\begin{align*}
+\sint{\overline{\exists R. \varphi}} &= \overline{\sint{\exists R. \varphi}} = \mathcal{D} \setminus \sint{\exists R. \varphi} \\ 
+&= \mathcal{D} \setminus \set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{R} \land y \in \sint{\varphi}} \\ 
+&= \set{x \in \mathcal{D} \mid \neg (\exists y. \tuple{x,y} \in \sint{R} \land y \in \sint{\varphi})} \\ 
+&= \set{x \in \mathcal{D} \mid \forall y. \neg(\tuple{x,y} \in \sint{R} \land y \in \sint{\varphi})} \qquad \qquad \qquad \neg (A \land B) = \neg A \lor \neg B = A \Rightarrow \neg B \\
+&= \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{R} \Rightarrow y \notin \sint{\varphi}} \\
+&= \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{R} \Rightarrow y \in \sint{\overline{\varphi}}} \\ 
+&= \sint{\forall R. \overline{\varphi}}
+\end{align*}
+
+\definition{NNF in \linkterm{$\mathcal{ALC}$}{alc_grammar}}{
+An \linkterm{$\mathcal{ALC}$}{alc_grammar} formula is in Negation Normal Form (NNF), iff complement ($\overline{\cdot}$) is only applied to \linkterm{primitive concept}{concept_definition_alc}.
+}{nnf_alc}
+\textbf{Example: } $\overline{\exists R. (\forall S.e \sqcap \overline{\forall S.d})} \leadsto \forall R. \overline{\forall S.e \sqcap \overline{\forall S.d}} \leadsto \forall R. \overline{\forall S.e} \sqcup \overline{\overline{\forall S.d}} \leadsto \forall R. \exists S.\overline{e} \sqcup \forall S.d$
+
+\definition{}{
+We define the \textbf{ABox Assertions} for \linkterm{$\mathcal{ALC}$}{alc_grammar}:
+\begin{itemize}
+    \item $a:\varphi$ \hfill \linkterm{role}{role_alc} assertions ($a$ is a $\varphi$, i.e. \linkterm{instance}{inst} of $\varphi$)
+    \item $a \text{ R } b$ \hfill $a$ stands in relation R to $b$
+\end{itemize}
+assertions make up the \linkterm{ABox}{abox} in \linkterm{$\mathcal{ALC}$}{alc_grammar}
+}{abox_assertions_alc}
+
+\definition{}{
+We extend \linkterm{$\mathcal{ALC}$ semantics}{alc_semantics} by: 
+\begin{itemize}
+    \item $\sint{a:\varphi} = T \Leftrightarrow \sint{a} \in \sint{\varphi}$
+    \item $\sint{a \text{ R } b} = T \Leftrightarrow (\sint{a}, \sint{b}) \in \sint{R}$
+\end{itemize}
+}{}
+
+\definition{}{
+We extend the \linkterm{translation}{alc_to_pl1_tr} of \linkterm{$\mathcal{ALC}$}{alc_grammar} to \linkterm{$\text{PL}^1$}{pl1} by the following:
+
+\begin{tabular}{@{}l@{}}
+$\text{FOL}(a:\varphi) := \text{FOL}_a(\overline{\varphi})$\\
+$\text{FOL}(a \text{ R }b) := \text{R}(a,b)$ \\
+\end{tabular}
+}{}
+
+\commandnote{
+\textbf{The complete \linkterm{$\mathcal{ALC}$}{alc_grammar} semantics:}
+\begin{itemize}
+    \item $\sint{\top} = \mathcal{D}, \quad \sint{\bot} = \emptyset, \quad \sint{r} \subseteq \cartprod{\mathcal{D},\mathcal{D}}$
+    \item $\sint{\overline{\varphi}} = \overline{\sint{\varphi}} = \mathcal{D} \setminus \sint{\varphi}$
+    \item $\sint{\varphi \sqcap \psi} = \sint{\varphi} \cap \sint{\psi}$
+    \item $\sint{\varphi \sqcup \psi} = \sint{\varphi} \cup \sint{\psi}$
+    \item $\sint{\exists R.\varphi} = \set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{R} \land y \in \sint{\varphi}}$
+    \item $\sint{\forall R.\varphi} = \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{R} \Rightarrow y \in \sint{\varphi}}$
+    \item $\sint{a:\varphi} = T \Leftrightarrow \sint{a} \in \sint{\varphi}$
+    \item $\sint{a \text{ R } b} = T \Leftrightarrow (\sint{a}, \sint{b}) \in \sint{R}$
+\end{itemize}
+
+\begin{tabular}{@{}l@{}}
+    \\
+    \textbf{The complete translation:} \\
+    $\text{FOL}_x(p) := p(X)$ \\
+    $\text{FOL}_x(\overline{A}) := \neg \text{FOL}_x(A)$ \\
+    $\text{FOL}_x(A \sqcap B) := \text{FOL}_x(A) \land \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(A \sqcup B) := \text{FOL}_x(A) \lor \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(A \sqsubseteq B) := \text{FOL}_x(A) \Rightarrow \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(A \equiv B) := \text{FOL}_x(A) \Leftrightarrow \text{FOL}_x(B)$ \\
+    $\text{FOL}_x(\forall R. \varphi) := (\forall Y. R(X,Y) \Rightarrow \text{FOL}_(\varphi))$\\
+    $\text{FOL}_x(\exists R. \varphi) := (\exists Y. R(X,Y) \land \text{FOL}_y(\varphi))$ \\
+    \\
+    \textbf{For Formulae:} \\
+    $\text{FOL}(A) := \forall X. \, \text{FOL}_x(A)$ \\
+    $\text{FOL}(a:\varphi) := \text{FOL}_a(\overline{\varphi})$\\
+    $\text{FOL}(a \text{ R }b) := \text{R}(a,b)$ \\
+\end{tabular}
+}
+
+\commandnote{
+We can also interpret inverse of \linkterm{roles}{role_alc}:
+\begin{itemize}
+    \item If $\sint{\exists R.\varphi} = \set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{R} \land y \in \sint{\varphi}}$
+    
+    Then $\sint{\exists R^{-1}.\varphi} = \set{x \in \mathcal{D} \mid \exists y. \tuple{y,x} \in \sint{R} \land y \in \sint{\varphi}}$
+    \item Similarly, if $\sint{\forall R.\varphi} = \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{R} \Rightarrow y \in \sint{\varphi}}$
+    
+    Then $\sint{\forall R^{-1}.\varphi} = \set{x \in \mathcal{D} \mid \forall y. \tuple{y,x} \in \sint{R} \Rightarrow y \in \sint{\varphi}}$
+\end{itemize}
+
+For example, assume we have a simple $\mathcal{D} := \set{\text{Alice}, \text{Bob}, \text{Mary}, \text{Charlie}, \text{Ben}, \text{David}}$
+
+And we have a \linkterm{role}{role_alc} $\text{has\_child} := \set{\tuple{\text{Alice}, \text{Bob}}, \tuple{\text{Alice}, \text{Mary}}, \tuple{\text{David}, \text{Ben}}, \tuple{\text{David}, \text{Charlie}}}$ 
+
+Additionally, we have three concepts:
+\begin{itemize}
+    \item $\text{student} := \set{\text{Bob}, \text{Charlie}, \text{Ben}}$
+    \item $\text{professor} := \set{\text{David}}$
+    \item $\text{person} := \top$
+\end{itemize}
+
+Let's examine the following concepts:
+\begin{itemize}
+\item $\forall \text{has\_child}.\text{student} \leadsto \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{\text{has\_child}} \Rightarrow y \in \sint{\text{student}}} \leadsto \set{\text{David}}$
+\item $\forall \text{has\_child}^{-1}.\text{professor} \leadsto \set{x \in \mathcal{D} \mid \forall y. \tuple{y,x} \in \sint{\text{has\_child}} \Rightarrow y \in \sint{\text{professor}}} \leadsto \set{\text{Charlie}, \text{Ben}}$
+\item $\exists \text{has\_child}.\text{student} \leadsto \set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{\text{has\_child}} \land y \in \sint{\text{student}}} \leadsto \set{\text{Alice}, \text{David}}$
+\item $\exists \text{has\_child}^{-1}.\text{professor} \leadsto \set{x \in \mathcal{D} \mid \exists y. \tuple{y,x} \in \sint{\text{has\_child}} \land y \in \sint{\text{professor}}} \leadsto \set{\text{Charlie}, \text{Ben}}$  
+\end{itemize}
+}
+
+\definition{$\mathcal{T}_{\mathcal{ALC}}$}{
+The \linkterm{$\mathcal{ALC}$}{alc_grammar} \linkterm{tableau calculus}{tableau_calculus} $\mathcal{T}_{\mathcal{ALC}}$ acts on \linkterm{assertions}{abox_assertions_alc} $x:\varphi$ and $x \text{ R } y$ where $\varphi$ is a \linkterm{normalized}{normalized_formula_alc} \linkterm{$\mathcal{ALC}$}{alc_grammar} concept in \linkterm{NNF}{nnf_alc} with the following \linkterm{inference rules}{inference_rules_logic}
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_{\sqcap}]
+            {x:\varphi \quad x:\psi}
+            {x:\varphi \sqcap \psi}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_{\sqcup}]
+            {x:\varphi \mid x:\psi}
+            {x:\varphi \sqcup \psi}
+        \]
+    \end{minipage}
+\end{multicols}
+
+
+\begin{multicols}{2}
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_{\forall}]
+            {y:\varphi}
+            {x:\forall R. \varphi \quad x R y}
+        \]
+    \end{minipage}
+
+    \noindent
+    \begin{minipage}{\linewidth}
+        \[
+            \infer[\mathcal{T}_{\exists}]
+            {x R y \quad y:\varphi}
+            {x:\exists R. \varphi}
+        \]
+    \end{minipage}
+\end{multicols}
+
+
+\begin{minipage}{\linewidth}
+    \[
+        \infer[\mathcal{T}_{\bot}]
+        {\bot}
+        {x:\varphi \quad x:\overline{\varphi}}
+    \]
+\end{minipage}
+\end{tcolorbox}
+}{T_ALC}
+
+\commandnote{
+The $\forall$ rule states that if an individual $x$ belongs to $\forall R.\varphi$, which is the \linkterm{set}{def:set}: 
+\[
+\set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{R} \Rightarrow y \in \sint{\varphi}}
+\]
+
+and we know that some $y$ is related to $x$, i.e. $\tuple{x,y} \in R$, then that $y$ must belong to the concept $\varphi$. 
+
+For example, assume $\texttt{Alice}: \forall \texttt{has\_child.student}$, that means:
+\[
+\texttt{Alice} \in \set{x \in \mathcal{D} \mid \forall y. \tuple{x,y} \in \sint{\texttt{has\_child}} \Rightarrow y \in \sint{\texttt{student}}}
+\]
+
+If \texttt{Alice} has a child \texttt{Bob} $\leadsto \tuple{\texttt{Alice}, \texttt{Bob}} \in \texttt{has\_child}$
+
+Then \texttt{Bob} must be a \texttt{student} $\leadsto \texttt{Bob} \in \sint{\texttt{student}}$
+}
+
+\commandnote{
+The $\exists$ rule states that if $x$ belongs to the concept $\exists R. \varphi$, which is the \linkterm{set}{def:set}:
+\[
+\set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{R} \land y \in \sint{\varphi}}
+\]
+
+then we infer that there must be at least a $y$ related to $x$ via $R$ ($\tuple{x,y} \in R$) and that $y$ must belong to the concept $\varphi$
+
+For example: assume $\texttt{Alice}:\exists \texttt{has\_pet.dog}$ that means:
+\[
+\texttt{Alice} \in \set{x \in \mathcal{D} \mid \exists y. \tuple{x,y} \in \sint{\texttt{has\_pet}} \land y \in \sint{\texttt{dog}}}
+\]
+
+We can safely infer $\texttt{Alice} \texttt{ has\_pet } \texttt{y:dog}$ and $\texttt{y:dog}$
+}
+
+\minititle{\linkterm{$\mathcal{T}_{\mathcal{ALC}}$}{T_ALC} for \linkterm{consistency}{consistent_concept} checking}
+\begin{itemize}
+\item We convert the concept to \linkterm{NNF}{nnf_alc}
+\item We initialize the tableau with $x:\varphi$ for an arbitrary $x$
+\item We apply rules and expand 
+\item We check if any branch remains open
+\begin{itemize}
+    \item if all branches close $\leadsto$ $\varphi$ is \linkterm{consistent}{consistent_concept} (\linkterm{unsatisfiable}{unsatisfiable_ls})
+    \item if at least one open branch remains $\leadsto$ $\varphi$ is \linkterm{consistent}{consistent_concept} (\linkterm{satisfiable}{satisfiable_ls})
+\end{itemize} 
+\end{itemize}
+
+\text{Example} Check \linkterm{consistency}{consistent_concept} of: $\forall \text{has\_child.man} \sqcap \exists \text{has\_child}.\overline{\text{man}}$
+
+\begin{tabbing}
+\begin{tabular}{|l|l|l|} \hline
+1 & $x : \forall \text{has\_child.man} \sqcap \exists \text{has\_child}.\overline{\text{man}}$  & initial \\ \hline  
+2 & $x:\forall \text{has\_child.man}$ & $\mathcal{T}_{\sqcap}$ on 1 \\ \hline
+3 & $x:\exists \text{has\_child}.\overline{\text{man}}$ & $\mathcal{T}_{\sqcap}$ on 1 \\ \hline
+4 & $x \text{has\_child} y$ & $\mathcal{T}_{\exists}$ on 3\\ \hline
+5 & $y:\overline{\text{man}}$ &$\mathcal{T}_{\exists}$ on 3 \\ \hline
+6 & $y:\text{man}$ &$\mathcal{T}_{\forall}$ on 2, 5 \\ \hline
+7 & $\bot$ & $\mathcal{T}_{\bot}$ on 5,6 \\ \hline
+\end{tabular}
+\end{tabbing}
+
+\textbf{Example: }Show satisfiability of: $\forall \text{has\_child}.(\text{ugrad} \sqcup \text{grad}) \sqcap \exists \text{has\_child}.\overline{\text{ugrad}}$
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[colback=white, colframe=black, sharp corners, boxrule=0.5pt]
+\centering
+\begin{tikzpicture}[node distance=1ex]
+\node (F) {$x:\forall \text{has\_child}.(\text{ugrad} \sqcup \text{grad}) \sqcap \exists \text{has\_child}.\overline{\text{ugrad}}$};
+
+\node (F1) [below=of F] {$x:\forall \text{has\_child}.(\text{ugrad} \sqcup \text{grad})$};
+
+
+\node (F2) [below=of F1] {$x:\exists \text{has\_child}.\overline{\text{ugrad}}$};
+
+\node (F3) [below=of F2] {$x \text{ has\_child } y$};
+
+\node (F4) [below=of F3] {$y:\overline{\text{ugrad}}$};
+
+\node (F5) [below=of F4] {$y:(\text{ugrad} \sqcup \text{grad})$};
+
+\node (F6) [below left=of F5] {$y:\text{ugrad}$};
+
+\node (F7) [below right=of F5] {$y:\text{grad}$};
+
+\node (F8) [below=of F6] {$\bot$};
+
+\node (F9) [below=of F7] {$\square$ (open)};
+
+\path (F5) edge[-] (F6);
+
+\path (F5) edge[-] (F7);
+\end{tikzpicture}
+
+Since there is an open branch, we have a model that satisfy the concept, namely:
+
+$x$ has a child $y$ that is graduate student.
+\end{tcolorbox}
+\end{figure}
+
+
+\Lemma{
+If $\varphi$ \linkterm{satisfiable}{satisfiable_ls}, then \linkterm{$\mathcal{T}_{\mathcal{ALC}}$}{T_ALC} terminates on $x:\varphi$ with \linkterm{open branch}{closed_branch}
+}{}
+
+\Lemma{
+\linkterm{open branches}{closed_branch} of a \linkterm{saturated tableau}{saturated_tableau} for $\varphi$ induces models for $\varphi$
+}{}
+
+\Theorem{
+\linkterm{$\mathcal{T}_{\mathcal{ALC}}$}{T_ALC} terminates
+}{}
+
+\Theorem{
+The \linkterm{SAT}{SAT} problem for \linkterm{$\mathcal{ALC}$}{alc_grammar} is in PSPACE
+}{}
+
+\Theorem{
+The \linkterm{SAT}{SAT} problem for \linkterm{$\mathcal{ALC}$}{alc_grammar} is PSPACE-Complete
+}{}
+
+\Theorem{
+The \linkterm{$\mathcal{ALC}$}{alc_grammar} \linkterm{SAT}{SAT} problem is in EXPTIME
+}{}
+
