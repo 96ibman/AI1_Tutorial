@@ -1299,6 +1299,10 @@
   "prefix": "alphabetical_variants",
   "body": "\\linkterm{alphabetical variant}{alphabetical_variants}"
   },
+  "rename_bound_vars":{
+  "prefix": "rename_bound_vars",
+  "body": "\\linkterm{rename}{alphabetical_variants}"
+  },
   "domain_pl1":{
   "prefix": "domain_pl1",
   "body": "\\linkterm{domain}{domain_pl1}"
@@ -1314,5 +1318,257 @@
   "assignment_extension_pl1":{
   "prefix": "assignment_extension_pl1",
   "body": "\\linkterm{assignment extension}{assignment_extension_pl1}"
+  },
+  "expression_language":{
+  "prefix": "expression_language",
+  "body": "\\linkterm{expression language}{expression_language}"
+  },
+  "wfe_set":{
+  "prefix": "wfe_set",
+  "body": "\\linkterm{\\$\\text{wfe}(\\Sigma, \\mathcal{V})\\$}{expression_language}"
+  },
+  "support_function":{
+  "prefix": "support_function",
+  "body": "\\linkterm{support}{support_function}"
+  }, 
+  "substitution":{
+  "prefix": "substitution",
+  "body": "\\linkterm{substitution}{substitution}"
+  },
+  "discharge_substitution":{
+  "prefix": "discharge_substitution",
+  "body": "\\linkterm{discharge}{discharge_substitution}"
+  },
+  "substitution_introduced":{
+  "prefix": "substitution_introduced",
+  "body": "\\linkterm{introduced}{substitution_introduced}"
+  },
+  "substitution_application":{
+  "prefix": "substitution_application",
+  "body": "\\linkterm{apply}{substitution_application}"
+  },
+  "substitution_extension":{
+  "prefix": "substitution_extension",
+  "body": "\\linkterm{substitution extension}{substitution_extension}"
+  },
+  "subst_app_avoid_capture":{
+  "prefix": "subst_app_avoid_capture",
+  "body": "\\linkterm{apply}{subst_app_avoid_capture}"
+  },
+  "nd1":{
+  "prefix": "nd1",
+  "body": "\\linkterm{\\$\\mathcal{ND}_1\\$}{nd1}"
+  },
+  "nd1_seq":{
+  "prefix": "nd1_seq",
+  "body": "\\linkterm{\\$\\mathcal{ND}^1_{\\vdash}\\$}{nd1_seq}"
+  },
+  "pl1=":{
+  "prefix": "pl1=",
+  "body": "\\linkterm{\\$PL^1_{=}\\$}{pl1=}"
+  },
+  "position":{
+  "prefix": "position",
+  "body": "\\linkterm{position}{position}"
+  },
+  "replacement":{
+  "prefix": "replacement",
+  "body": "\\linkterm{replace}{replacement}"
+  },
+  "nd1=":{
+  "prefix": "nd1=",
+  "body": "\\linkterm{\\$\\mathcal{ND}^1_{=}\\$}{nd1=}"
+  },
+  "T1_free":{
+  "prefix": "T1_free",
+  "body": "\\linkterm{\\$\\mathcal{T}^f_1\\$}{T1_free}"
+  },
+  "unification":{
+  "prefix": "unification",
+  "body": "\\linkterm{unification}{unification}"
+  },
+  "unification_problem":{
+  "prefix": "unification_problem",
+  "body": "\\linkterm{unification problem}{unification_problem}"
+  },
+  "unifier":{
+  "prefix": "unifier",
+  "body": "\\linkterm{unifier}{unifier_unifiable}"
+  },
+  "unifiable":{
+  "prefix": "unifiable",
+  "body": "\\linkterm{unifiable}{unifier_unifiable}"
+  },
+  "unification_prob_sol":{
+  "prefix": "unification_prob_sol",
+  "body": "\\linkterm{solution}{unification_prob_sol}"
+  },
+  "more_general_subst":{
+  "prefix": "more_general_subst",
+  "body": "\\linkterm{more general}{more_general_subst}"
+  },
+  "mgu":{
+  "prefix": "mgu",
+  "body": "\\linkterm{MGU}{mgu}"
+  },
+  "solved_unif_prob":{
+  "prefix": "solved_unif_prob",
+  "body": "\\linkterm{solved}{solved_unif_prob}"
+  },
+  "solved_form_unif_prob":{
+  "prefix": "solved_form_unif_prob",
+  "body": "\\linkterm{solved form}{solved_unif_prob}"
+  },
+  "solved_unification_problem":{
+  "prefix": "solved_unification_problem",
+  "body": "\\linkterm{solved unification problem}{solved_unification_problem}"
+  },
+  "unification_calc":{
+  "prefix": "unification_calc",
+  "body": "\\linkterm{\\$\\mathcal{U}\\$}{unification_calc}"
+  },
+  "cnf1_calculus":{
+  "prefix": "cnf1_calculus",
+  "body": "\\linkterm{\\$\\text{CNF}_1\\$}{cnf1_calculus}"
+  },
+  "R1":{
+  "prefix": "R1",
+  "body": "\\linkterm{\\$\\mathcal{R}_1\\$}{R1}"
+  }, 
+  "semantic_network":{
+  "prefix": "semantic_network",
+  "body": "\\linkterm{semantic network}{semantic_network}"
+  }, 
+  "isa":{
+  "prefix": "isa",
+  "body": "\\linkterm{isa}{isa}"
+  }, 
+  "inst":{
+  "prefix": "inst",
+  "body": "\\linkterm{inst}{inst}"
+  }, 
+  "relation_sn":{
+  "prefix": "relation_sn",
+  "body": "\\linkterm{relation}{relations_sn}"
+  }, 
+  "inference_sn":{
+  "prefix": "inference_sn",
+  "body": "\\linkterm{inference}{inference_sn}"
+  }, 
+  "derivation_sn":{
+  "prefix": "derivation_sn",
+  "body": "\\linkterm{derivation}{inference_sn}"
+  }, 
+  "derived_relation_sn":{
+  "prefix": "derived_relation_sn",
+  "body": "\\linkterm{derived}{inference_sn}"
+  }, 
+  "TBox":{
+  "prefix": "TBox",
+  "body": "\\linkterm{TBox}{tbox}"
+  }, 
+  "ABox":{
+  "prefix": "ABox",
+  "body": "\\linkterm{ABox}{abox}"
+  }, 
+  "pl0dl":{
+  "prefix": "pl0dl",
+  "body": "\\linkterm{\\$\\text{PL}^0_{\\text{DL}}\\$}{pl0dl}"
+  }, 
+  "concept_axiom":{
+  "prefix": "concept_axiom",
+  "body": "\\linkterm{concept axiom}{concept_axiom}"
+  }, 
+  "set_theoretic_semantics_pl0dl":{
+  "prefix": "set_theoretic_semantics_pl0dl",
+  "body": "\\linkterm{Set-Theoretic Semantics}{set_theoretic_semantics_pl0dl}"
+  }, 
+  "translation_pl0dl_pl1":{
+  "prefix": "translation_pl0dl_pl1",
+  "body": "\\linkterm{translation}{mapping_pl0dl_pl1}"
+  }, 
+  "ontology":{
+  "prefix": "ontology",
+  "body": "\\linkterm{ontology}{def:ontology}"
+  }, 
+  "ontologies":{
+  "prefix": "ontologies",
+  "body": "\\linkterm{ontologies}{def:ontology}"
+  }, 
+  "description_logic":{
+  "prefix": "description_logic",
+  "body": "\\linkterm{description logic}{description_logic}"
+  }, 
+  "dl_components":{
+  "prefix": "dl_components",
+  "body": "\\linkterm{description logic components}{dl_components}"
+  }, 
+  "concept_definition":{
+  "prefix": "concept_definition",
+  "body": "\\linkterm{concept definition}{concept_definition}"
+  },
+  "recursive_concept_definition":{
+  "prefix": "recursive_concept_definition",
+  "body": "\\linkterm{recursive concept definition}{recursive_concept_definition}"
+  },
+  "acyclic_tbox":{
+  "prefix": "acyclic_tbox",
+  "body": "\\linkterm{Acyclic TBox}{acyclic_tbox}"
+  },
+  "consistent_concept":{
+  "prefix": "consistent_concept",
+  "body": "\\linkterm{consistent}{consistent_concept}"
+  },
+  "inconsistent_concept":{
+  "prefix": "inconsistent_concept",
+  "body": "\\linkterm{inconsistent}{inconsistent_concept}"
+  },
+  "ALC":{
+  "prefix": "ALC",
+  "body": "\\linkterm{\\$\\mathcal{ALC}\\$}{alc_grammar}"
+  },
+  "role_alc":{
+  "prefix": "role_alc",
+  "body": "\\linkterm{role}{role_alc}"
+  },
+  "concept_definition_alc":{
+  "prefix": "concept_definition_alc",
+  "body": "\\linkterm{concept definition}{concept_definition_alc}"
+  },
+  "primitive_concept_alc":{
+  "prefix": "primitive_concept_alc",
+  "body": "\\linkterm{primitive}{concept_definition_alc}"
+  },
+  "normalized_formula_alc":{
+  "prefix": "normalized_formula_alc",
+  "body": "\\linkterm{normalized}{normalized_formula_alc}"
+  },
+  "normalization_alc":{
+  "prefix": "normalization_alc",
+  "body": "\\linkterm{normalization}{normalization_alc}"
+  },
+  "alc_semantics":{
+  "prefix": "alc_semantics",
+  "body": "\\linkterm{\\$\\mathcal{ALC}\\$ semantics}{alc_semantics}"
+  },
+  "alc_to_pl1_tr":{
+  "prefix": "alc_to_pl1_tr",
+  "body": "\\linkterm{translation}{alc_to_pl1_tr}"
+  },
+  "alc_identities":{
+  "prefix": "alc_identities",
+  "body": "\\linkterm{\\$\\mathcal{ALC}\\$ identities}{alc_identities}"
+  },
+  "nnf_alc":{
+  "prefix": "nnf_alc",
+  "body": "\\linkterm{NNF}{nnf_alc}"
+  },
+  "abox_assertions_alc":{
+  "prefix": "abox_assertions_alc",
+  "body": "\\linkterm{assertions}{abox_assertions_alc}"
+  },
+  "T_ALC":{
+  "prefix": "T_ALC",
+  "body": "\\linkterm{\\$\\mathcal{T}_{\\mathcal{ALC}}\\$}{T_ALC}"
   },
 }
