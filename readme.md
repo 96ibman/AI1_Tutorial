@@ -25,7 +25,7 @@ I upload here what I find necessary to support me or the students in the tutoria
 - 22, 29 Dec, and 5 Jan are cancelled, enjoy Weihnachten :)
 - [12 Jan](/08/)
 - [19 Jan](/09/)
-- 26 Jan (online)
+- [26 Jan (online)](/10/)
 - 2 Feb (online)
 
 # References
