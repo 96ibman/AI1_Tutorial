@@ -154,22 +154,78 @@ Consider the following \linkterm{STRIPS task}{strips_task}:
     \item Fact: $\text{cl}(X)$ to say that nothing is on top of $X$
     \item Initial state: $C$ is clear and on top of $A$ which is on top of table. $B$ is clear and on top of table
     \item Goal state: $A$ is clear and on top of $B$ which is on top of $C$ which is on top of table 
-    \item Action: $\text{move}(X,Y)$ to move $X$ to be on top of $Y$
+    \item Action: $\text{move}(X,Y)$ to move $X$ to be on top of $Y$ ($X,Y \in B$)
     \begin{itemize}
-        \item Pre: $\text{cl}(Y), \text{cl}(X), \text{on}(X,Z)$
-        \item Add: $\text{cl}(Z), \text{on}(X,Y)$
+        \item Pre: $\text{cl}(Y), \text{cl}(X), \text{on}(X,Z) \quad Z \in B \cup T$
+        \item Add: $\text{cl}(Z) (\text{if }Z \neq T), \text{on}(X,Y)$
         \item Del: $\text{cl}(Y), \text{on}(X,Z)$
+    \end{itemize}
+    \item Action: $\text{move}(X,T)$ to move $X$ to be on top of $T$
+    \begin{itemize}
+        \item Pre: $\text{cl}(X), \text{on}(X,Y) \quad X,Y \in B$
+        \item Add: $\text{cl}(Y), \text{on}(X,T)$
+        \item Del: $\text{on}(X,Y)$
     \end{itemize}
 \end{itemize}
 
+Here is the \linkterm{totally ordered plan}{totally_ordered} to solve the problem:
+
 \begin{figure}[H]
-    \includegraphics[width=0.5\linewidth]{images/sussman.png}
+\centering
+
+\begin{minipage}[c]{0.40\linewidth}
+\centering
+\includegraphics[width=\linewidth]{images/sussman.png}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\centering
+\begin{tikzpicture}[font=\itshape, >=stealth, thick]
+
+\tikzset{
+  action/.style={draw, rectangle, minimum width=34mm, minimum height=8mm, align=center},
+  state/.style={align=center},
+  darr/.style={->, dashed, green!60!black}
+}
+
+% Start
+\node[action] (start) at (0,8) {Start};
+\node[state] at (0,7) {On(C, A)\quad On(A, T)\quad Cl(B)\quad On(B, T)\quad Cl(C)};
+
+% Move C T
+\node[state]  at (-3,5.6) {Cl(C)\quad On(C,A)};
+\node[action] (mCT) at (-3,4.6) {Move(C, T)};
+\node[state]  at (-3,3.8) {$\neg$On(C,A)\quad Cl(A)\quad On(C, T)};
+
+\draw[->] (0,6.8) -- (-3,5);
+
+% Move B C
+\node[state]  at (3,4.8) {Cl(B)\quad Cl(C)\quad On(B,T)};
+\node[action] (mBC) at (3,3.9) {Move(B, C)};
+\node[state]  at (3,3.1) {$\neg$Cl(C)\quad $\neg$On(B, T)\quad On(B, C)};
+
+\draw[darr] (-1.3,4.2) -- (1.3,4.2);
+
+% Move A B
+\node[state]  at (-3,2.2) {Cl(A)\quad Cl(B)\quad On(A,T)};
+\node[action] (mAB) at (-3,1.3) {Move(A, B)};
+\node[state]  at (-3,0.5) {$\neg$Cl(B)\quad $\neg$On(A, T)\quad On(A, B)};
+
+\draw[->] (-3,3.6) -- (-3,2.6);
+\draw[darr] (3,2.9) -- (-1.6,1.5);
+
+% Finish
+\node[state]  at (-3,-0.8) {On(A, B)\quad On(B, C)\quad On(C, T)};
+\node[action] (finish) at (-3,-1.7) {Finish};
+
+\draw[->] (-3,0.2) -- (-3,-1.2);
+
+\end{tikzpicture}
+\end{minipage}
+
 \end{figure}
 
-Here is the \linkterm{totally ordered plan}{totally_ordered} to solve the problem:
-\begin{figure}[H]
-    \includegraphics[width=0.5\linewidth]{images/sussman_sol.png}
-\end{figure}
+
 
 \definition{Heuristic}{
 Let $\Pi := \tuple{\mathcal{F}, \mathcal{A}, \mathcal{I}, \mathcal{G}}$ be a \linkterm{STRIPS task}{strips_task} and $\Theta_{\Pi} := \tuple{\mathcal{S}_{\Pi}, \mathcal{A}_{\Pi}, \mathcal{T}_{\Pi}, \mathcal{I}_{\Pi}, \mathcal{G}_{\Pi}}$ is the induced \linkterm{search problem}{search_problem}, A \textbf{heuristic function} or \textbf{heuristic} for $\Pi$ is a \linkterm{function}{function} $\func{h}{\mathcal{S}_{\Pi}}{\N \cup \set{\infty}}$ so that $h(s) = 0$ whenever $s \in \mathcal{G}_{\Pi}$
@@ -269,6 +325,7 @@ Let $\Pi := \tuple{\mathcal{F}, \mathcal{A}, \mathcal{I}, \mathcal{G}}$ be a \li
 \linkterm{$h^{+}$}{h_plus} is \linkterm{admissible}{admissible_heuristic_strips}.
 }{}
 
+\newpage
 \minititle{Example}
 Consider the following \linkterm{STRIPS task}{strips_task} $\Pi := \tuple{\mathcal{F}, \mathcal{A}, \mathcal{I}, \mathcal{G}}$:
 \begin{itemize}
@@ -385,19 +442,24 @@ We can expand next $AA$ or $BB$ with \linkterm{$h^{+}$}{h_plus} of 5 or expand $
     \includegraphics[width=0.5\linewidth]{images/p15.png}
 \end{figure}
 
-We expand $DD$:
-\begin{figure}[H]
-    \includegraphics[width=0.5\linewidth]{images/p16.png}
-\end{figure}
+We expand next $DD$, $CD$, and $BD$ respectively:
 
-We expand $CD$:
 \begin{figure}[H]
-    \includegraphics[width=0.5\linewidth]{images/p17.png}
-\end{figure}
-
-We expand $BD$:
-\begin{figure}[H]
-    \includegraphics[width=0.5\linewidth]{images/p18.png}
+\centering
+\begin{minipage}{0.32\linewidth}
+\centering
+\includegraphics[width=\linewidth]{images/p16.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32\linewidth}
+\centering
+\includegraphics[width=\linewidth]{images/p17.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32\linewidth}
+\centering
+\includegraphics[width=\linewidth]{images/p18.png}
+\end{minipage}
 \end{figure}
 
 We go to $AD$ only to figure out that this is a goal state! (Truck at A, pack at D). 
@@ -409,4 +471,9 @@ To sum up the steps that we found:
 \[
 \text{drive}(A,B) \leadsto \text{drive}(B,C) \leadsto \text{load}(C) \leadsto \text{drive}(C,D) \leadsto \text{unload}(D) \leadsto \text{drive}(D,C) \leadsto \text{drive}(C,B) \leadsto \text{drive}(B,A)
 \]
+
+
+
+
+
 
