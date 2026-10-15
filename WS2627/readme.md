@@ -1,7 +1,24 @@
-# WS2526
+# WS2627
 
-The weekly tutorial session for the Winter Semester 2026-2027 are held
+The weekly tutorial session for the Winter Semester 2026-2027 are held Wednesdays at 12:15-13:45 in Hörsaal 4 (H4)
 
 ## Updates
 
 ## Individual Dates
+- October 14, 2026
+- October 21, 2026
+- October 28, 2026
+- November 4, 2026
+- November 11, 2026
+- November 18, 2026
+- November 25, 2026
+- December 2, 2026
+- December 9, 2026
+- December 16, 2026
+- <s>December 23, 2026</s> (Cancelled)
+- <s>December 30, 2026</s> (Cancelled)
+- <s>January 6, 2027</s> (Cancelled)
+- January 13, 2027
+- January 20, 2027
+- January 27, 2027
+- February 3, 2027
