@@ -4,6 +4,9 @@ The weekly tutorial session for the Winter Semester 2026-2027 are held Wednesday
 
 ## Updates
 
+## Lecture Notes
+I created a (summary) of the lecture last year which you can find [here](https://github.com/96ibman/Symbolic-AI/blob/main/main.pdf).
+
 ## Individual Dates
 - October 14, 2026
 - October 21, 2026
