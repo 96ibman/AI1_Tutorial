@@ -25,3 +25,11 @@ I created a (summary) of the lecture last year which you can find [here](https:/
 - January 20, 2027
 - January 27, 2027
 - February 3, 2027
+
+## Other Slots
+- The AI1 lecture takes place on Tuesdays and Wednesdays. 
+- The material covered in a lecture week is discussed in the following tutorial slots:
+    - Thursdays 14:30 (same week)
+    - Thursdays 16:15 (same week)
+    - Mondays 14:15 (following week)
+    - Wednesdays 12:15 (following week) (**this slot**)
