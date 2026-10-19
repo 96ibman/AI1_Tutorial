@@ -5,7 +5,8 @@ The weekly tutorial session for the Winter Semester 2026-2027 are held Wednesday
 ## Updates
 
 ## Lecture Notes
-I created a (summary) of the lecture last year which you can find [here](https://github.com/96ibman/Symbolic-AI/blob/main/main.pdf).
+- I created a (summary) of the lecture last year which you can find [here](https://github.com/96ibman/Symbolic-AI/blob/main/main.pdf).
+- Recently, I created [Prolog Introduction](https://github.com/96ibman/prolog-intro) to help you get started with Prolog. It contains most of the predicates you need for the lecture. 
 
 ## Individual Dates
 - October 14, 2026
