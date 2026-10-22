@@ -8,6 +8,11 @@ Choose the current semester:
 - [`WS2526`](/WS2526/)
 - [`WS2627`](/WS2627/)
 
+## Matrix
+
+The link to the Matrix space the chair uses to communicate with students:
+- https://matrix.to/#/#ai12:fau.de
+
 ## Tutorial Info
 - **Tutor**: Ibrahim Nasser
 - **Language**: English
