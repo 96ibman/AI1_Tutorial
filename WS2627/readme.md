@@ -9,9 +9,7 @@ The weekly tutorial session for the Winter Semester 2026-2027 are held Wednesday
 - Recently, I created [Prolog Introduction](https://github.com/96ibman/prolog-intro) to help you get started with Prolog. It contains most of the predicates you need for the lecture. 
 
 ## Individual Dates
-- October 14, 2026
-- October 21, 2026
-- October 28, 2026
+- [October 28, 2026](./01/)
 - November 4, 2026
 - November 11, 2026
 - November 18, 2026
