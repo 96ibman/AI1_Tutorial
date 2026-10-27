@@ -1,6 +1,6 @@
 # WS2627
 
-The weekly tutorial session for the Winter Semester 2026-2027 are held Wednesdays at 12:15-13:45 in Hörsaal 4 (H4)
+The weekly tutorial sessions for the Winter Semester 2026-2027 are held Wednesdays at 12:15-13:45 in Hörsaal 4 (H4)
 
 ## Updates
 
