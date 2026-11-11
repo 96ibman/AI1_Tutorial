@@ -11,7 +11,7 @@ The weekly tutorial sessions for the Winter Semester 2026-2027 are held Wednesda
 ## Individual Dates
 - [October 28, 2026](./01/)
 - [November 4, 2026](./02/)
-- November 11, 2026
+- [November 11, 2026](./03/)
 - November 18, 2026
 - November 25, 2026
 - December 2, 2026
